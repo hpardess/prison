@@ -35,6 +35,6 @@ class Home extends CI_Controller {
 	    $data['email'] = $this->session->userdata('email');
 	    $data['name'] = $this->session->userdata('name');
 
-	    $this->load->view('home',$data);
+	    $this->load->view('home');
 	}
 }
