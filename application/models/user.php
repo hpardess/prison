@@ -1,12 +1,49 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
    
 class User extends CI_Model {
 
+    // table name
+    private $tableName= 'user';
     var $details;
-    
+
     function __construct() {
         parent::__construct();
         $this->load->database();
+    }
+
+    // get number of records in database
+    function count_all(){
+        return $this->db->count_all($this->tableName);
+    }
+
+    // get records with paging
+    function get_paged_list($limit = 10, $offset = 0){
+        $this->db->order_by('id','asc');
+        return $this->db->get($this->tableName, $limit, $offset);
+    }
+
+    // get record by id
+    function get_by_id($id){
+        $this->db->where('id', $id);
+        return $this->db->get($this->tableName);
+    }
+
+    // add new record
+    function save($record){
+        $this->db->insert($this->tableName, $record);
+        return $this->db->insert_id();
+    }
+
+    // update the record by id
+    function update($id, $person){
+        $this->db->where('id', $id);
+        $this->db->update($this->tableName, $person);
+    }
+
+    // delete person by id
+    function delete($id){
+        $this->db->where('id', $id);
+        $this->db->delete($this->tableName);
     }
 
     function validate_user( $username, $password ) {
@@ -14,7 +51,7 @@ class User extends CI_Model {
         // based on the received username and password
         log_message('debug', 'username: '. $username .' password: '. $password);
 
-        $this->db->from('user');
+        $this->db->from($this->tableName);
         $this->db->where('username',$username );
         $this->db->where( 'password', md5($password) );
         $login = $this->db->get()->result();

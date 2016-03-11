@@ -16,6 +16,8 @@
                 </ul>
             </li>
             <li><a href="#">Reports </a></li>
+            <li><a href="<?= base_url() ?>index.php/user1">Users(1) </a></li>
+            <li><a href="<?= base_url() ?>index.php/user2">Users(2) </a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
@@ -23,7 +25,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <?php if($this->session->userdata('isAdmin')) { echo $this->session->userdata('name')." (admin)"; } else { echo $this->session->userdata('name'); } ?> <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a data-toggle="modal" href="#myProfile">Profile</a></li>
-                    <li><a href="#">Change Password</a></li>
+                    <li><a data-toggle="modal" href="#changePassword">Change Password</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="<?= base_url() ?>index.php/login/logout_user">Logout</a></li>
                 </ul>
@@ -35,32 +37,41 @@
 <!-- ****************************************************************** -->
 <!--                        USER Profile Modal Window                       -->
 <!-- ****************************************************************** -->
-<div class="modal hide" id="myProfile">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">x</button>
-        <h3>New User Details</h3>
-    </div>
-    <div class="modal-body">
-        <!-- <p><input type="text" class="span4" name="first_name" id="first_name" placeholder="First Name"></p>
-        <p><input type="text" class="span4" name="last_name" id="last_name" placeholder="Last Name"></p>
-        <p><input type="text" class="span4" name="email" id="email" placeholder="Email"></p>
-        <p>
-        <select class="span4" name="teamId" id="teamId">
-        <option value="">Team Number...</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        </select>
-        </p>
-        <p>
-        <label class="checkbox span4">
-        <input type="checkbox" id="isAdmin" name="isAdmin"> Is an admin?
-        </label>
-        </p>
-        <p><input type="password" class="span4" name="password" id="password" placeholder="Password"></p>
-        <p><input type="password" class="span4" name="password2" id="password2" placeholder="Confirm Password"></p> -->
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-warning" data-dismiss="modal">Cancel</a>
-        <a href="#" id="btnModalSubmit" class="btn btn-primary">Create</a>
-    </div>
-</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="myProfile">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Profile</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- ****************************************************************** -->
+<!--                        Change Password Modal Window                       -->
+<!-- ****************************************************************** -->
+<div class="modal fade" tabindex="-1" role="dialog" id="changePassword">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Change Password</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
