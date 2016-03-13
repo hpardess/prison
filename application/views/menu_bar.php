@@ -18,6 +18,14 @@
             <li><a href="#">Reports </a></li>
             <li><a href="<?= base_url() ?>index.php/user1">Users(1) </a></li>
             <li><a href="<?= base_url() ?>index.php/user2">Users(2) </a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="<?= base_url() ?>index.php/users/">Users</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="<?= base_url() ?>index.php/groups">Groups</a></li>
+                </ul>
+            </li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">

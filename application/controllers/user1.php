@@ -40,6 +40,11 @@ class User1 extends CI_Controller {
          
         // generate table data
         // $this->load->library('table');
+        $template = array(
+            'table_open' => '<table class="table-bordered table-condensed table-hover" style="width: 100%">'
+        );
+        $this->table->set_template($template);
+
         $this->table->set_empty("&nbsp;");
         $this->table->set_heading('Id', 'First Name', 'Last Name', 'Username', 'isAdmin', 'Email', 'Actions');
         $i = 0 + $offset;
