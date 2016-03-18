@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
    
-class User extends CI_Model {
+class User_model extends CI_Model {
 
     // table name
     private $tableName= 'user';
@@ -8,8 +8,52 @@ class User extends CI_Model {
 
     function __construct() {
         parent::__construct();
-        $this->load->database();
     }
+
+        // get record by id
+    function get_by_id($id){
+        $this->db->select('id, firstname, lastname, username, email, isadmin, groups_id');
+        $this->db->from($this->tableName);
+        $this->db->where('id',$id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    // get all records
+    function get_all($column_list = '*'){
+        $this->db->select($column_list);
+        $this->db->from($this->tableName);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    // add new record
+    function create($record){
+        $this->db->insert($this->tableName, $record);
+        return $this->db->insert_id();
+    }
+
+    // update the record by id
+    function update_by_id($id, $record){
+        $this->db->where('id', $id);
+        $this->db->update($this->tableName, $record);
+    }
+
+    public function update($where, $data)
+    {
+        $this->db->update($this->tableName, $data, $where);
+        return $this->db->affected_rows();
+    }
+
+    // delete record by id
+    function delete_by_id($id){
+        $this->db->where('id', $id);
+        $this->db->delete($this->tableName);
+    }
+
+
+// ---------------------------------------------------------
+
 
     // get number of records in database
     function count_all(){
@@ -22,29 +66,7 @@ class User extends CI_Model {
         return $this->db->get($this->tableName, $limit, $offset);
     }
 
-    // get record by id
-    function get_by_id($id){
-        $this->db->where('id', $id);
-        return $this->db->get($this->tableName);
-    }
 
-    // add new record
-    function save($record){
-        $this->db->insert($this->tableName, $record);
-        return $this->db->insert_id();
-    }
-
-    // update the record by id
-    function update($id, $person){
-        $this->db->where('id', $id);
-        $this->db->update($this->tableName, $person);
-    }
-
-    // delete person by id
-    function delete($id){
-        $this->db->where('id', $id);
-        $this->db->delete($this->tableName);
-    }
 
     function validate_user( $username, $password ) {
         // Build a query to retrieve the user's details

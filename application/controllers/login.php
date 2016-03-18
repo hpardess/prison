@@ -25,9 +25,9 @@ class Login extends CI_Controller {
      }
   
     function check_database($password) {
-        $this->load->model('user', 'userModel');
+        $this->load->model('user_model');
         $username = $this->input->post('username');
-        if( $username && $password && $this->userModel->validate_user($username,$password)) {
+        if( $username && $password && $this->user_model->validate_user($username,$password)) {
             return TRUE;
         } else {
             // Otherwise show the login screen with an error message.
