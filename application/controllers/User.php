@@ -118,4 +118,26 @@ class User extends CI_Controller {
         // log_message('debug', 'affected rows: ' . $affected_rows);
         echo json_encode(array("status" => TRUE));
     }
+
+    public function change_password()
+    {
+        $username = $this->session->userdata('username');
+        $currentPass = $this->input->post("curPsw");
+        $newPass = $this->input->post("newPsw");
+        $confirmNewPass = $this->input->post("confNewPsw");
+
+        if ($newPass == $confirmNewPass && $this->user_model->check_user($username, $currentPass))
+        {
+
+            $data = array(
+                    'password' => md5($newPass)
+                );
+            $affected_rows = $this->user_model->update(array('id' => $this->session->userdata('id')), $data);
+            echo json_encode(array("status" => TRUE));
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

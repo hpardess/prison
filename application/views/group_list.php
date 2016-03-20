@@ -119,6 +119,7 @@
 			{
 				save_method = 'update';
 				$('#form', '#modal_form_edit')[0].reset(); // reset form on modals
+				$('p#id', '#modal_form_edit').empty();
 				$('[name="group"]', '#modal_form_edit').empty();
 
 				//Ajax Load data from ajax

@@ -18,13 +18,13 @@
 					<tr>
 	                    <th>Id</th>
 	                    <th>Crime Date</th>
-	                    <th>Crime Location</th>
-	                    <th>Arrist Location</th>
 	                    <th>Police Custody</th>
-	                    <th>Crime Province Id</th>
+	                    <th>Crime Location</th>
 	                    <th>Crime District Id</th>
-	                    <th>Arrist Province Id</th>
-	                    <th>Arrist District Id</th>
+	                    <th>Crime Province Id</th>
+	                    <th>Arrest Location</th>
+	                    <th>Arrest District Id</th>
+	                    <th>Arrest Province Id</th>
 	                    <th>Actions</th>
 	                </tr>
 				</thead>
@@ -34,10 +34,13 @@
 		
 		<script src="<?php echo base_url('assets/datatables/media/js/jquery.dataTables.min.js')?>"></script>
 		<script src="<?php echo base_url('assets/datatables/media/js/dataTables.bootstrap.js')?>"></script>
+		<script src="<?php echo base_url('assets/underscore-min.js')?>"></script>
 		  
 		<script type= 'text/javascript'>
 			var save_method; //for save method string
 		    var oTable;
+		    var provincesList = <?= json_encode($provincesList) ?>;
+		    var districtsList = <?= json_encode($districtsList) ?>;
 
             $(document).ready(function () {
             	$("li#criminal_cases", ".navbar-nav").addClass("active");
@@ -49,33 +52,56 @@
                     "ajax": "<?php echo site_url('crime/crime_list')?>",
                     // "sDom": 'T<"clear">lfrtip'
                 });
+
+                $('[name="crimeProvince"]', '#modal_form_edit').change(function(event) {
+                	render_district_list(get_district_list(event.currentTarget.value), $('[name="crimeDistrict"]', '#modal_form_edit'));
+                });
+
+                $('[name="arrestProvince"]', '#modal_form_edit').change(function(event) {
+                	render_district_list(get_district_list(event.currentTarget.value), $('[name="arrestDistrict"]', '#modal_form_edit'));
+                });
             });
+
+            function get_district_list(province_id)
+            {
+            	return _.where(districtsList, {"province_id": province_id});
+            }
+
+            function render_district_list(district_list, selectEl)
+            {
+            	$(selectEl).empty();
+            	$('<option>').appendTo(selectEl);
+            	$.each(district_list, function(index, value) {
+					$('<option>').attr('value', value.id).html(value.name).appendTo(selectEl);
+				});
+            }
 
 			function new_record()
 			{
 				save_method = 'new';
 				$('#form', '#modal_form_edit')[0].reset(); // reset form on modals
-				$('[name="group"]', '#modal_form_edit').empty();
+				$('[name="crimeDistrict"]', '#modal_form_edit').empty();
+				$('[name="arrestDistrict"]', '#modal_form_edit').empty();
 
-				$.ajax({
-					url : "<?php echo site_url('crime/new_crime/')?>",
-					type: "GET",
-					dataType: "JSON",
-					success: function(data)
-					{
-						var groupsSelectEl = $('[name="group"]', '#modal_form_edit');
-						$.each(data, function(index, value) {
-							$('<option>').attr('value', value.id).html(value.group_name).appendTo(groupsSelectEl);
-						});
+				// $.ajax({
+				// 	url : "<?php echo site_url('prisoner/new_prisoner/')?>",
+				// 	type: "GET",
+				// 	dataType: "JSON",
+				// 	success: function(data)
+				// 	{
+				// 		var groupsSelectEl = $('[name="group"]', '#modal_form_edit');
+				// 		$.each(data, function(index, value) {
+				// 			$('<option>').attr('value', value.id).html(value.group_name).appendTo(groupsSelectEl);
+				// 		});
 
 						$('#modal_form_edit').modal('show'); // show bootstrap modal when complete loaded
 						$('.modal-title', '#modal_form_edit').text('Add New User'); // Set Title to Bootstrap modal title
-					},
-					error: function (jqXHR, textStatus, errorThrown)
-					{
-						alert('Error get data from ajax');
-					}
-				});
+				// 	},
+				// 	error: function (jqXHR, textStatus, errorThrown)
+				// 	{
+				// 		alert('Error get data from ajax');
+				// 	}
+				// });
 			}
 
             function view_record(id)
@@ -90,12 +116,15 @@
 					dataType: "JSON",
 					success: function(data)
 					{
-						$('p#id', '#modal_form_view').html(data.user.id);
-						$('p#name', '#modal_form_view').html(data.user.firstname + ' ' + data.user.lastname);
-						$('p#username', '#modal_form_view').html(data.user.username);
-						$('p#email', '#modal_form_view').html(data.user.email);
-						$('p#isAdmin', '#modal_form_view').html(data.user.isadmin===1? 'Yes': 'No');
-						$('p#group', '#modal_form_view').html(data.group.group_name);
+						$('p#id', '#modal_form_view').html(data.id);
+						$('p#crimeDate', '#modal_form_view').html(data.crime_date);
+						$('p#policeCustody', '#modal_form_view').html(data.police_custody);
+						$('p#crimeProvince', '#modal_form_view').html(data.crime_province_id);
+						$('p#crimeDistrict', '#modal_form_view').html(data.crime_district_id);
+						$('p#crimeLocation', '#modal_form_view').html(data.crime_location);
+						$('p#arrestProvince', '#modal_form_view').html(data.arrest_province_id);
+						$('p#arrestDistrict', '#modal_form_view').html(data.arrest_district_id);
+						$('p#arrestLocation', '#modal_form_view').html(data.arrest_location);
 
 						$('#modal_form_view').modal('show'); // show bootstrap modal when complete loaded
 					},
@@ -110,7 +139,9 @@
 			{
 				save_method = 'update';
 				$('#form', '#modal_form_edit')[0].reset(); // reset form on modals
-				$('[name="group"]', '#modal_form_edit').empty();
+				$('p#id', '#modal_form_edit').empty();
+				$('[name="crimeDistrict"]', '#modal_form_edit').empty();
+				$('[name="arrestDistrict"]', '#modal_form_edit').empty();
 
 				//Ajax Load data from ajax
 				$.ajax({
@@ -119,21 +150,20 @@
 					dataType: "JSON",
 					success: function(data)
 					{
-						$('p#id', '#modal_form_edit').html(data.user.id);
-						$('[name="id"]', '#modal_form_edit').val(data.user.id);
-						$('[name="firstName"]', '#modal_form_edit').val(data.user.firstname);
-						$('[name="lastName"]', '#modal_form_edit').val(data.user.lastname);
-						$('[name="username"]', '#modal_form_edit').val(data.user.username);
-						$('[name="email"]', '#modal_form_edit').val(data.user.email);
-						$('[name="isAdmin"]', '#modal_form_edit').prop('checked', (data.user.isadmin===1||data.user.isadmin==='1'? true: false));
-						var groupsSelectEl = $('[name="group"]', '#modal_form_edit');
-						$.each(data.groups, function(index, value) {
-							if (data.user.groups_id === value.id) {
-								$('<option>').attr('value', value.id).attr('selected', true).html(value.group_name).appendTo(groupsSelectEl);
-							} else {
-								$('<option>').attr('value', value.id).html(value.group_name).appendTo(groupsSelectEl);
-							}
-						});
+						$('p#id', '#modal_form_edit').html(data.crime.id);
+						$('[name="id"]', '#modal_form_edit').val(data.crime.id);
+						$('[name="crimeDate"]', '#modal_form_edit').val(data.crime.crime_date);
+						$('[name="policeCustody"]', '#modal_form_edit').val(data.crime.police_custody);
+						$('[name="crimeProvince"]', '#modal_form_edit').val(data.crime.crime_province_id);
+						var crimeDistrictsSelectEl = $('[name="crimeDistrict"]', '#modal_form_edit');
+						render_district_list(data.crimeDistricts, crimeDistrictsSelectEl);
+						$('[name="crimeDistrict"]', '#modal_form_edit').val(data.crime.crime_district_id);
+						$('[name="crimeLocation"]', '#modal_form_edit').val(data.crime.crime_location);
+						$('[name="arrestProvince"]', '#modal_form_edit').val(data.crime.arrest_province_id);
+						var arrestDistrictsSelectEl = $('[name="arrestDistrict"]', '#modal_form_edit');
+						render_district_list(data.arrestDistricts, arrestDistrictsSelectEl);
+						$('[name="arrestDistrict"]', '#modal_form_edit').val(data.crime.arrest_district_id);
+						$('[name="arrestLocation"]', '#modal_form_edit').val(data.crime.arrest_location);
 
 						$('#modal_form_edit').modal('show'); // show bootstrap modal when complete loaded
 						$('.modal-title', '#modal_form_edit').text('Edit User'); // Set Title to Bootstrap modal title
@@ -206,50 +236,68 @@
 			}
         </script>
 
-        		<!-- Bootstrap modal View-->
+        <!-- Bootstrap modal View-->
 		<div class="modal fade" id="modal_form_view" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h3 class="modal-title">View Crime</h3>
+						<h3 class="modal-title">View User</h3>
 					</div>
 					<div class="modal-body form">
 						<form action="#" id="form" class="form-horizontal">
 							<div class="form-group">
-								<label class="col-sm-3 control-label">ID</label>
-								<div class="col-sm-9">
+								<label class="col-sm-4 control-label">ID</label>
+								<div class="col-sm-8">
 									<p class="form-control-static" id="id"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">Full Name</label>
-								<div class="col-sm-9">
-									<p class="form-control-static" id="name"></p>
+								<label class="col-sm-4 control-label">Crime Date</label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="crimeDate"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">Username</label>
-								<div class="col-sm-9">
-									<p class="form-control-static" id="username"></p>
+								<label class="col-sm-4 control-label">Police Custody</label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="policeCustody"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">Email</label>
-								<div class="col-sm-9">
-									<p class="form-control-static" id="email"></p>
+								<label class="col-sm-4 control-label">Crime Province</label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="crimeProvince"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">isAdmin</label>
-								<div class="col-sm-9">
-									<p class="form-control-static" id="isAdmin"></p>
+								<label class="col-sm-4 control-label">Crime District</label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="crimeDistrict"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">Group</label>
-								<div class="col-sm-9">
-									<p class="form-control-static" id="group"></p>
+								<label class="col-sm-4 control-label">Crime Location</label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="crimeLocation"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Arrest Province</label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="arrestProvince"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Arrest District</label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="arrestDistrict"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Arrest Location</label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="arrestLocation"></p>
 								</div>
 							</div>
 						</form>
@@ -268,57 +316,75 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h3 class="modal-title">Edit Crime</h3>
+						<h3 class="modal-title">Edit User</h3>
 					</div>
 					<div class="modal-body form">
 						<form action="#" id="form" class="form-horizontal">
 							<input type="hidden" value="" name="id"/>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">ID</label>
-								<div class="col-sm-9">
+								<label class="col-sm-4 control-label">ID</label>
+								<div class="col-sm-8">
 									<p class="form-control-static" id="id"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3">First Name</label>
-								<div class="col-md-9">
-									<input name="firstName" placeholder="First Name" class="form-control" type="text">
+								<label class="control-label col-md-4">Crime Date</label>
+								<div class="col-md-8">
+									<input name="crimeDate" placeholder="Crime Date" class="form-control" type="date">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3">Last Name</label>
-								<div class="col-md-9">
-									<input name="lastName" placeholder="Last Name" class="form-control" type="text">
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="col-sm-3 control-label">Username</label>
-								<div class="col-sm-9">
-									<input name="username" placeholder="Username" class="form-control" type="text">
+								<label class="control-label col-md-4">Police Custody</label>
+								<div class="col-md-8">
+									<input name="policeCustody" placeholder="Police Custody" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">Email</label>
-								<div class="col-sm-9">
-									<input name="email" placeholder="Email" class="form-control" type="text">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label"></label>
-								<div class="col-sm-9">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" name="isAdmin"> isAdmin
-										</label>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label col-sm-3">Group</label>
-								<div class="col-sm-9">
-									<select name="group" class="form-control" class="form-control">
+								<label class="col-sm-4 control-label">Crime Province</label>
+								<div class="col-sm-8">
+									<select name="crimeProvince" class="form-control" class="form-control">
+										<option></option>
+										<?php foreach ($provincesList as $key => $value) {
+											echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
+										} ?>
 									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Crime District</label>
+								<div class="col-sm-8">
+									<select name="crimeDistrict" class="form-control" class="form-control">
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Crime Location</label>
+								<div class="col-sm-8">
+									<input name="crimeLocation" placeholder="Crime Location" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Arrest Province</label>
+								<div class="col-sm-8">
+									<select name="arrestProvince" class="form-control" class="form-control">
+										<option></option>
+										<?php foreach ($provincesList as $key => $value) {
+											echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
+										} ?>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Arrest District</label>
+								<div class="col-sm-8">
+									<select name="arrestDistrict" class="form-control" class="form-control">
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Arrest Location</label>
+								<div class="col-sm-8">
+									<input name="arrestLocation" placeholder="Arrest Location" class="form-control" type="text">
 								</div>
 							</div>
 						</form>

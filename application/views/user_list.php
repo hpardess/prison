@@ -108,6 +108,7 @@
 			{
 				save_method = 'update';
 				$('#form', '#modal_form_edit')[0].reset(); // reset form on modals
+				$('p#id', '#modal_form_edit').empty();
 				$('[name="group"]', '#modal_form_edit').empty();
 
 				//Ajax Load data from ajax
@@ -299,7 +300,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">Email</label>
 								<div class="col-sm-9">
-									<input name="email" placeholder="Email" class="form-control" type="text">
+									<input name="email" placeholder="Email" class="form-control" type="email">
 								</div>
 							</div>
 							<div class="form-group">

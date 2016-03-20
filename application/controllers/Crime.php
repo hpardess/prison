@@ -10,11 +10,15 @@ class Crime extends CI_Controller {
 			redirect('/login');
 		}
 		$this->load->model('crime_model');
+		$this->load->model("province_model");
+		$this->load->model('district_model');
 	}
 
 	public function index()
 	{
-	    $this->load->view('crime_list');
+		$data['provincesList'] = $this->province_model->get_all();
+		$data['districtsList'] = $this->district_model->get_all();
+	    $this->load->view('crime_list', $data);
 	}
 
 	public function crime_list()
@@ -25,13 +29,13 @@ class Crime extends CI_Controller {
 		$aColumns = array(
 			'id',
 			'crime_date',
-			'crime_location',
-			'arrist_location',
 			'police_custody',
-			'crime_province_id',
+			'crime_location',
 			'crime_district_id',
-			'arrist_province_id',
-			'arrist_district_id');
+			'crime_province_id',
+			'arrest_location',
+			'arrest_district_id',
+			'arrest_province_id');
  
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = "id";
@@ -52,10 +56,69 @@ class Crime extends CI_Controller {
 	    echo json_encode($results);
 	}
 
-	public function new_crime()
+	// public function new_crime()
+	// {
+	// 	$provinceList = $this->province_model->get_all();
+ //        echo json_encode($provinceList);
+	// }
+
+	public function view($id)
 	{
-		$this->load->model('province_model');
-		$provinceList = $this->province_model->get_all();
-        echo json_encode($provinceList);
+		$result = $this->crime_model->get_by_id($id);
+        echo json_encode($result);
 	}
+
+	public function edit($id)
+	{
+		$crime = $this->crime_model->get_by_id($id);
+
+		$result = array();
+		$result['crime'] = $crime;
+		$result['crimeDistricts'] = $this->district_model->get_by_province_id($crime->crime_province_id);
+		$result['arrestDistricts'] = $this->district_model->get_by_province_id($crime->arrest_province_id);
+
+        echo json_encode($result);
+	}
+
+	public function delete($id)
+	{
+		$this->crime_model->delete_by_id($id);
+        echo json_encode(array("status" => TRUE));
+	}
+
+	// add new record
+	public function add()
+    {
+        $data = array(
+                'crime_date' => $this->input->post('crimeDate'),
+                'police_custody' => $this->input->post('policeCustody'),
+                'crime_province_id' => $this->input->post('crimeProvince'),
+                'crime_district_id' => $this->input->post('crimeDistrict'),
+                'crime_location' => $this->input->post('crimeLocation'),
+                'arrest_province_id' => $this->input->post('arrestProvince'),
+                'arrest_district_id' => $this->input->post('arrestDistrict'),
+                'arrest_location' => $this->input->post('arrestLocation')
+            );
+        $insert = $this->crime_model->create($data);
+        // log_message('debug', 'insert: ' . $insert);
+        echo json_encode(array("status" => TRUE));
+    }
+ 
+ 	// update exisitn record
+    public function update()
+    {
+        $data = array(
+                'crime_date' => $this->input->post('crimeDate'),
+                'police_custody' => $this->input->post('policeCustody'),
+                'crime_province_id' => $this->input->post('crimeProvince'),
+                'crime_district_id' => $this->input->post('crimeDistrict'),
+                'crime_location' => $this->input->post('crimeLocation'),
+                'arrest_province_id' => $this->input->post('arrestProvince'),
+                'arrest_district_id' => $this->input->post('arrestDistrict'),
+                'arrest_location' => $this->input->post('arrestLocation')
+            );
+        $affected_rows = $this->crime_model->update(array('id' => $this->input->post('id')), $data);
+        // log_message('debug', 'affected rows: ' . $affected_rows);
+        echo json_encode(array("status" => TRUE));
+    }
 }

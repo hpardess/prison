@@ -46,11 +46,25 @@ class User_model extends CI_Model {
     }
 
     // delete record by id
-    function delete_by_id($id){
+    function delete_by_id($id)
+    {
         $this->db->where('id', $id);
         $this->db->delete($this->tableName);
     }
 
+    function check_user($username, $password)
+    {
+        log_message('debug', 'username: '. $username .' newPassword: '. $newPassword);
+
+        $this->db->from($this->tableName);
+        $this->db->where('username',$username );
+        $this->db->where( 'password', md5($password) );
+        $result = $this->db->get()->result();
+        if ( is_array($result) && count($result) == 1 ) {
+            return true;
+        }
+        return false;
+    }
 
 // ---------------------------------------------------------
 

@@ -1,9 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
    
-class District_model extends CI_Model {
+class Marital_status_model extends CI_Model {
 
     // table name
-    private $tableName= 'district';
+    private $tableName= 'marital_status';
 
     function __construct() {
         parent::__construct();
@@ -22,15 +22,6 @@ class District_model extends CI_Model {
     function get_all($column_list = '*'){
         $this->db->select($column_list);
         $this->db->from($this->tableName);
-        $query = $this->db->get();
-        return $query->result();
-    }
-
-        // get record by province_id
-    function get_by_province_id($province_id, $column_list = '*'){
-        $this->db->select($column_list);
-        $this->db->from($this->tableName);
-        $this->db->where('province_id',$province_id);
         $query = $this->db->get();
         return $query->result();
     }

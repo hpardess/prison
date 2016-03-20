@@ -92,17 +92,17 @@ CREATE TABLE IF NOT EXISTS `prison`.`crime` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `crime_date` TIMESTAMP NULL,
   `crime_location` VARCHAR(70) NULL,
-  `arrist_location` VARCHAR(70) NULL,
+  `arrest_location` VARCHAR(70) NULL,
   `police_custody` VARCHAR(70) NULL,
   `crime_province_id` INT NOT NULL,
   `crime_district_id` INT NOT NULL,
-  `arrist_province_id` INT NOT NULL,
-  `arrist_district_id` INT NOT NULL,
+  `arrest_province_id` INT NOT NULL,
+  `arrest_district_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_crime_province1_idx` (`crime_province_id` ASC),
   INDEX `fk_crime_district1_idx` (`crime_district_id` ASC),
-  INDEX `fk_crime_province2_idx` (`arrist_province_id` ASC),
-  INDEX `fk_crime_district2_idx` (`arrist_district_id` ASC),
+  INDEX `fk_crime_province2_idx` (`arrest_province_id` ASC),
+  INDEX `fk_crime_district2_idx` (`arrest_district_id` ASC),
   CONSTRAINT `fk_crime_province1`
     FOREIGN KEY (`crime_province_id`)
     REFERENCES `prison`.`province` (`id`)
@@ -114,12 +114,12 @@ CREATE TABLE IF NOT EXISTS `prison`.`crime` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_crime_province2`
-    FOREIGN KEY (`arrist_province_id`)
+    FOREIGN KEY (`arrest_province_id`)
     REFERENCES `prison`.`province` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_crime_district2`
-    FOREIGN KEY (`arrist_district_id`)
+    FOREIGN KEY (`arrest_district_id`)
     REFERENCES `prison`.`district` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

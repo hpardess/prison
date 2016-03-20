@@ -24,7 +24,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <?php if($this->session->userdata('isAdmin')) { echo $this->session->userdata('name')." (admin)"; } else { echo $this->session->userdata('name'); } ?> <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a onclick='view_profile("<?= $this->session->userdata('id') ?>")'>Profile</a></li>
-                    <li><a data-toggle="modal" href="#changePassword">Change Password</a></li>
+                    <li><a data-toggle="modal" href="#changePasswordModel">Change Password</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="<?= base_url() ?>index.php/login/logout_user">Logout</a></li>
                 </ul>
@@ -43,18 +43,39 @@
             dataType: "JSON",
             success: function(data)
             {
-                $('p#id', '#myProfile').html(data.user.id);
-                $('p#name', '#myProfile').html(data.user.firstname + ' ' + data.user.lastname);
-                $('p#username', '#myProfile').html(data.user.username);
-                $('p#email', '#myProfile').html(data.user.email);
-                $('p#isAdmin', '#myProfile').html(data.user.isadmin===1? 'Yes': 'No');
-                $('p#group', '#myProfile').html(data.group.group_name);
+                $('p#id', '#myProfileModel').html(data.user.id);
+                $('p#name', '#myProfileModel').html(data.user.firstname + ' ' + data.user.lastname);
+                $('p#username', '#myProfileModel').html(data.user.username);
+                $('p#email', '#myProfileModel').html(data.user.email);
+                $('p#isAdmin', '#myProfileModel').html(data.user.isadmin===1? 'Yes': 'No');
+                $('p#group', '#myProfileModel').html(data.group.group_name);
 
-                $('#myProfile').modal('show'); // show bootstrap modal when complete loaded
+                $('#myProfileModel').modal('show'); // show bootstrap modal when complete loaded
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
                 alert('Error get data from ajax');
+            }
+        });
+    }
+
+    function change_password()
+    {
+        // ajax adding data to database
+        $.ajax({
+            url : "<?php echo site_url('user/change_password')?>",
+            type: "POST",
+            data: $('#form', '#changePasswordModel').serialize(),
+            dataType: "JSON",
+            success: function(data)
+            {
+                //if success close modal and reload ajax table
+                $('#modal_form_edit').modal('hide');
+                reload_table();
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error adding / update data');
             }
         });
     }
@@ -63,7 +84,7 @@
 <!-- ****************************************************************** -->
 <!--                        USER Profile Modal Window                       -->
 <!-- ****************************************************************** -->
-<div class="modal fade" tabindex="-1" role="dialog" id="myProfile">
+<div class="modal fade" tabindex="-1" role="dialog" id="myProfileModel">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -120,7 +141,7 @@
 <!-- ****************************************************************** -->
 <!--                        Change Password Modal Window                       -->
 <!-- ****************************************************************** -->
-<div class="modal fade" tabindex="-1" role="dialog" id="changePassword">
+<div class="modal fade" tabindex="-1" role="dialog" id="changePasswordModel">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -128,11 +149,32 @@
                 <h4 class="modal-title">Change Password</h4>
             </div>
             <div class="modal-body">
-                <p>One fine body&hellip;</p>
+                <form action="#" id="form" class="form-horizontal">
+                    <!-- <input type="hidden" value="<?=$this->session->userdata('username'); ?>" name="username"/> -->
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Current Password</label>
+                        <div class="col-sm-8">
+                            <input name="curPsw" placeholder="Current Password" class="form-control" type="password">
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">New Password</label>
+                        <div class="col-sm-8">
+                            <input name="newPsw" placeholder="New Password" class="form-control" type="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Confirm New Password</label>
+                        <div class="col-sm-8">
+                            <input name="confNewPsw" placeholder="Confirm" class="form-control" type="password">
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="change_password()">Save changes</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

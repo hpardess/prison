@@ -6,3 +6,8 @@ td { font-size: 12px; }
    float: right;
    text-align: right;
 }
+
+/* bootstrap overridding */
+.form-group {
+	margin-bottom: 4px;
+}
