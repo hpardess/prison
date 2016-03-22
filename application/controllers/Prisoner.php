@@ -14,13 +14,7 @@ class Prisoner extends CI_Controller {
 		$this->load->model('district_model');
 		$this->load->model('marital_status_model');
 
-		// File upload config
-		$config['upload_path'] = './photos/';
-		$config['allowed_types'] = 'gif|jpg|png';
-		$config['max_size']     = '100';
-		$config['max_width'] = '1024';
-		$config['max_height'] = '768';
-		$this->load->library('upload', $config);
+		
 	}
 
 	public function index()
@@ -104,6 +98,19 @@ class Prisoner extends CI_Controller {
 	// add new record
 	public function add()
     {
+		// $attachment_file=$_FILES["attachment_file"];
+		// $output_dir = "upload/";
+		// $fileName = $_FILES["attachment_file"]["name"];
+		// move_uploaded_file($_FILES["attachment_file"]["tmp_name"],$output_dir.$fileName);
+		// echo "File uploaded successfully";
+
+    	$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+		// start of transaction
+		$this->db->trans_begin();
+
 		$criminal_history = $this->input->post('criminalHistory');
 
         $data = array(
@@ -117,17 +124,68 @@ class Prisoner extends CI_Controller {
                 'permanent_province_id' => $this->input->post('permanentProvince'),
                 'permanent_district_id' => $this->input->post('permanentDistrict'),
                 'present_province_id' => $this->input->post('presentProvince'),
-                'present_district_id' => $this->input->post('presentDistrict'),
-                'profile_pic' => $this->input->post('profilePic')
+                'present_district_id' => $this->input->post('presentDistrict')
+                // 'profile_pic' => $this->input->post('profilePic')
             );
-        $insert = $this->prisoner_model->create($data);
-        // log_message('debug', 'insert: ' . $insert);
-        echo json_encode(array("status" => TRUE));
+        $record_id = $this->prisoner_model->create($data);
+        log_message('debug', 'insert ID: ' . $insert_id);
+
+		if ($this->db->trans_status() === FALSE)
+		{
+			$response['success'] = FALSE;
+			$response['message'] = 'Falied to save the data.';
+			$this->db->trans_rollback();
+		}
+		else
+		{
+			$extension = 'jpg';
+			if($_FILES['profilePic'] && $_FILES['profilePic']['size'] > 0)
+			{
+				$image = $_FILES['profilePic'];
+				log_message('debug', 'file name: ' . $image['name']);
+				$path_info = pathinfo($image['name']);
+				$extension = $path_info['extension'];
+
+				$file_new_name = $record_id . '.' . $extension;
+				log_message('debug', 'new file name: ' . $file_new_name);
+
+				if(!$this->upload_photo('profilePic', $file_new_name))
+				{
+					$response['success'] = FALSE;
+					$response['message'] = $this->upload->display_errors();
+					// rollback transaction
+					$this->db->trans_rollback();
+				}
+				else
+				{
+					$dataUpdate = array(
+			                'profile_pic' => $file_new_name
+			            );
+					$this->prisoner_model->update_by_id($record_id, $dataUpdate);
+
+					// commit transaction
+					$this->db->trans_commit();
+				}
+			}
+			else
+			{
+				// commit transaction
+				$this->db->trans_commit();
+			}
+		}
+        echo json_encode($response);
     }
  
  	// update exisitn record
     public function update()
     {
+    	$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+    	// start of transaction
+		$this->db->trans_begin();
+
     	$criminal_history = $this->input->post('criminalHistory');
 
         $data = array(
@@ -141,11 +199,78 @@ class Prisoner extends CI_Controller {
                 'permanent_province_id' => $this->input->post('permanentProvince'),
                 'permanent_district_id' => $this->input->post('permanentDistrict'),
                 'present_province_id' => $this->input->post('presentProvince'),
-                'present_district_id' => $this->input->post('presentDistrict'),
-                'profile_pic' => $this->input->post('profilePic')
+                'present_district_id' => $this->input->post('presentDistrict')
+                // 'profile_pic' => $this->input->post('profilePic')
             );
         $affected_rows = $this->prisoner_model->update(array('id' => $this->input->post('id')), $data);
         // log_message('debug', 'affected rows: ' . $affected_rows);
-        echo json_encode(array("status" => TRUE));
+
+        $record_id = $this->input->post('id');
+
+        if ($this->db->trans_status() === FALSE)
+		{
+			$response['success'] = FALSE;
+			$response['message'] = 'Falied to save the data.';
+			$this->db->trans_rollback();
+		}
+		else
+		{
+			$extension = 'jpg';
+			if($_FILES['profilePic'] && $_FILES['profilePic']['size'] > 0)
+			{
+				$image = $_FILES['profilePic'];
+				log_message('debug', 'file name: ' . $image['name']);
+				$path_info = pathinfo($image['name']);
+				$extension = $path_info['extension'];
+
+				$file_new_name = $record_id . '.' . $extension;
+				log_message('debug', 'new file name: ' . $file_new_name);
+
+				if(!$this->upload_photo('profilePic', $file_new_name))
+				{
+					$response['success'] = FALSE;
+					$response['message'] = $this->upload->display_errors();
+					// rollback transaction
+					$this->db->trans_rollback();
+				}
+				else
+				{
+					$dataUpdate = array(
+			                'profile_pic' => $file_new_name
+			            );
+					$this->prisoner_model->update_by_id($record_id, $dataUpdate);
+
+					// commit transaction
+					$this->db->trans_commit();
+				}
+			}
+			else
+			{
+				// commit transaction
+				$this->db->trans_commit();
+			}
+		}
+        echo json_encode($response);
+    }
+
+    private function upload_photo($field, $file_new_name) {
+    	// File upload config
+		$config['upload_path'] = './photos/';
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['max_size']     = '2000';
+		$config['max_width'] = '1024';
+		$config['max_height'] = '768';
+		$config['overwrite'] = TRUE;
+		$config['file_name'] = $file_new_name;
+		$this->load->library('upload', $config);
+
+    	if(!$this->upload->do_upload($field))
+		{
+			log_message('debug', 'file upload: ' . var_export($this->upload->display_errors(), true));
+			return FALSE;
+		}
+		
+		log_message('debug', 'file upload: ' . var_export($this->upload->data(), true));
+		return TRUE;
     }
 }

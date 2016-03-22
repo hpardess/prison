@@ -45,6 +45,7 @@
 		    var oTable;
 		    var provincesList = <?= json_encode($provincesList) ?>;
 		    var districtsList = <?= json_encode($districtsList) ?>;
+		    var photos_directory = "<?= base_url('photos/') ?>";
 
             $(document).ready(function () {
             	$("li#prisoners", ".navbar-nav").addClass("active");
@@ -132,7 +133,16 @@
 						$('p#permanentDistrict', '#modal_form_view').html(data.permanent_district_id);
 						$('p#presentProvince', '#modal_form_view').html(data.present_province_id);
 						$('p#presentDistrict', '#modal_form_view').html(data.present_district_id);
-						$('img#profilePic', '#modal_form_view').attr("src", data.profile_pic);
+						
+						if(data.profile_pic !== '' && data.profile_pic !== null)
+						{
+							$('img#profilePic', '#modal_form_view').attr("src", photos_directory + '/' + data.profile_pic);
+							$('img#profilePic', '#modal_form_view').attr("alt", 'Failed to display the photo.');
+						}
+						else
+						{
+							$('img#profilePic', '#modal_form_view').attr("alt", 'Profile photo is not uploaded.');
+						}
 
 						$('#modal_form_view').modal('show'); // show bootstrap modal when complete loaded
 					},
@@ -171,29 +181,24 @@
 
 						var permanentDistrictsSelectEl = $('[name="permanentDistrict"]', '#modal_form_edit');
 						render_district_list(data.permanentDistricts, permanentDistrictsSelectEl);
-						// $.each(data.permanentDistricts, function(index, value) {
-						// 	// if (data.prisoner.permanent_district_id === value.id) {
-						// 	// 	$('<option>').attr('value', value.id).attr('selected', true).html(value.group_name).appendTo(permanentDistrictsSelectEl);
-						// 	// } else {
-						// 		$('<option>').attr('value', value.id).html(value.name).appendTo(permanentDistrictsSelectEl);
-						// 	// }
-						// });
 
 						$('[name="permanentDistrict"]', '#modal_form_edit').val(data.prisoner.permanent_district_id);
 						$('[name="presentProvince"]', '#modal_form_edit').val(data.prisoner.present_province_id);
 
 						var presentDistrictsSelectEl = $('[name="presentDistrict"]', '#modal_form_edit');
 						render_district_list(data.presentDistricts, presentDistrictsSelectEl);
-						// $.each(data.presentDistricts, function(index, value) {
-						// 	// if (data.prisoner.present_district_id === value.id) {
-						// 	// 	$('<option>').attr('value', value.id).attr('selected', true).html(value.group_name).appendTo(presentDistrictsSelectEl);
-						// 	// } else {
-						// 		$('<option>').attr('value', value.id).html(value.name).appendTo(presentDistrictsSelectEl);
-						// 	// }
-						// });
 
 						$('[name="presentDistrict"]', '#modal_form_edit').val(data.prisoner.present_district_id);
-						$('[name="profilePic"]', '#modal_form_edit').attr("src", data.prisoner.profile_pic);
+
+						if(data.prisoner.profile_pic !== '' && data.prisoner.profile_pic !== null)
+						{
+							$('img#profilePicDisplay', '#modal_form_edit').attr("src", photos_directory + '/' + data.prisoner.profile_pic);
+							$('img#profilePicDisplay', '#modal_form_edit').attr("alt", 'Failed to display the photo.');
+						}
+						else
+						{
+							$('img#profilePicDisplay', '#modal_form_edit').attr("alt", 'Profile photo is not uploaded.');
+						}
 
 						$('#modal_form_edit').modal('show'); // show bootstrap modal when complete loaded
 						$('.modal-title', '#modal_form_edit').text('Edit User'); // Set Title to Bootstrap modal title
@@ -246,23 +251,53 @@
 					url = "<?php echo site_url('prisoner/update')?>";
 				}
 
+				var formData = new FormData($('#form', '#modal_form_edit')[0]);
+
 				// ajax adding data to database
 				$.ajax({
 					url : url,
 					type: "POST",
-					data: $('#form', '#modal_form_edit').serialize(),
-					dataType: "JSON",
+					data: formData,
+					mimeType: "multipart/form-data",
+					contentType: false,
+					cache: false,
+					processData: false,
 					success: function(data)
 					{
-						//if success close modal and reload ajax table
-						$('#modal_form_edit').modal('hide');
-						reload_table();
+						data = JSON.parse(data);
+						if(data.success === true)
+						{
+							$('#modal_form_edit').modal('hide');
+							reload_table();
+						}
+						else
+						{
+							alert(data.message);
+						}
 					},
 					error: function (jqXHR, textStatus, errorThrown)
 					{
 						alert('Error adding / update data');
 					}
 				});
+
+				// ajax adding data to database
+				// $.ajax({
+				// 	url : url,
+				// 	type: "POST",
+				// 	data: $('#form', '#modal_form_edit').serialize(),
+				// 	dataType: "JSON",
+				// 	success: function(data)
+				// 	{
+				// 		//if success close modal and reload ajax table
+				// 		$('#modal_form_edit').modal('hide');
+				// 		reload_table();
+				// 	},
+				// 	error: function (jqXHR, textStatus, errorThrown)
+				// 	{
+				// 		alert('Error adding / update data');
+				// 	}
+				// });
 			}
         </script>
 
@@ -348,7 +383,14 @@
 									<p class="form-control-static" id="presentDistrict"></p>
 								</div>
 							</div>
-							<img id="profilePic" alt="Profile Photo" class="img-rounded">
+							<div class="form-group">
+								<!-- <label class="control-label col-sm-4">Profile Photo</label> -->
+								<div class="col-sm-12">
+									<div class="thumbnail">
+										<img id="profilePic" alt="Profile Photo not exist" class="img-rounded">
+									</div>
+								</div>
+							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
@@ -474,7 +516,7 @@
 								<!-- <label class="control-label col-sm-4">Profile Photo</label> -->
 								<div class="col-sm-12">
 									<div class="thumbnail">
-										<img name="profilePicc" src="<?php echo base_url('photos/profile_pic01.jpg')?>" alt="Profile Photo" class="img-rounded">
+										<img id="profilePicDisplay" alt="Profile Photo" class="img-rounded">
 									</div>
 								</div>
 							</div>
