@@ -12,6 +12,10 @@ class Crime extends CI_Controller {
 		$this->load->model('crime_model');
 		$this->load->model("province_model");
 		$this->load->model('district_model');
+
+		$idiom = $this->session->userdata('language');
+		log_message('debug', 'selected language: ' . $idiom);
+		$this->lang->load($idiom, $idiom);
 	}
 
 	public function index()
@@ -24,18 +28,18 @@ class Crime extends CI_Controller {
 	public function crime_list()
 	{
 		$this->load->model("datatables_model");
-		$tableName = 'crime';
+		$tableName = 'crime_view';
 
 		$aColumns = array(
 			'id',
 			'crime_date',
 			'police_custody',
 			'crime_location',
-			'crime_district_id',
-			'crime_province_id',
+			'crime_district',
+			'crime_province',
 			'arrest_location',
-			'arrest_district_id',
-			'arrest_province_id');
+			'arrest_district',
+			'arrest_province');
  
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = "id";
@@ -64,7 +68,7 @@ class Crime extends CI_Controller {
 
 	public function view($id)
 	{
-		$result = $this->crime_model->get_by_id($id);
+		$result = $this->crime_model->get_by_id_with_joins($id);
         echo json_encode($result);
 	}
 

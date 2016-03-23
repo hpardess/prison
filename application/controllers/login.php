@@ -3,6 +3,10 @@
 class Login extends CI_Controller {
     function __construct() {
         parent::__construct();
+
+        // $idiom = $this->session->userdata('language');
+        // log_message('debug', 'selected language: ' . $idiom);
+        // $this->lang->load($idiom, $idiom);
     }
   
     function index() {

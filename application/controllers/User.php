@@ -10,6 +10,10 @@ class User extends CI_Controller {
 			redirect('/login');
 		}
 		$this->load->model('user_model');
+
+        $idiom = $this->session->userdata('language');
+        log_message('debug', 'selected language: ' . $idiom);
+        $this->lang->load($idiom, $idiom);
 	}
 
 	public function index()
@@ -139,5 +143,12 @@ class User extends CI_Controller {
         {
             return false;
         }
+    }
+
+    function switch_language($language="english")
+    {
+        $this->session->set_userdata('language', $language);
+        // redirect($_SERVER['HTTP_REFERER']);
+        echo json_encode(array("success" => TRUE));
     }
 }

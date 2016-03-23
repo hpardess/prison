@@ -18,6 +18,19 @@ class Crime_model extends CI_Model {
         return $query->row();
     }
 
+    // get record by id with joins
+    function get_by_id_with_joins($id){
+        $this->db->select('`crime`.`id` AS `id`,`crime`.`crime_date` AS `crime_date`,`crime`.`crime_location` AS `crime_location`,`crime`.`arrest_location` AS `arrest_location`,`crime`.`police_custody` AS `police_custody`,`crime`.`crime_province_id` AS `crime_province_id`,`crime_province`.`name` AS `crime_province`,`crime`.`crime_district_id` AS `crime_district_id`,`crime_district`.`name` AS `crime_district`,`crime`.`arrest_province_id` AS `arrest_province_id`,`arrest_province`.`name` AS `arrest_province`,`crime`.`arrest_district_id` AS `arrest_district_id`,`arrest_district`.`name` AS `arrest_district`');
+        $this->db->from($this->tableName);
+        $this->db->join('province AS crime_province', 'crime_province.id = crime.crime_province_id', 'inner');
+        $this->db->join('district AS crime_district', 'crime_district.id = crime.crime_district_id', 'inner');
+        $this->db->join('province AS arrest_province', 'arrest_province.id = crime.arrest_province_id', 'inner');
+        $this->db->join('district AS arrest_district', 'arrest_district.id = crime.arrest_district_id', 'inner');
+        $this->db->where($this->tableName . '.id',$id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
     // get all records
     function get_all($column_list = '*'){
         $this->db->select($column_list);

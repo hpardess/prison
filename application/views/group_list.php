@@ -7,28 +7,28 @@
 	<body style="padding-top: 70px;">
 		<?php $this->load->view('menu_bar'); ?>
 		<div class="container">
-			<h3>Group Management</h3>
+			<h3><?= $this->lang->line('group_management'); ?></h3>
 			<br />
-			<button class="btn btn-success" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> Add New Group</button>
+			<button class="btn btn-success" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> <?= $this->lang->line('add_new'); ?></button>
 			<br />
 			<br />
 			<!-- <table id="table" class="table table-striped table-hover" cellspacing="0" width="100%"> -->
 			<table id="table" class="table table-hover" cellspacing="0" width="100%">
 				<thead>
 					<tr>
-	                    <th>Id</th>
-	                    <th>Group Name</th>
-	                    <th>Prisoner New</th>
-	                    <th>Prisoner View</th>
-	                    <th>Prisoner Edit</th>
-	                    <th>Prisoner Delete</th>
-	                    <th>Prisoner Unlock</th>
-	                    <th>Crime New</th>
-	                    <th>Crime View</th>
-	                    <th>Crime Edit</th>
-	                    <th>Crime Delete</th>
-	                    <th>Crime Unlock</th>
-	                    <th>Actions</th>
+	                    <th><?= $this->lang->line('id'); ?></th>
+	                    <th><?= $this->lang->line('group_name'); ?></th>
+	                    <th><?= $this->lang->line('prisoner_new'); ?></th>
+	                    <th><?= $this->lang->line('prisoner_view'); ?></th>
+	                    <th><?= $this->lang->line('prisoner_edit'); ?></th>
+	                    <th><?= $this->lang->line('prisoner_delete'); ?></th>
+	                    <th><?= $this->lang->line('prisoner_unlock'); ?></th>
+	                    <th><?= $this->lang->line('crime_new'); ?></th>
+	                    <th><?= $this->lang->line('crime_view'); ?></th>
+	                    <th><?= $this->lang->line('crime_edit'); ?></th>
+	                    <th><?= $this->lang->line('crime_delete'); ?></th>
+	                    <th><?= $this->lang->line('crime_unlock'); ?></th>
+	                    <th><?= $this->lang->line('actions'); ?></th>
 	                </tr>
 				</thead>
 				<tbody></tbody>
@@ -226,61 +226,61 @@
 					<div class="modal-body form">
 						<form action="#" id="form" class="form-horizontal">
 							<div class="form-group">
-								<label class="col-sm-3 control-label">ID</label>
+								<label class="col-sm-3 control-label"><?= $this->lang->line('id'); ?></label>
 								<div class="col-sm-9">
 									<p class="form-control-static" id="id"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">Group Name</label>
+								<label class="col-sm-3 control-label"><?= $this->lang->line('group_name'); ?></label>
 								<div class="col-sm-9">
 									<p class="form-control-static" id="name"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3">Prisoner</label>
+								<label class="control-label col-md-3"><?= $this->lang->line('prisoner'); ?></label>
 								<div class="col-md-9">
 									<label class="checkbox-inline">
-										<i class="glyphicon" id="prisoner_new"></i> New
+										<i class="glyphicon" id="prisoner_new"></i> <?= $this->lang->line('new'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<i class="glyphicon" id="prisoner_view"></i> View
+										<i class="glyphicon" id="prisoner_view"></i> <?= $this->lang->line('view'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<i class="glyphicon" id="prisoner_edit"></i> Edit
+										<i class="glyphicon" id="prisoner_edit"></i> <?= $this->lang->line('edit'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<i class="glyphicon" id="prisoner_delete"></i> Delete
+										<i class="glyphicon" id="prisoner_delete"></i> <?= $this->lang->line('delete'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<i class="glyphicon" id="prisoner_unlock"></i> Unlock
+										<i class="glyphicon" id="prisoner_unlock"></i> <?= $this->lang->line('unlock'); ?>
 									</label>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3">Crime</label>
+								<label class="control-label col-md-3"><?= $this->lang->line('crime'); ?></label>
 								<div class="col-md-9">
 									<label class="checkbox-inline">
-										<i class="glyphicon" id="crime_new"></i> New
+										<i class="glyphicon" id="crime_new"></i> <?= $this->lang->line('new'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<i class="glyphicon" id="crime_view"></i> View
+										<i class="glyphicon" id="crime_view"></i> <?= $this->lang->line('view'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<i class="glyphicon" id="crime_edit"></i> Edit
+										<i class="glyphicon" id="crime_edit"></i> <?= $this->lang->line('edit'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<i class="glyphicon" id="crime_delete"></i> Delete
+										<i class="glyphicon" id="crime_delete"></i> <?= $this->lang->line('delete'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<i class="glyphicon" id="crime_unlock"></i> Unlock
+										<i class="glyphicon" id="crime_unlock"></i> <?= $this->lang->line('unlock'); ?>
 									</label>
 								</div>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal"><?= $this->lang->line('cancel'); ?></button>
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
@@ -299,62 +299,62 @@
 						<form action="#" id="form" class="form-horizontal">
 							<input type="hidden" value="" name="id"/>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">ID</label>
+								<label class="col-sm-3 control-label"><?= $this->lang->line('id'); ?></label>
 								<div class="col-sm-9">
 									<p class="form-control-static" id="id"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3">Group Name</label>
+								<label class="control-label col-md-3"><?= $this->lang->line('group_name'); ?></label>
 								<div class="col-md-9">
 									<input name="groupName" placeholder="Group Name" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3">Prisoner</label>
+								<label class="control-label col-md-3"><?= $this->lang->line('prisoner'); ?></label>
 								<div class="col-md-9">
 									<label class="checkbox-inline">
-										<input type="checkbox" name="prisoner_new"> New
+										<input type="checkbox" name="prisoner_new"> <?= $this->lang->line('new'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" name="prisoner_view"> View
+										<input type="checkbox" name="prisoner_view"> <?= $this->lang->line('view'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" name="prisoner_edit"> Edit
+										<input type="checkbox" name="prisoner_edit"> <?= $this->lang->line('edit'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" name="prisoner_delete"> Delete
+										<input type="checkbox" name="prisoner_delete"> <?= $this->lang->line('delete'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" name="prisoner_unlock"> Unlock
+										<input type="checkbox" name="prisoner_unlock"> <?= $this->lang->line('unlock'); ?>
 									</label>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3">Crime</label>
+								<label class="control-label col-md-3"><?= $this->lang->line('crime'); ?></label>
 								<div class="col-md-9">
 									<label class="checkbox-inline">
-										<input type="checkbox" name="crime_new"> New
+										<input type="checkbox" name="crime_new"> <?= $this->lang->line('new'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" name="crime_view"> View
+										<input type="checkbox" name="crime_view"> <?= $this->lang->line('view'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" name="crime_edit"> Edit
+										<input type="checkbox" name="crime_edit"> <?= $this->lang->line('edit'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" name="crime_delete"> Delete
+										<input type="checkbox" name="crime_delete"> <?= $this->lang->line('delete'); ?>
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" name="crime_unlock"> Unlock
+										<input type="checkbox" name="crime_unlock"> <?= $this->lang->line('unlock'); ?>
 									</label>
 								</div>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" id="btnSave" onclick="save_record()" class="btn btn-primary">Save</button>
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+						<button type="button" id="btnSave" onclick="save_record()" class="btn btn-primary"><?= $this->lang->line('save'); ?></button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal"><?= $this->lang->line('cancel'); ?></button>
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->

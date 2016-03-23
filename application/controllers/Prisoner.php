@@ -14,7 +14,9 @@ class Prisoner extends CI_Controller {
 		$this->load->model('district_model');
 		$this->load->model('marital_status_model');
 
-		
+		$idiom = $this->session->userdata('language');
+		log_message('debug', 'selected language: ' . $idiom);
+		$this->lang->load($idiom, $idiom);
 	}
 
 	public function index()
@@ -28,7 +30,7 @@ class Prisoner extends CI_Controller {
 	public function prisoner_list()
 	{
 		$this->load->model("datatables_model");
-		$tableName = 'prisoner';
+		$tableName = 'prisoner_view';
 
 		$aColumns = array(
 			'id',
@@ -36,13 +38,13 @@ class Prisoner extends CI_Controller {
 			'father_name',
 			'grand_father_name',
 			'age',
-			'marital_status_id',
+			'marital_status',
 			'num_of_children',
 			'criminal_history',
-			'permanent_province_id',
-			'permanent_district_id',
-			'present_province_id',
-			'present_district_id',
+			'permanent_province',
+			'permanent_district',
+			'present_province',
+			'present_district',
 			'profile_pic');
  
         /* Indexed column (used for fast and accurate table cardinality) */
@@ -73,7 +75,7 @@ class Prisoner extends CI_Controller {
 
 	public function view($id)
 	{
-		$result = $this->prisoner_model->get_by_id($id);
+		$result = $this->prisoner_model->get_by_id_with_joins($id);
         echo json_encode($result);
 	}
 

@@ -114,7 +114,8 @@ class User_model extends CI_Model {
                 'username'=>$this->details->username,
                 'email'=>$this->details->email,
                 'isAdmin'=>$this->details->isadmin,
-                'isLoggedIn'=>true
+                'isLoggedIn'=>true,
+                'language'=>'english'
             )
         );
     }

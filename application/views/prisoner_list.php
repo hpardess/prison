@@ -7,7 +7,7 @@
 	<body style="padding-top: 70px;">
 		<?php $this->load->view('menu_bar'); ?>
 		<div class="container">
-			<h3>Prisoners</h3>
+			<h3><?= $this->lang->line('prisoners'); ?></h3>
 			<br />
 			<button class="btn btn-success" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> Add New Prisoner</button>
 			<br />
@@ -16,19 +16,19 @@
 			<table id="table" class="table table-hover" cellspacing="0" width="100%">
 				<thead>
 					<tr>
-	                    <th>Id</th>
-	                    <th>Name</th>
-	                    <th>Father Name</th>
-	                    <th>Grand Father Name</th>
-	                    <th>Age</th>
-	                    <th>Marital Status Id</th>
-	                    <th>Num of Children</th>
-	                    <th>Criminal History</th>
-	                    <th>Permanent Province Id</th>
-	                    <th>Permanent District Id</th>
-	                    <th>Present Province Id</th>
-	                    <th>Present District Id</th>
-	                    <th>Profile Pic</th>
+	                    <th><?= $this->lang->line('id'); ?></th>
+	                    <th><?= $this->lang->line('name'); ?></th>
+	                    <th><?= $this->lang->line('father_name'); ?></th>
+	                    <th><?= $this->lang->line('grand_father_name'); ?></th>
+	                    <th><?= $this->lang->line('age'); ?></th>
+	                    <th><?= $this->lang->line('marital_status'); ?></th>
+	                    <th><?= $this->lang->line('num_of_children'); ?></th>
+	                    <th><?= $this->lang->line('criminal_history'); ?></th>
+	                    <th><?= $this->lang->line('permanent_province'); ?></th>
+	                    <th><?= $this->lang->line('permanent_district'); ?></th>
+	                    <th><?= $this->lang->line('present_province'); ?></th>
+	                    <th><?= $this->lang->line('present_district'); ?></th>
+	                    <th><?= $this->lang->line('profile_pic'); ?></th>
 	                    <th>Actions</th>
 	                </tr>
 				</thead>
@@ -126,13 +126,13 @@
 						$('p#fatherName', '#modal_form_view').html(data.father_name);
 						$('p#grandFatherName', '#modal_form_view').html(data.grand_father_name);
 						$('p#age', '#modal_form_view').html(data.age);
-						$('p#maritalStatus', '#modal_form_view').html(data.marital_status_id);
+						$('p#maritalStatus', '#modal_form_view').html(data.marital_status);
 						$('p#numOfChildren', '#modal_form_view').html(data.num_of_children);
 						$('p#criminalHistory', '#modal_form_view').html(data.criminal_history===1? 'Yes': 'No');
-						$('p#permanentProvince', '#modal_form_view').html(data.permanent_province_id);
-						$('p#permanentDistrict', '#modal_form_view').html(data.permanent_district_id);
-						$('p#presentProvince', '#modal_form_view').html(data.present_province_id);
-						$('p#presentDistrict', '#modal_form_view').html(data.present_district_id);
+						$('p#permanentProvince', '#modal_form_view').html(data.permanent_province);
+						$('p#permanentDistrict', '#modal_form_view').html(data.permanent_district);
+						$('p#presentProvince', '#modal_form_view').html(data.present_province);
+						$('p#presentDistrict', '#modal_form_view').html(data.present_district);
 						
 						if(data.profile_pic !== '' && data.profile_pic !== null)
 						{
@@ -312,73 +312,73 @@
 					<div class="modal-body form">
 						<form action="#" id="form" class="form-horizontal">
 							<div class="form-group">
-								<label class="col-sm-4 control-label">ID</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('id'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="id"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Name</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('name'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="name"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Father Name</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('father_name'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="fatherName"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Grand Father Name</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('grand_father_name'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="grandFatherName"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Age</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('age'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="age"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Marital Status</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('marital_status'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="maritalStatus"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label"># of Children</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('num_of_children'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="numOfChildren"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Criminal History</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('criminal_history'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="criminalHistory"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Permanent Province</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('permanent_province'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="permanentProvince"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Permanent District</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('permanent_district'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="permanentDistrict"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Present Province</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('present_province'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="presentProvince"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Present District</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('present_district'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="presentDistrict"></p>
 								</div>
@@ -413,38 +413,38 @@
 						<form action="#" id="form" class="form-horizontal">
 							<input type="hidden" value="" name="id"/>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">ID</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('id'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="id"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-4">Name</label>
+								<label class="control-label col-md-4"><?= $this->lang->line('name'); ?></label>
 								<div class="col-md-8">
 									<input name="name" placeholder="Name" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-4">Father Name</label>
+								<label class="control-label col-md-4"><?= $this->lang->line('father_name'); ?></label>
 								<div class="col-md-8">
 									<input name="fatherName" placeholder="Father Name" class="form-control" type="text">
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Grand Father Name</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('grand_father_name'); ?></label>
 								<div class="col-sm-8">
 									<input name="grandFatherName" placeholder="Grand Father Name" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Age</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('age'); ?></label>
 								<div class="col-sm-8">
 									<input name="age" placeholder="Age" class="form-control" type="number">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-4">Marial Status</label>
+								<label class="control-label col-sm-4"><?= $this->lang->line('marital_status'); ?></label>
 								<div class="col-sm-8">
 									<select name="maritalStatus" class="form-control" class="form-control">
 										<option></option>
@@ -455,7 +455,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Num of Children</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('num_of_children'); ?></label>
 								<div class="col-sm-8">
 									<input name="numOfChildren" placeholder="Number of Children" class="form-control" type="number">
 								</div>
@@ -465,13 +465,13 @@
 								<div class="col-sm-8">
 									<div class="checkbox">
 										<label>
-											<input type="checkbox" name="criminalHistory"> Criminal History
+											<input type="checkbox" name="criminalHistory"> <?= $this->lang->line('criminal_history'); ?>
 										</label>
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-4">Permanent Province</label>
+								<label class="control-label col-sm-4"><?= $this->lang->line('permanent_province'); ?></label>
 								<div class="col-sm-8">
 									<select name="permanentProvince" class="form-control" class="form-control">
 										<option></option>
@@ -482,14 +482,14 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-4">Permanent District</label>
+								<label class="control-label col-sm-4"><?= $this->lang->line('permanent_district'); ?></label>
 								<div class="col-sm-8">
 									<select name="permanentDistrict" class="form-control" class="form-control">
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-4">Present Province</label>
+								<label class="control-label col-sm-4"><?= $this->lang->line('present_province'); ?></label>
 								<div class="col-sm-8">
 									<select name="presentProvince" class="form-control" class="form-control">
 										<option></option>
@@ -500,14 +500,14 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-4">Present District</label>
+								<label class="control-label col-sm-4"><?= $this->lang->line('present_district'); ?></label>
 								<div class="col-sm-8">
 									<select name="presentDistrict" class="form-control" class="form-control">
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-4">Profile Photo</label>
+								<label class="control-label col-sm-4"><?= $this->lang->line('profile_pic'); ?></label>
 								<div class="col-sm-8">
 									<input name="profilePic" placeholder="Number of Children" class="form-control" type="file" size="20">
 								</div>

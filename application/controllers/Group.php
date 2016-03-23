@@ -10,6 +10,10 @@ class Group extends CI_Controller {
 			redirect('/login');
 		}
 		$this->load->model('group_model');
+
+		$idiom = $this->session->userdata('language');
+		log_message('debug', 'selected language: ' . $idiom);
+		$this->lang->load($idiom, $idiom);
 	}
 
 	public function index()

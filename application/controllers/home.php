@@ -24,6 +24,10 @@ class Home extends CI_Controller {
 		if( !$this->session->userdata('isLoggedIn') ) {
 			redirect('/login');
 		}
+
+		$idiom = $this->session->userdata('language');
+		log_message('debug', 'selected language: ' . $idiom);
+		$this->lang->load($idiom, $idiom);
 	}
 
 	public function index()

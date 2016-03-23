@@ -7,23 +7,23 @@
 	<body style="padding-top: 70px;">
 		<?php $this->load->view('menu_bar'); ?>
 		<div class="container">
-			<h3>User Management</h3>
+			<h3><?= $this->lang->line('user_management'); ?></h3>
 			<br />
-			<button class="btn btn-success" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> Add New User</button>
+			<button class="btn btn-success" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> <?= $this->lang->line('add_new'); ?></button>
 			<br />
 			<br />
 			<!-- <table id="table" class="table table-striped table-hover" cellspacing="0" width="100%"> -->
 			<table id="table" class="table table-hover" cellspacing="0" width="100%">
 				<thead>
 					<tr>
-	                    <th>Id</th>
-	                    <th>Fist Name</th>
-	                    <th>Last Name</th>
-	                    <th>Username</th>
-	                    <th>Email</th>
-	                    <th>IsAdmin</th>
-	                    <th>Group Id</th>
-	                    <th>Actions</th>
+	                    <th><?= $this->lang->line('id'); ?></th>
+	                    <th><?= $this->lang->line('firstname'); ?></th>
+	                    <th><?= $this->lang->line('lastname'); ?></th>
+	                    <th><?= $this->lang->line('username'); ?></th>
+	                    <th><?= $this->lang->line('email'); ?></th>
+	                    <th><?= $this->lang->line('isadmin'); ?></th>
+	                    <th><?= $this->lang->line('group'); ?></th>
+	                    <th><?= $this->lang->line('actions'); ?></th>
 	                </tr>
 				</thead>
 				<tbody></tbody>
@@ -216,37 +216,37 @@
 					<div class="modal-body form">
 						<form action="#" id="form" class="form-horizontal">
 							<div class="form-group">
-								<label class="col-sm-3 control-label">ID</label>
+								<label class="col-sm-3 control-label"><?= $this->lang->line('id'); ?></label>
 								<div class="col-sm-9">
 									<p class="form-control-static" id="id"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">Full Name</label>
+								<label class="col-sm-3 control-label"><?= $this->lang->line('fullname'); ?></label>
 								<div class="col-sm-9">
 									<p class="form-control-static" id="name"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">Username</label>
+								<label class="col-sm-3 control-label"><?= $this->lang->line('username'); ?></label>
 								<div class="col-sm-9">
 									<p class="form-control-static" id="username"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">Email</label>
+								<label class="col-sm-3 control-label"><?= $this->lang->line('email'); ?></label>
 								<div class="col-sm-9">
 									<p class="form-control-static" id="email"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">isAdmin</label>
+								<label class="col-sm-3 control-label"><?= $this->lang->line('isadmin'); ?></label>
 								<div class="col-sm-9">
 									<p class="form-control-static" id="isAdmin"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">Group</label>
+								<label class="col-sm-3 control-label"><?= $this->lang->line('group'); ?></label>
 								<div class="col-sm-9">
 									<p class="form-control-static" id="group"></p>
 								</div>
@@ -254,7 +254,7 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal"><?= $this->lang->line('cancel'); ?></button>
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
@@ -273,32 +273,32 @@
 						<form action="#" id="form" class="form-horizontal">
 							<input type="hidden" value="" name="id"/>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">ID</label>
+								<label class="col-sm-3 control-label"><?= $this->lang->line('id'); ?></label>
 								<div class="col-sm-9">
 									<p class="form-control-static" id="id"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3">First Name</label>
+								<label class="control-label col-md-3"><?= $this->lang->line('firstname'); ?></label>
 								<div class="col-md-9">
 									<input name="firstName" placeholder="First Name" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3">Last Name</label>
+								<label class="control-label col-md-3"><?= $this->lang->line('lastname'); ?></label>
 								<div class="col-md-9">
 									<input name="lastName" placeholder="Last Name" class="form-control" type="text">
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-3 control-label">Username</label>
+								<label class="col-sm-3 control-label"><?= $this->lang->line('username'); ?></label>
 								<div class="col-sm-9">
 									<input name="username" placeholder="Username" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">Email</label>
+								<label class="col-sm-3 control-label"><?= $this->lang->line('email'); ?></label>
 								<div class="col-sm-9">
 									<input name="email" placeholder="Email" class="form-control" type="email">
 								</div>
@@ -308,13 +308,13 @@
 								<div class="col-sm-9">
 									<div class="checkbox">
 										<label>
-											<input type="checkbox" name="isAdmin"> isAdmin
+											<input type="checkbox" name="isAdmin"> <?= $this->lang->line('isadmin'); ?>
 										</label>
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-3">Group</label>
+								<label class="control-label col-sm-3"><?= $this->lang->line('group'); ?></label>
 								<div class="col-sm-9">
 									<select name="group" class="form-control" class="form-control">
 									</select>
@@ -323,8 +323,8 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" id="btnSave" onclick="save_record()" class="btn btn-primary">Save</button>
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+						<button type="button" id="btnSave" onclick="save_record()" class="btn btn-primary"><?= $this->lang->line('save'); ?></button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal"><?= $this->lang->line('cancel'); ?></button>
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->

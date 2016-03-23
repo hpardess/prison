@@ -7,25 +7,25 @@
 	<body style="padding-top: 70px;">
 		<?php $this->load->view('menu_bar'); ?>
 		<div class="container">
-			<h3>Crimes</h3>
+			<h3><?= $this->lang->line('criminal_cases'); ?></h3>
 			<br />
-			<button class="btn btn-success" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> Register New Crime</button>
+			<button class="btn btn-success" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> <?= $this->lang->line('add_new'); ?></button>
 			<br />
 			<br />
 			<!-- <table id="table" class="table table-striped table-hover" cellspacing="0" width="100%"> -->
 			<table id="table" class="table table-hover" cellspacing="0" width="100%">
 				<thead>
 					<tr>
-	                    <th>Id</th>
-	                    <th>Crime Date</th>
-	                    <th>Police Custody</th>
-	                    <th>Crime Location</th>
-	                    <th>Crime District Id</th>
-	                    <th>Crime Province Id</th>
-	                    <th>Arrest Location</th>
-	                    <th>Arrest District Id</th>
-	                    <th>Arrest Province Id</th>
-	                    <th>Actions</th>
+	                    <th><?= $this->lang->line('id'); ?></th>
+	                    <th><?= $this->lang->line('crime_date'); ?></th>
+	                    <th><?= $this->lang->line('police_custody'); ?></th>
+	                    <th><?= $this->lang->line('crime_location'); ?></th>
+	                    <th><?= $this->lang->line('crime_district'); ?></th>
+	                    <th><?= $this->lang->line('crime_province'); ?></th>
+	                    <th><?= $this->lang->line('arrest_location'); ?></th>
+	                    <th><?= $this->lang->line('arrest_district'); ?></th>
+	                    <th><?= $this->lang->line('arrest_province'); ?></th>
+	                    <th><?= $this->lang->line('actions'); ?></th>
 	                </tr>
 				</thead>
 				<tbody></tbody>
@@ -119,11 +119,11 @@
 						$('p#id', '#modal_form_view').html(data.id);
 						$('p#crimeDate', '#modal_form_view').html(data.crime_date);
 						$('p#policeCustody', '#modal_form_view').html(data.police_custody);
-						$('p#crimeProvince', '#modal_form_view').html(data.crime_province_id);
-						$('p#crimeDistrict', '#modal_form_view').html(data.crime_district_id);
+						$('p#crimeProvince', '#modal_form_view').html(data.crime_province);
+						$('p#crimeDistrict', '#modal_form_view').html(data.crime_district);
 						$('p#crimeLocation', '#modal_form_view').html(data.crime_location);
-						$('p#arrestProvince', '#modal_form_view').html(data.arrest_province_id);
-						$('p#arrestDistrict', '#modal_form_view').html(data.arrest_district_id);
+						$('p#arrestProvince', '#modal_form_view').html(data.arrest_province);
+						$('p#arrestDistrict', '#modal_form_view').html(data.arrest_district);
 						$('p#arrestLocation', '#modal_form_view').html(data.arrest_location);
 
 						$('#modal_form_view').modal('show'); // show bootstrap modal when complete loaded
@@ -247,55 +247,55 @@
 					<div class="modal-body form">
 						<form action="#" id="form" class="form-horizontal">
 							<div class="form-group">
-								<label class="col-sm-4 control-label">ID</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('id'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="id"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Crime Date</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_date'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="crimeDate"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Police Custody</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('police_custody'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="policeCustody"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Crime Province</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_province'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="crimeProvince"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Crime District</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_district'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="crimeDistrict"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Crime Location</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_location'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="crimeLocation"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Arrest Province</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_province'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="arrestProvince"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Arrest District</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_district'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="arrestDistrict"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Arrest Location</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_location'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="arrestLocation"></p>
 								</div>
@@ -303,7 +303,7 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal"><?= $this->lang->line('cancel'); ?></button>
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
@@ -322,25 +322,25 @@
 						<form action="#" id="form" class="form-horizontal">
 							<input type="hidden" value="" name="id"/>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">ID</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('id'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="id"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-4">Crime Date</label>
+								<label class="control-label col-md-4"><?= $this->lang->line('crime_date'); ?>Crime Date</label>
 								<div class="col-md-8">
 									<input name="crimeDate" placeholder="Crime Date" class="form-control" type="date">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-4">Police Custody</label>
+								<label class="control-label col-md-4"><?= $this->lang->line('police_custody'); ?></label>
 								<div class="col-md-8">
 									<input name="policeCustody" placeholder="Police Custody" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Crime Province</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_province'); ?></label>
 								<div class="col-sm-8">
 									<select name="crimeProvince" class="form-control" class="form-control">
 										<option></option>
@@ -351,20 +351,20 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Crime District</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_district'); ?></label>
 								<div class="col-sm-8">
 									<select name="crimeDistrict" class="form-control" class="form-control">
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Crime Location</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_location'); ?></label>
 								<div class="col-sm-8">
 									<input name="crimeLocation" placeholder="Crime Location" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Arrest Province</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_province'); ?></label>
 								<div class="col-sm-8">
 									<select name="arrestProvince" class="form-control" class="form-control">
 										<option></option>
@@ -375,14 +375,14 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Arrest District</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_district'); ?></label>
 								<div class="col-sm-8">
 									<select name="arrestDistrict" class="form-control" class="form-control">
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Arrest Location</label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_location'); ?></label>
 								<div class="col-sm-8">
 									<input name="arrestLocation" placeholder="Arrest Location" class="form-control" type="text">
 								</div>
@@ -390,8 +390,8 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" id="btnSave" onclick="save_record()" class="btn btn-primary">Save</button>
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+						<button type="button" id="btnSave" onclick="save_record()" class="btn btn-primary"><?= $this->lang->line('save'); ?></button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal"><?= $this->lang->line('cancel'); ?></button>
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
