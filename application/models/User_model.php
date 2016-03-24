@@ -10,8 +10,17 @@ class User_model extends CI_Model {
         parent::__construct();
     }
 
-        // get record by id
+    // get record by id
     function get_by_id($id){
+        $this->db->select('id, firstname, lastname, username, email, isadmin, groups_id');
+        $this->db->from($this->tableName);
+        $this->db->where('id',$id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    // get record by id
+    function get_by_id_with_joins($id){
         $this->db->select('id, firstname, lastname, username, email, isadmin, groups_id');
         $this->db->from($this->tableName);
         $this->db->where('id',$id);
@@ -115,7 +124,8 @@ class User_model extends CI_Model {
                 'email'=>$this->details->email,
                 'isAdmin'=>$this->details->isadmin,
                 'isLoggedIn'=>true,
-                'language'=>'english'
+                'language'=>'english',
+                'direction'=>'ltr'
             )
         );
     }

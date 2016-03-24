@@ -26,7 +26,7 @@ class User extends CI_Controller {
 	public function user_list()
 	{
 		$this->load->model("datatables_model");
-		$tableName = 'user';
+		$tableName = 'user_view';
 		$aColumns = array(
             'id',
             'firstname',
@@ -34,7 +34,7 @@ class User extends CI_Controller {
             'username',
             'email',
             'isadmin',
-            'groups_id');
+            'groups');
  
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = "id";
@@ -147,7 +147,13 @@ class User extends CI_Controller {
 
     function switch_language($language="english")
     {
+        $direction = 'ltr';
+        if($language == 'pashto' || $language == 'dari')
+        {
+            $direction = 'rtl';
+        }
         $this->session->set_userdata('language', $language);
+        $this->session->set_userdata('direction', $direction);
         // redirect($_SERVER['HTTP_REFERER']);
         echo json_encode(array("success" => TRUE));
     }

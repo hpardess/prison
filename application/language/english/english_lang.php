@@ -41,6 +41,9 @@ $lang['confirm_new_password'] = 'Confirm New Password';
 $lang['id'] = 'ID';
 $lang['actions'] = 'Actions';
 
+// datatable
+$lang['search'] = 'Search';
+
 // Prisoners
 $lang['name'] = 'Name';
 $lang['father_name'] = 'Father Name';

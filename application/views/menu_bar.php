@@ -49,7 +49,6 @@
 
     function change_language(event)
     {
-        console.log(event.currentTarget);
         $.ajax({
             url : "<?php echo site_url('user/switch_language/')?>/" + event.currentTarget.value,
             type: "GET",

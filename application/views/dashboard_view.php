@@ -2,7 +2,7 @@
 	<head>
 		<?php $this->load->view('meta'); ?>
 	</head>
-	<body style="padding-top: 70px;">
+	<body style="padding-top: 70px;" dir="<?=$this->session->userdata('direction') ?>">
 		<?php $this->load->view('menu_bar'); ?>
 		<div class="container">
 		    <h1 style="color: green", align="center">Dashboard</h1>

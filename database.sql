@@ -399,7 +399,31 @@ CREATE or REPLACE VIEW `crime_view` AS select
  order by `crime`.`id`;
 */
 
+--
+-- Structure for view `user_view`
+--
 
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_view` AS select `user`.`id` AS `id`,`user`.`firstname` AS `firstname`,`user`.`lastname` AS `lastname`,`user`.`username` AS `username`,`user`.`password` AS `password`,`user`.`email` AS `email`,`user`.`isadmin` AS `isadmin`,`user`.`groups_id` AS `groups_id`,`groups`.`group_name` AS `groups` from (`user` join `groups` on((`groups`.`id` = `user`.`groups_id`)));
+
+--
+-- VIEW  `user_view`
+-- Data: None
+--
+
+/*
+CREATE or REPLACE VIEW `user_view` AS select 
+`user`.`id` AS `id`,
+`user`.`firstname` AS `firstname`,
+`user`.`lastname` AS `lastname`,
+`user`.`username` AS `username`,
+`user`.`password` AS `password`,
+`user`.`email` AS `email`,
+`user`.`isadmin` AS `isadmin`,
+`user`.`groups_id` AS `groups_id`,
+`groups`.`group_name` AS `groups`
+ from `user`
+ INNER JOIN `groups` ON `groups`.`id`=`user`.`groups_id`;
+*/
 
 --
 -- Dumping data for table `groups`

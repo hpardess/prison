@@ -41,6 +41,9 @@ $lang['confirm_new_password'] = 'نوی پټنوم تاييد';
 $lang['id'] = 'آیډی';
 $lang['actions'] = 'کړنې';
 
+// datatable
+$lang['search'] = 'Search';
+
 // Prisoners
 $lang['name'] = 'نوم';
 $lang['father_name'] = 'دپلارنوم';

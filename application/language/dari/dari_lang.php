@@ -41,6 +41,9 @@ $lang['confirm_new_password'] = 'تایید کلمه عبور جدید';
 $lang['id'] = 'آیدی';
 $lang['actions'] = 'اعمال';
 
+// datatable
+$lang['search'] = 'Search';
+
 // Prisoners
 $lang['name'] = 'اسم';
 $lang['father_name'] = 'اسم پدر';

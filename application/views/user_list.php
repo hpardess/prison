@@ -4,16 +4,16 @@
 		<?php $this->load->view('meta'); ?>
 		
 		</head>
-	<body style="padding-top: 70px;">
+	<body style="padding-top: 70px;" dir="<?=$this->session->userdata('direction') ?>">
 		<?php $this->load->view('menu_bar'); ?>
 		<div class="container">
-			<h3><?= $this->lang->line('user_management'); ?></h3>
-			<br />
-			<button class="btn btn-success" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> <?= $this->lang->line('add_new'); ?></button>
-			<br />
-			<br />
+			<h3>
+				&nbsp;<?= $this->lang->line('user_management'); ?>&nbsp;
+				<button class="btn btn-success pull-right" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> <?= $this->lang->line('add_new'); ?></button>
+			</h3>
+			<hr />
 			<!-- <table id="table" class="table table-striped table-hover" cellspacing="0" width="100%"> -->
-			<table id="table" class="table table-hover" cellspacing="0" width="100%">
+			<table id="table" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">
 				<thead>
 					<tr>
 	                    <th><?= $this->lang->line('id'); ?></th>
@@ -30,6 +30,7 @@
 			</table>
 		</div>
 		
+		<link rel="stylesheet" href="<?php echo base_url("assets/datatables/media/css/dataTables.bootstrap.min.css"); ?>" />
 		<script src="<?php echo base_url('assets/datatables/media/js/jquery.dataTables.min.js')?>"></script>
 		<script src="<?php echo base_url('assets/datatables/media/js/dataTables.bootstrap.js')?>"></script>
 		  
@@ -46,6 +47,15 @@
                     // "bJQueryUI": true,
                     "ajax": "<?php echo site_url('user/user_list')?>",
                     // "sDom": 'T<"clear">lfrtip'
+                    language: {
+						search: "<?= $this->lang->line('search'); ?>"
+					},
+					columnDefs: [{
+						"targets": 7,
+						"searchable": false,
+						"orderable": false,
+						"width": "125px"
+					}]
                 });
             });
 
