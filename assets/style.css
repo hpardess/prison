@@ -1,3 +1,7 @@
+.container {
+	width: 100%;
+}
+
 /* DataTable */
 th { font-size: 13px; }
 td { font-size: 12px; }

@@ -21,9 +21,10 @@ class User_model extends CI_Model {
 
     // get record by id
     function get_by_id_with_joins($id){
-        $this->db->select('id, firstname, lastname, username, email, isadmin, groups_id');
+        $this->db->select('`user`.`id` AS `id`,`user`.`firstname` AS `firstname`,`user`.`lastname` AS `lastname`,`user`.`username` AS `username`,`user`.`password` AS `password`,`user`.`email` AS `email`,`user`.`isadmin` AS `isadmin`,`user`.`groups_id` AS `groups_id`,`groups`.`group_name` AS `group`');
         $this->db->from($this->tableName);
-        $this->db->where('id',$id);
+        $this->db->join('groups', 'groups.id = user.groups_id', 'inner');
+        $this->db->where($this->tableName . '.id',$id);
         $query = $this->db->get();
         return $query->row();
     }

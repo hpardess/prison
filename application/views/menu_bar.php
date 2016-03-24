@@ -10,14 +10,17 @@
             <li id="dashboard"><a href="<?= base_url() ?>index.php/dashboard"><?= $this->lang->line('dashboard'); ?></a></li>
             <li id="prisoners"><a href="<?= base_url() ?>index.php/prisoner"><?= $this->lang->line('prisoners'); ?> </a></li>
             <li id="criminal_cases"><a href="<?= base_url() ?>index.php/crime"><?= $this->lang->line('criminal_cases'); ?> </a></li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $this->lang->line('administration'); ?> <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li id="user_management"><a href="<?= base_url() ?>index.php/user"><?= $this->lang->line('user_management'); ?></a></li>
-                    <li role="separator" class="divider"></li>
-                    <li id="group_management"><a href="<?= base_url() ?>index.php/group"><?= $this->lang->line('group_management'); ?></a></li>
-                </ul>
-            </li>
+            
+            <?php if($this->session->userdata('isAdmin')) { ?>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $this->lang->line('administration'); ?> <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li id="user_management"><a href="<?= base_url() ?>index.php/user"><?= $this->lang->line('user_management'); ?></a></li>
+                        <li role="separator" class="divider"></li>
+                        <li id="group_management"><a href="<?= base_url() ?>index.php/group"><?= $this->lang->line('group_management'); ?></a></li>
+                    </ul>
+                </li>
+            <?php } ?>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">

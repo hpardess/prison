@@ -34,7 +34,7 @@ class User extends CI_Controller {
             'username',
             'email',
             'isadmin',
-            'groups');
+            'group');
  
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = "id";
