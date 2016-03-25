@@ -403,7 +403,7 @@ CREATE or REPLACE VIEW `crime_view` AS select
 -- Structure for view `user_view`
 --
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_view` AS select `user`.`id` AS `id`,`user`.`firstname` AS `firstname`,`user`.`lastname` AS `lastname`,`user`.`username` AS `username`,`user`.`password` AS `password`,`user`.`email` AS `email`,`user`.`isadmin` AS `isadmin`,`user`.`groups_id` AS `groups_id`,`groups`.`group_name` AS `group` from (`user` join `groups` on((`groups`.`id` = `user`.`groups_id`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_view` AS select `user`.`id` AS `id`,`user`.`firstname` AS `firstname`,`user`.`lastname` AS `lastname`,`user`.`username` AS `username`,`user`.`password` AS `password`,`user`.`email` AS `email`,`user`.`isadmin` AS `isadmin`,`user`.`groups_id` AS `groups_id`,`groups`.`group_name` AS `group_name` from (`user` join `groups` on((`groups`.`id` = `user`.`groups_id`)));
 
 --
 -- VIEW  `user_view`
@@ -420,7 +420,7 @@ CREATE or REPLACE VIEW `user_view` AS select
 `user`.`email` AS `email`,
 `user`.`isadmin` AS `isadmin`,
 `user`.`groups_id` AS `groups_id`,
-`groups`.`group_name` AS `group`
+`groups`.`group_name` AS `group_name`
  from `user`
  INNER JOIN `groups` ON `groups`.`id`=`user`.`groups_id`;
 */
