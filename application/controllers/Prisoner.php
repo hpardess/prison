@@ -130,7 +130,7 @@ class Prisoner extends CI_Controller {
                 // 'profile_pic' => $this->input->post('profilePic')
             );
         $record_id = $this->prisoner_model->create($data);
-        log_message('debug', 'insert ID: ' . $insert_id);
+        log_message('debug', 'insert ID: ' . $record_id);
 
 		if ($this->db->trans_status() === FALSE)
 		{
@@ -259,7 +259,7 @@ class Prisoner extends CI_Controller {
     	// File upload config
 		$config['upload_path'] = './photos/';
 		$config['allowed_types'] = 'gif|jpg|png';
-		$config['max_size']     = '2000';
+		$config['max_size']     = '4000';
 		$config['max_width'] = '1024';
 		$config['max_height'] = '768';
 		$config['overwrite'] = TRUE;
