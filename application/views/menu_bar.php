@@ -10,6 +10,7 @@
             <li id="dashboard"><a href="<?= base_url() ?>index.php/dashboard"><?= $this->lang->line('dashboard'); ?></a></li>
             <li id="prisoners"><a href="<?= base_url() ?>index.php/prisoner"><?= $this->lang->line('prisoners'); ?> </a></li>
             <li id="criminal_cases"><a href="<?= base_url() ?>index.php/crime"><?= $this->lang->line('criminal_cases'); ?> </a></li>
+            <li id="court_session"><a href="<?= base_url() ?>index.php/court_session"><?= $this->lang->line('court_session'); ?> </a></li>
             
             <?php if($this->session->userdata('isAdmin')) { ?>
                 <li class="dropdown">

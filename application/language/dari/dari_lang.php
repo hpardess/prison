@@ -19,6 +19,7 @@ $lang['home'] = 'خانه';
 $lang['dashboard'] = 'داشبورد';
 $lang['prisoners'] = 'زندانیان';
 $lang['criminal_cases'] = 'پرونده های جنایی';
+$lang['court_session'] = 'Court Session';
 $lang['administration'] = 'مدیریت';
 $lang['user_management'] = 'مدیریت کاربر';
 $lang['group_management'] = 'مدیریت گروه';
@@ -67,6 +68,13 @@ $lang['crime_province'] = 'ولایت جرم و جنایت';
 $lang['arrest_location'] = 'محل بازداشت';
 $lang['arrest_district'] = 'ولسوالی بازداشت';
 $lang['arrest_province'] = 'ولایت بازداشت';
+
+// Court Session
+$lang['crime_id'] = 'Crime Id';
+$lang['court_decision_type'] = 'Court Decision Type';
+$lang['date'] = 'Date';
+$lang['defence_lawyer_name'] = 'Defence Lawyer Name';
+$lang['defence_lawyer_certificate_id'] = 'Defence Lawyer Certificate Id';
 
 // Users
 $lang['firstname'] = 'نام';

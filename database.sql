@@ -425,6 +425,32 @@ CREATE or REPLACE VIEW `user_view` AS select
  INNER JOIN `groups` ON `groups`.`id`=`user`.`groups_id`;
 */
 
+
+--
+-- Structure for view `court_session_view`
+--
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `court_session_view` AS select `court_session`.`id` AS `id`,`court_session`.`crime_id` AS `crime_id`,`court_session`.`court_decision_type_id` AS `court_decision_type_id`,`court_decision_type`.`decision_type_name` AS `court_decision_type`,`court_session`.`date` AS `date`,`court_session`.`defence_lawyer_name` AS `defence_lawyer_name`,`court_session`.`defence_lawyer_certificate_id` AS `defence_lawyer_certificate_id` from (`court_session` join `court_decision_type` on((`court_decision_type`.`id` = `court_session`.`court_decision_type_id`)));
+
+--
+-- VIEW  `court_session_view`
+-- Data: None
+--
+
+/*
+CREATE or REPLACE VIEW `court_session_view` AS select 
+`court_session`.`id` AS `id`,
+`court_session`.`crime_id` AS `crime_id`,
+`court_session`.`court_decision_type_id` AS `court_decision_type_id`,
+`court_decision_type`.`decision_type_name` AS `court_decision_type`,
+`court_session`.`date` AS `date`,
+`court_session`.`defence_lawyer_name` AS `defence_lawyer_name`,
+`court_session`.`defence_lawyer_certificate_id` AS `defence_lawyer_certificate_id`
+ from `court_session`
+INNER JOIN `court_decision_type` ON `court_decision_type`.id =  `court_session`.`court_decision_type_id`;
+
+*/
+
 --
 -- Dumping data for table `groups`
 --
@@ -910,3 +936,13 @@ INSERT INTO `district` (`id`, `name`, `province_id`) VALUES
 (401, 'Miramor', 34),
 (402, 'Sangi Takht', 34),
 (403, 'Shahristan', 34);
+
+
+--
+-- Dumping data for table `court_decision_type`
+--
+
+INSERT INTO `court_decision_type` (`id`, `decision_type_name`) VALUES
+(1, 'فیصله ابتدایی'),
+(2, 'فیصله استیناف'),
+(3, 'فیصله تمیز');

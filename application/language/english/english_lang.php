@@ -19,6 +19,7 @@ $lang['home'] = 'Home';
 $lang['dashboard'] = 'Dashboard';
 $lang['prisoners'] = 'Prisoners';
 $lang['criminal_cases'] = 'Criminal Cases';
+$lang['court_session'] = 'Court Session';
 $lang['administration'] = 'Administration';
 $lang['user_management'] = 'User Management';
 $lang['group_management'] = 'Group Management';
@@ -67,6 +68,13 @@ $lang['crime_province'] = 'Crime Province';
 $lang['arrest_location'] = 'Arrest Location';
 $lang['arrest_district'] = 'Arrest District';
 $lang['arrest_province'] = 'Arrest Province';
+
+// Court Session
+$lang['crime_id'] = 'Crime Id';
+$lang['court_decision_type'] = 'Court Decision Type';
+$lang['date'] = 'Date';
+$lang['defence_lawyer_name'] = 'Defence Lawyer Name';
+$lang['defence_lawyer_certificate_id'] = 'Defence Lawyer Certificate Id';
 
 // Users
 $lang['firstname'] = 'First Name';

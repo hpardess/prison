@@ -19,6 +19,7 @@ $lang['home'] = 'کور';
 $lang['dashboard'] = 'ډشبورډ';
 $lang['prisoners'] = 'بندیان';
 $lang['criminal_cases'] = 'جنایي پېښو';
+$lang['court_session'] = 'Court Session';
 $lang['administration'] = 'اداره';
 $lang['user_management'] = 'د کارونکي مدیریت';
 $lang['group_management'] = 'ډلې سمبالنه';
@@ -67,6 +68,13 @@ $lang['crime_province'] = 'جرم ولايت';
 $lang['arrest_location'] = 'نيولو ځای';
 $lang['arrest_district'] = 'نيولو ولسوالۍ';
 $lang['arrest_province'] = 'نيولو ولايت';
+
+// Court Session
+$lang['crime_id'] = 'Crime Id';
+$lang['court_decision_type'] = 'Court Decision Type';
+$lang['date'] = 'Date';
+$lang['defence_lawyer_name'] = 'Defence Lawyer Name';
+$lang['defence_lawyer_certificate_id'] = 'Defence Lawyer Certificate Id';
 
 // Users
 $lang['firstname'] = 'اول نوم';

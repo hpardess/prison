@@ -8,7 +8,7 @@
 		<?php $this->load->view('menu_bar'); ?>
 		<div class="container">
 			<h3>
-				&nbsp;<?= $this->lang->line('criminal_cases'); ?>&nbsp;
+				&nbsp;<?= $this->lang->line('court_session'); ?>&nbsp;
 				<button class="btn btn-success pull-right" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> <?= $this->lang->line('add_new'); ?></button>
 			</h3>
 			<hr />
@@ -17,14 +17,11 @@
 				<thead>
 					<tr>
 	                    <th><?= $this->lang->line('id'); ?></th>
-	                    <th><?= $this->lang->line('crime_date'); ?></th>
-	                    <th><?= $this->lang->line('police_custody'); ?></th>
-	                    <th><?= $this->lang->line('crime_location'); ?></th>
-	                    <th><?= $this->lang->line('crime_district'); ?></th>
-	                    <th><?= $this->lang->line('crime_province'); ?></th>
-	                    <th><?= $this->lang->line('arrest_location'); ?></th>
-	                    <th><?= $this->lang->line('arrest_district'); ?></th>
-	                    <th><?= $this->lang->line('arrest_province'); ?></th>
+	                    <th><?= $this->lang->line('crime_id'); ?></th>
+	                    <th><?= $this->lang->line('court_decision_type'); ?></th>
+	                    <th><?= $this->lang->line('date'); ?></th>
+	                    <th><?= $this->lang->line('defence_lawyer_name'); ?></th>
+	                    <th><?= $this->lang->line('defence_lawyer_certificate_id'); ?></th>
 	                    <th><?= $this->lang->line('actions'); ?></th>
 	                </tr>
 				</thead>
@@ -40,51 +37,51 @@
 		<script type= 'text/javascript'>
 			var save_method; //for save method string
 		    var oTable;
-		    var provincesList = <?= json_encode($provincesList) ?>;
-		    var districtsList = <?= json_encode($districtsList) ?>;
+		    var courtDecisionTypeList = <?= json_encode($courtDecisionTypeList) ?>;
 
             $(document).ready(function () {
-            	$("li#criminal_cases", ".navbar-nav").addClass("active");
+            	$("li#court_session", ".navbar-nav").addClass("active");
+            	$("input[type='date']").datepicker();
             	
                 oTable = $('#table').DataTable({
                     "processing": true,
                     "serverSide": true,
                     // "bJQueryUI": true,
-                    "ajax": "<?php echo site_url('crime/crime_list')?>",
+                    "ajax": "<?php echo site_url('court_session/court_session_list')?>",
                     // "sDom": 'T<"clear">lfrtip'
                     language: {
 						search: "<?= $this->lang->line('search'); ?>"
 					},
 					columnDefs: [{
-						"targets": 9,
+						"targets": 6,
 						"searchable": false,
 						"orderable": false,
 						"width": "125px"
 					}]
                 });
 
-                $('[name="crimeProvince"]', '#modal_form_edit').change(function(event) {
-                	render_district_list(get_district_list(event.currentTarget.value), $('[name="crimeDistrict"]', '#modal_form_edit'));
-                });
+                // $('[name="crimeProvince"]', '#modal_form_edit').change(function(event) {
+                // 	render_district_list(get_district_list(event.currentTarget.value), $('[name="crimeDistrict"]', '#modal_form_edit'));
+                // });
 
-                $('[name="arrestProvince"]', '#modal_form_edit').change(function(event) {
-                	render_district_list(get_district_list(event.currentTarget.value), $('[name="arrestDistrict"]', '#modal_form_edit'));
-                });
+                // $('[name="arrestProvince"]', '#modal_form_edit').change(function(event) {
+                // 	render_district_list(get_district_list(event.currentTarget.value), $('[name="arrestDistrict"]', '#modal_form_edit'));
+                // });
             });
 
-            function get_district_list(province_id)
-            {
-            	return _.where(districtsList, {"province_id": province_id});
-            }
+    //         function get_district_list(province_id)
+    //         {
+    //         	return _.where(districtsList, {"province_id": province_id});
+    //         }
 
-            function render_district_list(district_list, selectEl)
-            {
-            	$(selectEl).empty();
-            	$('<option>').appendTo(selectEl);
-            	$.each(district_list, function(index, value) {
-					$('<option>').attr('value', value.id).html(value.name).appendTo(selectEl);
-				});
-            }
+    //         function render_district_list(district_list, selectEl)
+    //         {
+    //         	$(selectEl).empty();
+    //         	$('<option>').appendTo(selectEl);
+    //         	$.each(district_list, function(index, value) {
+				// 	$('<option>').attr('value', value.id).html(value.name).appendTo(selectEl);
+				// });
+    //         }
 
 			function new_record()
 			{
@@ -121,20 +118,17 @@
 
 				//Ajax Load data from ajax
 				$.ajax({
-					url : "<?php echo site_url('crime/view/')?>/" + id,
+					url : "<?php echo site_url('court_session/view/')?>/" + id,
 					type: "GET",
 					dataType: "JSON",
 					success: function(data)
 					{
 						$('p#id', '#modal_form_view').html(data.id);
-						$('p#crimeDate', '#modal_form_view').html(data.crime_date);
-						$('p#policeCustody', '#modal_form_view').html(data.police_custody);
-						$('p#crimeProvince', '#modal_form_view').html(data.crime_province);
-						$('p#crimeDistrict', '#modal_form_view').html(data.crime_district);
-						$('p#crimeLocation', '#modal_form_view').html(data.crime_location);
-						$('p#arrestProvince', '#modal_form_view').html(data.arrest_province);
-						$('p#arrestDistrict', '#modal_form_view').html(data.arrest_district);
-						$('p#arrestLocation', '#modal_form_view').html(data.arrest_location);
+						$('p#crimeId', '#modal_form_view').html(data.crime_id);
+						$('p#courtDecisionType', '#modal_form_view').html(data.court_decision_type);
+						$('p#date', '#modal_form_view').html(data.date);
+						$('p#defenceLawyerName', '#modal_form_view').html(data.defence_lawyer_name);
+						$('p#defenceLawyerCertificateId', '#modal_form_view').html(data.defence_lawyer_certificate_id);
 
 						$('#modal_form_view').modal('show'); // show bootstrap modal when complete loaded
 					},
@@ -155,26 +149,21 @@
 
 				//Ajax Load data from ajax
 				$.ajax({
-					url : "<?php echo site_url('crime/edit/')?>/" + id,
+					url : "<?php echo site_url('court_session/edit/')?>/" + id,
 					type: "GET",
 					dataType: "JSON",
 					success: function(data)
 					{
-						$('p#id', '#modal_form_edit').html(data.crime.id);
-						$('[name="id"]', '#modal_form_edit').val(data.crime.id);
-						$('[name="crimeDate"]', '#modal_form_edit').val(data.crime.crime_date);
-						$('[name="policeCustody"]', '#modal_form_edit').val(data.crime.police_custody);
-						$('[name="crimeProvince"]', '#modal_form_edit').val(data.crime.crime_province_id);
-						var crimeDistrictsSelectEl = $('[name="crimeDistrict"]', '#modal_form_edit');
-						render_district_list(data.crimeDistricts, crimeDistrictsSelectEl);
-						$('[name="crimeDistrict"]', '#modal_form_edit').val(data.crime.crime_district_id);
-						$('[name="crimeLocation"]', '#modal_form_edit').val(data.crime.crime_location);
-						$('[name="arrestProvince"]', '#modal_form_edit').val(data.crime.arrest_province_id);
-						var arrestDistrictsSelectEl = $('[name="arrestDistrict"]', '#modal_form_edit');
-						render_district_list(data.arrestDistricts, arrestDistrictsSelectEl);
-						$('[name="arrestDistrict"]', '#modal_form_edit').val(data.crime.arrest_district_id);
-						$('[name="arrestLocation"]', '#modal_form_edit').val(data.crime.arrest_location);
-
+						$('p#id', '#modal_form_edit').html(data.courtSession.id);
+						$('[name="id"]', '#modal_form_edit').val(data.courtSession.id);
+						$('[name="crimeId"]', '#modal_form_edit').val(data.courtSession.crime_id);
+						$('[name="courtDecisionType"]', '#modal_form_edit').val(data.courtSession.court_decision_type_id);
+						$('[name="date"]', '#modal_form_edit').val(data.courtSession.date);
+						// var crimeDistrictsSelectEl = $('[name="crimeDistrict"]', '#modal_form_edit');
+						// render_district_list(data.crimeDistricts, crimeDistrictsSelectEl);
+						$('[name="defenceLawyerName"]', '#modal_form_edit').val(data.courtSession.defence_lawyer_name);
+						$('[name="defenceLawyerCertificateId"]', '#modal_form_edit').val(data.courtSession.defence_lawyer_certificate_id);
+						
 						$('#modal_form_edit').modal('show'); // show bootstrap modal when complete loaded
 						$('.modal-title', '#modal_form_edit').text('Edit User'); // Set Title to Bootstrap modal title
 					},
@@ -191,7 +180,7 @@
 				{
 					// ajax delete data to database
 					$.ajax({
-						url : "<?php echo site_url('crime/delete')?>/"+id,
+						url : "<?php echo site_url('court_session/delete')?>/"+id,
 						type: "POST",
 						dataType: "JSON",
 						success: function(data)
@@ -219,11 +208,11 @@
 				var url;
 				if(save_method == 'new')
 				{
-					url = "<?php echo site_url('crime/add')?>";
+					url = "<?php echo site_url('court_session/add')?>";
 				}
 				else
 				{
-					url = "<?php echo site_url('crime/update')?>";
+					url = "<?php echo site_url('court_session/update')?>";
 				}
 
 				// ajax adding data to database
@@ -263,51 +252,33 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_date'); ?></label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_id'); ?></label>
 								<div class="col-sm-8">
-									<p class="form-control-static" id="crimeDate"></p>
+									<p class="form-control-static" id="crimeId"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('police_custody'); ?></label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('court_decision_type'); ?></label>
 								<div class="col-sm-8">
-									<p class="form-control-static" id="policeCustody"></p>
+									<p class="form-control-static" id="courtDecisionType"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_province'); ?></label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('date'); ?></label>
 								<div class="col-sm-8">
-									<p class="form-control-static" id="crimeProvince"></p>
+									<p class="form-control-static" id="date"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_district'); ?></label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('defence_lawyer_name'); ?></label>
 								<div class="col-sm-8">
-									<p class="form-control-static" id="crimeDistrict"></p>
+									<p class="form-control-static" id="defenceLawyerName"></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_location'); ?></label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('defence_lawyer_certificate_id'); ?></label>
 								<div class="col-sm-8">
-									<p class="form-control-static" id="crimeLocation"></p>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_province'); ?></label>
-								<div class="col-sm-8">
-									<p class="form-control-static" id="arrestProvince"></p>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_district'); ?></label>
-								<div class="col-sm-8">
-									<p class="form-control-static" id="arrestDistrict"></p>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_location'); ?></label>
-								<div class="col-sm-8">
-									<p class="form-control-static" id="arrestLocation"></p>
+									<p class="form-control-static" id="defenceLawyerCertificateId"></p>
 								</div>
 							</div>
 						</form>
@@ -338,63 +309,38 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-4"><?= $this->lang->line('crime_date'); ?></label>
+								<label class="control-label col-md-4"><?= $this->lang->line('crime_id'); ?></label>
 								<div class="col-md-8">
-									<input name="crimeDate" placeholder="Crime Date" class="form-control" type="date">
+									<input name="crimeId" placeholder="Crime Id" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-4"><?= $this->lang->line('police_custody'); ?></label>
+								<label class="control-label col-md-4"><?= $this->lang->line('court_decision_type'); ?></label>
 								<div class="col-md-8">
-									<input name="policeCustody" placeholder="Police Custody" class="form-control" type="text">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_province'); ?></label>
-								<div class="col-sm-8">
-									<select name="crimeProvince" class="form-control" class="form-control">
+									<select name="courtDecisionType" class="form-control" class="form-control">
 										<option></option>
-										<?php foreach ($provincesList as $key => $value) {
-											echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
+										<?php foreach ($courtDecisionTypeList as $key => $value) {
+											echo "<option value='" . $value->id . "'>" . $value->decision_type_name . "</option>";
 										} ?>
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_district'); ?></label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('date'); ?></label>
 								<div class="col-sm-8">
-									<select name="crimeDistrict" class="form-control" class="form-control">
-									</select>
+									<input name="date" placeholder="Date" class="form-control" type="date">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_location'); ?></label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('defence_lawyer_name'); ?></label>
 								<div class="col-sm-8">
-									<input name="crimeLocation" placeholder="Crime Location" class="form-control" type="text">
+									<input name="defenceLawyerName" placeholder="defence Lawyer Name" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_province'); ?></label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('defence_lawyer_certificate_id'); ?></label>
 								<div class="col-sm-8">
-									<select name="arrestProvince" class="form-control" class="form-control">
-										<option></option>
-										<?php foreach ($provincesList as $key => $value) {
-											echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
-										} ?>
-									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_district'); ?></label>
-								<div class="col-sm-8">
-									<select name="arrestDistrict" class="form-control" class="form-control">
-									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_location'); ?></label>
-								<div class="col-sm-8">
-									<input name="arrestLocation" placeholder="Arrest Location" class="form-control" type="text">
+									<input name="defenceLawyerCertificateId" placeholder="defence Lawyer Certificate Id" class="form-control" type="text">
 								</div>
 							</div>
 						</form>
