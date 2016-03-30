@@ -6,11 +6,11 @@ $lang['close'] = 'تړل';
 $lang['view'] = 'وګورئ';
 $lang['edit'] = 'سمول';
 $lang['delete'] = 'لرې';
-$lang['lock'] = 'Lock';
-$lang['update'] = 'Update';
+$lang['lock'] = 'لاک';
+$lang['update'] = 'تازه';
 $lang['add_new'] = 'نوې اضافه';
 $lang['new'] = 'نوې';
-$lang['unlock'] = 'Unlock';
+$lang['unlock'] = 'خلاص کړۍ';
 $lang['login'] = 'د ننه کیدل';
 
 // nav-bar menu
@@ -19,7 +19,7 @@ $lang['home'] = 'کور';
 $lang['dashboard'] = 'ډشبورډ';
 $lang['prisoners'] = 'بندیان';
 $lang['criminal_cases'] = 'جنایي پېښو';
-$lang['court_session'] = 'Court Session';
+$lang['court_session'] = 'د محکمی غونده';
 $lang['administration'] = 'اداره';
 $lang['user_management'] = 'د کارونکي مدیریت';
 $lang['group_management'] = 'ډلې سمبالنه';
@@ -43,7 +43,7 @@ $lang['id'] = 'آیډی';
 $lang['actions'] = 'کړنې';
 
 // datatable
-$lang['search'] = 'Search';
+$lang['search'] = 'د لټون';
 
 // Prisoners
 $lang['name'] = 'نوم';
@@ -71,12 +71,12 @@ $lang['arrest_district'] = 'نيولو ولسوالۍ';
 $lang['arrest_province'] = 'نيولو ولايت';
 
 // Court Session
-$lang['crime_id'] = 'Crime Id';
-$lang['court_decision_type'] = 'Court Decision Type';
-$lang['decision_date'] = 'Decision Date';
+$lang['crime_id'] = 'جرمونه شمیر';
+$lang['court_decision_type'] = 'د محکمې د فیصلې ډول';
+$lang['decision_date'] = 'نیټه';
 $lang['decision'] = 'Decision';
-$lang['defence_lawyer_name'] = 'Defence Lawyer Name';
-$lang['defence_lawyer_certificate_id'] = 'Defence Lawyer Certificate Id';
+$lang['defence_lawyer_name'] = 'د دفاع وکیل نوم';
+$lang['defence_lawyer_certificate_id'] = 'د دفاع وکیل سند شمیره';
 $lang['sentence_execution_date'] = 'Sentence Execution Date';
 
 // Users
@@ -92,12 +92,12 @@ $lang['password'] = 'رمز';
 // Groups
 $lang['group_name'] = 'ډلې نوم';
 $lang['prisoner_new'] = 'بندي نوي';
-$lang['prisoner_view'] = 'prisoner_view';
-$lang['prisoner_edit'] = 'prisoner_edit';
-$lang['prisoner_delete'] = 'prisoner_delete';
-$lang['prisoner_unlock'] = 'prisoner_unlock';
+$lang['prisoner_view'] = 'زندان د بندیانو محتویات';
+$lang['prisoner_edit'] = 'زندان د بندیانو سمول';
+$lang['prisoner_delete'] = 'زندان د بندیانو د ړنګولو';
+$lang['prisoner_unlock'] = 'زندان د بندیانو خلاص کړئ';
 $lang['crime_new'] = 'نوي جرم';
-$lang['crime_view'] = 'crime_view';
-$lang['crime_edit'] = 'crime_edit';
-$lang['crime_delete'] = 'crime_delete';
-$lang['crime_unlock'] = 'crime_unlock';
+$lang['crime_view'] = 'جرمونه محتویات';
+$lang['crime_edit'] = 'جرمونه سمول';
+$lang['crime_delete'] = 'جرمونه رنکول';
+$lang['crime_unlock'] = 'جرمونه خلاص کړئ';
