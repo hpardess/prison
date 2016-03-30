@@ -61,6 +61,7 @@ $lang['profile_pic'] = 'تصویر';
 
 // Crime
 $lang['crime_date'] = ' جرم تاریخ';
+$lang['case_number'] = 'Case Number';
 $lang['police_custody'] = 'بازداشت پلیس';
 $lang['crime_location'] = 'محل جرم و جنایت';
 $lang['crime_district'] = 'ولسوالی جرم و جنایت';
@@ -72,9 +73,11 @@ $lang['arrest_province'] = 'ولایت بازداشت';
 // Court Session
 $lang['crime_id'] = 'Crime Id';
 $lang['court_decision_type'] = 'Court Decision Type';
-$lang['date'] = 'Date';
+$lang['decision_date'] = 'Decision Date';
+$lang['decision'] = 'Decision';
 $lang['defence_lawyer_name'] = 'Defence Lawyer Name';
 $lang['defence_lawyer_certificate_id'] = 'Defence Lawyer Certificate Id';
+$lang['sentence_execution_date'] = 'Sentence Execution Date';
 
 // Users
 $lang['firstname'] = 'نام';

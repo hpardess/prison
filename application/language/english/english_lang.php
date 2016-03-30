@@ -61,6 +61,7 @@ $lang['profile_pic'] = 'Profile Photo';
 
 // Crime
 $lang['crime_date'] = 'Crime Date';
+$lang['case_number'] = 'Case Number';
 $lang['police_custody'] = 'Police Custody';
 $lang['crime_location'] = 'Crime Location';
 $lang['crime_district'] = 'Crime District';
@@ -72,9 +73,11 @@ $lang['arrest_province'] = 'Arrest Province';
 // Court Session
 $lang['crime_id'] = 'Crime Id';
 $lang['court_decision_type'] = 'Court Decision Type';
-$lang['date'] = 'Date';
+$lang['decision_date'] = 'Decision Date';
+$lang['decision'] = 'Decision';
 $lang['defence_lawyer_name'] = 'Defence Lawyer Name';
 $lang['defence_lawyer_certificate_id'] = 'Defence Lawyer Certificate Id';
+$lang['sentence_execution_date'] = 'Sentence Execution Date';
 
 // Users
 $lang['firstname'] = 'First Name';

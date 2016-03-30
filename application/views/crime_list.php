@@ -17,6 +17,7 @@
 				<thead>
 					<tr>
 	                    <th><?= $this->lang->line('id'); ?></th>
+	                    <th><?= $this->lang->line('case_number'); ?></th>
 	                    <th><?= $this->lang->line('crime_date'); ?></th>
 	                    <th><?= $this->lang->line('police_custody'); ?></th>
 	                    <th><?= $this->lang->line('crime_location'); ?></th>
@@ -127,6 +128,7 @@
 					success: function(data)
 					{
 						$('p#id', '#modal_form_view').html(data.id);
+						$('p#caseNumber', '#modal_form_view').html(data.case_number);
 						$('p#crimeDate', '#modal_form_view').html(data.crime_date);
 						$('p#policeCustody', '#modal_form_view').html(data.police_custody);
 						$('p#crimeProvince', '#modal_form_view').html(data.crime_province);
@@ -162,6 +164,7 @@
 					{
 						$('p#id', '#modal_form_edit').html(data.crime.id);
 						$('[name="id"]', '#modal_form_edit').val(data.crime.id);
+						$('[name="caseNumber"]', '#modal_form_edit').val(data.crime.case_number);
 						$('[name="crimeDate"]', '#modal_form_edit').val(data.crime.crime_date);
 						$('[name="policeCustody"]', '#modal_form_edit').val(data.crime.police_custody);
 						$('[name="crimeProvince"]', '#modal_form_edit').val(data.crime.crime_province_id);
@@ -263,6 +266,12 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('case_number'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="caseNumber"></p>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_date'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="crimeDate"></p>
@@ -335,6 +344,12 @@
 								<label class="col-sm-4 control-label"><?= $this->lang->line('id'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="id"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-4"><?= $this->lang->line('case_number'); ?></label>
+								<div class="col-md-8">
+									<input name="caseNumber" placeholder="Case Number" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">

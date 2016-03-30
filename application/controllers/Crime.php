@@ -12,6 +12,7 @@ class Crime extends CI_Controller {
 		$this->load->model('crime_model');
 		$this->load->model("province_model");
 		$this->load->model('district_model');
+		$this->load->library('my_authentication');
 
 		$idiom = $this->session->userdata('language');
 		log_message('debug', 'selected language: ' . $idiom);
@@ -32,6 +33,7 @@ class Crime extends CI_Controller {
 
 		$aColumns = array(
 			'id',
+			'case_number',
 			'crime_date',
 			'police_custody',
 			'crime_location',
@@ -74,6 +76,11 @@ class Crime extends CI_Controller {
 
 	public function edit($id)
 	{
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'crime_edit'))
+		{
+			log_message('DEBUG', 'crime edit false');
+		}
+
 		$crime = $this->crime_model->get_by_id($id);
 
 		$result = array();
@@ -95,6 +102,7 @@ class Crime extends CI_Controller {
     {
         $data = array(
                 'crime_date' => $this->input->post('crimeDate'),
+                'case_number' => $this->input->post('caseNumber'),
                 'police_custody' => $this->input->post('policeCustody'),
                 'crime_province_id' => $this->input->post('crimeProvince'),
                 'crime_district_id' => $this->input->post('crimeDistrict'),
@@ -112,6 +120,7 @@ class Crime extends CI_Controller {
     public function update()
     {
         $data = array(
+        		'case_number' => $this->input->post('caseNumber'),
                 'crime_date' => $this->input->post('crimeDate'),
                 'police_custody' => $this->input->post('policeCustody'),
                 'crime_province_id' => $this->input->post('crimeProvince'),

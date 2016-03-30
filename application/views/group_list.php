@@ -248,7 +248,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3"><?= $this->lang->line('prisoner'); ?></label>
+								<label class="control-label col-md-3"><?= $this->lang->line('prisoners'); ?></label>
 								<div class="col-md-9">
 									<label class="checkbox-inline">
 										<i class="glyphicon" id="prisoner_new"></i> <?= $this->lang->line('new'); ?>
@@ -268,7 +268,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3"><?= $this->lang->line('crime'); ?></label>
+								<label class="control-label col-md-3"><?= $this->lang->line('criminal_cases'); ?></label>
 								<div class="col-md-9">
 									<label class="checkbox-inline">
 										<i class="glyphicon" id="crime_new"></i> <?= $this->lang->line('new'); ?>
@@ -321,7 +321,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3"><?= $this->lang->line('prisoner'); ?></label>
+								<label class="control-label col-md-3"><?= $this->lang->line('prisoners'); ?></label>
 								<div class="col-md-9">
 									<label class="checkbox-inline">
 										<input type="checkbox" name="prisoner_new"> <?= $this->lang->line('new'); ?>
@@ -341,7 +341,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3"><?= $this->lang->line('crime'); ?></label>
+								<label class="control-label col-md-3"><?= $this->lang->line('criminal_cases'); ?></label>
 								<div class="col-md-9">
 									<label class="checkbox-inline">
 										<input type="checkbox" name="crime_new"> <?= $this->lang->line('new'); ?>

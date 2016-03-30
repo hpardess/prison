@@ -19,9 +19,11 @@
 	                    <th><?= $this->lang->line('id'); ?></th>
 	                    <th><?= $this->lang->line('crime_id'); ?></th>
 	                    <th><?= $this->lang->line('court_decision_type'); ?></th>
-	                    <th><?= $this->lang->line('date'); ?></th>
+	                    <th><?= $this->lang->line('decision_date'); ?></th>
+	                    <th><?= $this->lang->line('decision'); ?></th>
 	                    <th><?= $this->lang->line('defence_lawyer_name'); ?></th>
 	                    <th><?= $this->lang->line('defence_lawyer_certificate_id'); ?></th>
+	                    <th><?= $this->lang->line('sentence_execution_date'); ?></th>
 	                    <th><?= $this->lang->line('actions'); ?></th>
 	                </tr>
 				</thead>
@@ -126,9 +128,11 @@
 						$('p#id', '#modal_form_view').html(data.id);
 						$('p#crimeId', '#modal_form_view').html(data.crime_id);
 						$('p#courtDecisionType', '#modal_form_view').html(data.court_decision_type);
-						$('p#date', '#modal_form_view').html(data.date);
+						$('p#decisionDate', '#modal_form_view').html(data.decision_date);
+						$('p#decision', '#modal_form_view').html(data.decision);
 						$('p#defenceLawyerName', '#modal_form_view').html(data.defence_lawyer_name);
 						$('p#defenceLawyerCertificateId', '#modal_form_view').html(data.defence_lawyer_certificate_id);
+						$('p#sentenceExecutionDate', '#modal_form_view').html(data.sentence_execution_date);
 
 						$('#modal_form_view').modal('show'); // show bootstrap modal when complete loaded
 					},
@@ -158,11 +162,13 @@
 						$('[name="id"]', '#modal_form_edit').val(data.courtSession.id);
 						$('[name="crimeId"]', '#modal_form_edit').val(data.courtSession.crime_id);
 						$('[name="courtDecisionType"]', '#modal_form_edit').val(data.courtSession.court_decision_type_id);
-						$('[name="date"]', '#modal_form_edit').val(data.courtSession.date);
+						$('[name="decisionDate"]', '#modal_form_edit').val(data.courtSession.decision_date);
+						$('[name="decision"]', '#modal_form_edit').val(data.courtSession.decision);
 						// var crimeDistrictsSelectEl = $('[name="crimeDistrict"]', '#modal_form_edit');
 						// render_district_list(data.crimeDistricts, crimeDistrictsSelectEl);
 						$('[name="defenceLawyerName"]', '#modal_form_edit').val(data.courtSession.defence_lawyer_name);
 						$('[name="defenceLawyerCertificateId"]', '#modal_form_edit').val(data.courtSession.defence_lawyer_certificate_id);
+						$('[name="sentenceExecutionDate"]', '#modal_form_edit').val(data.courtSession.sentence_execution_date);
 						
 						$('#modal_form_edit').modal('show'); // show bootstrap modal when complete loaded
 						$('.modal-title', '#modal_form_edit').text('Edit User'); // Set Title to Bootstrap modal title
@@ -264,9 +270,15 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('date'); ?></label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('decision_date'); ?></label>
 								<div class="col-sm-8">
-									<p class="form-control-static" id="date"></p>
+									<p class="form-control-static" id="decisionDate"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('decision'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="decision"></p>
 								</div>
 							</div>
 							<div class="form-group">
@@ -279,6 +291,12 @@
 								<label class="col-sm-4 control-label"><?= $this->lang->line('defence_lawyer_certificate_id'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="defenceLawyerCertificateId"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('sentence_execution_date'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="sentenceExecutionDate"></p>
 								</div>
 							</div>
 						</form>
@@ -326,9 +344,15 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('date'); ?></label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('decision_date'); ?></label>
 								<div class="col-sm-8">
-									<input name="date" placeholder="Date" class="form-control" type="date">
+									<input name="decisionDate" placeholder="Decision Date" class="form-control" type="date">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('decision'); ?></label>
+								<div class="col-sm-8">
+									<input name="decision" placeholder="Decision" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
@@ -341,6 +365,12 @@
 								<label class="col-sm-4 control-label"><?= $this->lang->line('defence_lawyer_certificate_id'); ?></label>
 								<div class="col-sm-8">
 									<input name="defenceLawyerCertificateId" placeholder="defence Lawyer Certificate Id" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('sentence_execution_date'); ?></label>
+								<div class="col-sm-8">
+									<input name="sentenceExecutionDate" placeholder="Sentence Execution Date" class="form-control" type="date">
 								</div>
 							</div>
 						</form>

@@ -34,9 +34,11 @@ class Court_Session extends CI_Controller {
 			'id',
 			'crime_id',
 			'court_decision_type',
-			'date',
+			'decision_date',
+			'decision',
 			'defence_lawyer_name',
-			'defence_lawyer_certificate_id');
+			'defence_lawyer_certificate_id',
+			'sentence_execution_date');
  
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = "id";

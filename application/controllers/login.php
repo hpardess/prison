@@ -30,6 +30,7 @@ class Login extends CI_Controller {
   
     function check_database($password) {
         $this->load->model('user_model');
+        $this->load->model('group_model');
         $this->load->library('my_session');
         $username = $this->input->post('username');
         if( $username && $password && $this->user_model->check_user($username,$password)) {
@@ -37,6 +38,7 @@ class Login extends CI_Controller {
             $this->user_model->details->direction = 'ltr';
 
             $this->my_session->set_session($this->user_model->details);
+            $this->my_session->set_session_group_with_permissions($this->group_model->get_by_id($this->user_model->details->id));
             return TRUE;
         } else {
             // Otherwise show the login screen with an error message.
