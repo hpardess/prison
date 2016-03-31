@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Crime extends CI_Controller {
+class General extends CI_Controller {
 	
 	public function __construct()
 	{
@@ -9,10 +9,14 @@ class Crime extends CI_Controller {
 		if( !$this->session->userdata('isLoggedIn') ) {
 			redirect('/login');
 		}
-		$this->load->model('crime_model');
+		$this->load->model('prisoner_model');
 		$this->load->model("province_model");
 		$this->load->model('district_model');
+		$this->load->model('marital_status_model');
+		$this->load->model('crime_model');
 		$this->load->library('my_authentication');
+		$this->load->model('court_session_model');
+		$this->load->model('court_decision_type_model');
 
 		$idiom = $this->session->userdata('language');
 		log_message('debug', 'selected language: ' . $idiom);
@@ -23,14 +27,56 @@ class Crime extends CI_Controller {
 	{
 		$data['provincesList'] = $this->province_model->get_all();
 		$data['districtsList'] = $this->district_model->get_all();
-	    $this->load->view('crime_list', $data);
+		$data['maritalStatusList'] = $this->marital_status_model->get_all();
+		$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all();
+
+	    $this->load->view('general_list', $data);
 	}
+
+	// public function prisoner_list()
+	// {
+	// 	$this->load->model("datatables_model");
+	// 	$tableName = 'prisoner_view';
+
+	// 	$aColumns = array(
+	// 		'id',
+	// 		'name',
+	// 		'father_name',
+	// 		'grand_father_name',
+	// 		'age',
+	// 		'marital_status',
+	// 		'num_of_children',
+	// 		'criminal_history',
+	// 		'permanent_province',
+	// 		'permanent_district',
+	// 		'present_province',
+	// 		'present_district',
+	// 		'profile_pic');
+ 
+ //        /* Indexed column (used for fast and accurate table cardinality) */
+ //        $sIndexColumn = "id";
+
+ //        $results = $this->datatables_model->get_data_list($tableName, $sIndexColumn, $aColumns);
+
+ //        $filteredDataArray = [];
+ //        foreach ($results['data'] as $dataRow) {
+ //            $dataRow[] = '<a class="btn btn-xs btn-warning" title="Lock" onclick="lock_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-lock"></i>|</a>
+ //            			<a class="btn btn-xs btn-primary" title="View" onclick="view_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-list"></i>|</a>
+ //                    <a class="btn btn-xs btn-primary" title="Edit" onclick="edit_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-pencil"></i>|</a>
+ //                  <a class="btn btn-xs btn-danger" title="Delete" onclick="delete_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-trash"></i>|</a>';
+
+ //            $filteredDataArray[] = $dataRow;
+ //        }
+
+ //        $results['data'] = $filteredDataArray;
+	//     echo json_encode($results);
+	// }
 
 	public function crime_list()
 	{
 		$this->load->model("datatables_model");
 		$tableName = 'crime_view';
-// `crime`.`time_spent_in_prison` AS `time_spent_in_prison`,`crime`.`remaining_jail_term` AS `remaining_jail_term`,`crime`.`use_benefit_forgiveness_presidential` AS `use_benefit_forgiveness_presidential`,`crime`.`command_issue_date` AS `command_issue_date`,`crime`.`commission_proposal` AS `commission_proposal`,`crime`.`prisoner_request` AS `prisoner_request`,`crime`.`commission_member` AS `commission_member`
+
 		$aColumns = array(
 			'id',
 			'case_number',
@@ -107,7 +153,14 @@ class Crime extends CI_Controller {
 	// add new record
 	public function add()
     {
-        $data = array(
+    	$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+    	// start of transaction
+		$this->db->trans_begin();
+
+        $data1 = array(
                 'crime_date' => $this->input->post('crimeDate'),
                 'case_number' => $this->input->post('caseNumber'),
                 'police_custody' => $this->input->post('policeCustody'),
@@ -125,9 +178,59 @@ class Crime extends CI_Controller {
                 'prisoner_request' => $this->input->post('prisonerRequest'),
                 'commission_member' => $this->input->post('commissionMember')
             );
-        $insert = $this->crime_model->create($data);
-        // log_message('debug', 'insert: ' . $insert);
-        echo json_encode(array("status" => TRUE));
+        // $crimeId = $this->crime_model->create($data);
+
+        $courtSession = array();
+        for ($i=0; $i < 3; $i++) { 
+        	$courtSession[$i] = array(
+                // 'crime_id' => $this->input->post('crimeId')[$i],
+                // 'court_decision_type_id' => $this->input->post('courtDecisionType')[$i],
+                'decision_date' => $this->input->post('decisionDate')[$i],
+                'decision' => $this->input->post('decision')[$i],
+                'defence_lawyer_name' => $this->input->post('defenceLawyerName')[$i],
+                'defence_lawyer_certificate_id' => $this->input->post('defenceLawyerCertificateId')[$i],
+                'sentence_execution_date' => $this->input->post('sentenceExecutionDate')[$i]
+            );
+
+            if(count(array_filter($courtSession[$i])) != 0) {
+            	// $courtSession[$i]['crime_id'] = $crimeId;
+            	$courtSession[$i]['court_decision_type_id'] = $this->input->post('courtDecisionType')[$i];
+
+            	print_r($courtSession[$i]);
+            	// $this->court_session_model->create($courtSession[$i]);
+            }
+        }
+        // $data2 = array(
+        //         'crime_id' => $this->input->post('crimeId'),
+        //         'court_decision_type_id' => $this->input->post('courtDecisionType'),
+        //         'decision_date' => $this->input->post('decisionDate'),
+        //         'decision' => $this->input->post('decision'),
+        //         'defence_lawyer_name' => $this->input->post('defenceLawyerName'),
+        //         'defence_lawyer_certificate_id' => $this->input->post('defenceLawyerCertificateId'),
+        //         'sentence_execution_date' => $this->input->post('sentenceExecutionDate')
+        //     );
+        // $insert = $this->court_session_model->create($data);
+
+        // print_r($data1);
+        // print_r($courtSession);
+        // print_r($data2);
+        print_r($_POST);
+
+        if ($this->db->trans_status() === FALSE)
+		{
+			$response['success'] = FALSE;
+			$response['message'] = 'Falied to save the data.';
+
+			// rollback transaction
+			$this->db->trans_rollback();
+		}
+		else
+		{
+			// commit transaction
+			$this->db->trans_commit();
+		}
+        
+        echo json_encode($response);
     }
  
  	// update exisitn record

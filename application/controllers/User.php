@@ -97,6 +97,7 @@ class User extends CI_Controller {
                 'firstname' => $this->input->post('firstName'),
                 'lastname' => $this->input->post('lastName'),
                 'username' => $this->input->post('username'),
+                'password' => md5($this->input->post('password')),
                 'isadmin' => isset($isAdmin)? 1: 0,
                 'email' => $this->input->post('email'),
                 'groups_id' => $this->input->post('group')
@@ -114,6 +115,7 @@ class User extends CI_Controller {
                 'firstname' => $this->input->post('firstName'),
                 'lastname' => $this->input->post('lastName'),
                 'username' => $this->input->post('username'),
+                'password' => md5($this->input->post('password')),
                 'isadmin' => isset($isAdmin)? 1: 0,
                 'email' => $this->input->post('email'),
                 'groups_id' => $this->input->post('group')

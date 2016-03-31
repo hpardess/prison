@@ -8,7 +8,7 @@
 		<?php $this->load->view('menu_bar'); ?>
 		<div class="container">
 			<h3>
-				&nbsp;<?= $this->lang->line('criminal_cases'); ?>&nbsp;
+				&nbsp;<?= $this->lang->line('general'); ?>&nbsp;
 				<button class="btn btn-success pull-right" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> <?= $this->lang->line('add_new'); ?></button>
 			</h3>
 			<hr />
@@ -45,14 +45,16 @@
 		<script src="<?php echo base_url('assets/datatables/media/js/dataTables.bootstrap.js')?>"></script>
 		<script src="<?php echo base_url('assets/underscore-min.js')?>"></script>
 		  
+		  
 		<script type= 'text/javascript'>
 			var save_method; //for save method string
 		    var oTable;
 		    var provincesList = <?= json_encode($provincesList) ?>;
 		    var districtsList = <?= json_encode($districtsList) ?>;
+		    var photos_directory = "<?= base_url('photos/') ?>";
 
             $(document).ready(function () {
-            	$("li#criminal_cases", ".navbar-nav").addClass("active");
+            	$("li#general", ".navbar-nav").addClass("active");
             	$("input[type='date']").datepicker({
             		dateFormat: "yy-mm-dd"
             	});
@@ -73,6 +75,14 @@
 						"width": "125px"
 					}]
                 });
+
+                // $('[name="permanentProvince"]', '#modal_form_edit').change(function(event) {
+                // 	render_district_list(get_district_list(event.currentTarget.value), $('[name="permanentDistrict"]', '#modal_form_edit'));
+                // });
+
+                // $('[name="presentProvince"]', '#modal_form_edit').change(function(event) {
+                // 	render_district_list(get_district_list(event.currentTarget.value), $('[name="presentDistrict"]', '#modal_form_edit'));
+                // });
 
                 $('[name="crimeProvince"]', '#modal_form_edit').change(function(event) {
                 	render_district_list(get_district_list(event.currentTarget.value), $('[name="crimeDistrict"]', '#modal_form_edit'));
@@ -101,6 +111,8 @@
 			{
 				save_method = 'new';
 				$('#form', '#modal_form_edit')[0].reset(); // reset form on modals
+				$('[name="permanentDistrict"]', '#modal_form_edit').empty();
+				$('[name="presentDistrict"]', '#modal_form_edit').empty();
 				$('[name="crimeDistrict"]', '#modal_form_edit').empty();
 				$('[name="arrestDistrict"]', '#modal_form_edit').empty();
 
@@ -132,7 +144,7 @@
 
 				//Ajax Load data from ajax
 				$.ajax({
-					url : "<?php echo site_url('crime/view/')?>/" + id,
+					url : "<?php echo site_url('general/view/')?>/" + id,
 					type: "GET",
 					dataType: "JSON",
 					success: function(data)
@@ -170,12 +182,12 @@
 				save_method = 'update';
 				$('#form', '#modal_form_edit')[0].reset(); // reset form on modals
 				$('p#id', '#modal_form_edit').empty();
-				$('[name="crimeDistrict"]', '#modal_form_edit').empty();
-				$('[name="arrestDistrict"]', '#modal_form_edit').empty();
+				$('[name="permanentDistrict"]', '#modal_form_edit').empty();
+				$('[name="presentDistrict"]', '#modal_form_edit').empty();
 
 				//Ajax Load data from ajax
 				$.ajax({
-					url : "<?php echo site_url('crime/edit/')?>/" + id,
+					url : "<?php echo site_url('general/edit/')?>/" + id,
 					type: "GET",
 					dataType: "JSON",
 					success: function(data)
@@ -220,7 +232,7 @@
 				{
 					// ajax delete data to database
 					$.ajax({
-						url : "<?php echo site_url('crime/delete')?>/"+id,
+						url : "<?php echo site_url('general/delete')?>/"+id,
 						type: "POST",
 						dataType: "JSON",
 						success: function(data)
@@ -248,12 +260,14 @@
 				var url;
 				if(save_method == 'new')
 				{
-					url = "<?php echo site_url('crime/add')?>";
+					url = "<?php echo site_url('general/add')?>";
 				}
 				else
 				{
-					url = "<?php echo site_url('crime/update')?>";
+					url = "<?php echo site_url('general/update')?>";
 				}
+
+				var formData = new FormData($('#form', '#modal_form_edit')[0]);
 
 				// ajax adding data to database
 				$.ajax({
@@ -263,15 +277,39 @@
 					dataType: "JSON",
 					success: function(data)
 					{
-						//if success close modal and reload ajax table
-						$('#modal_form_edit').modal('hide');
-						reload_table();
+						if(data.success === true)
+						{
+							// $('#modal_form_edit').modal('hide');
+							reload_table();
+						}
+						else
+						{
+							alert(data.message);
+						}
 					},
 					error: function (jqXHR, textStatus, errorThrown)
 					{
 						alert('Error adding / update data');
 					}
 				});
+
+				// ajax adding data to database
+				// $.ajax({
+				// 	url : url,
+				// 	type: "POST",
+				// 	data: $('#form', '#modal_form_edit').serialize(),
+				// 	dataType: "JSON",
+				// 	success: function(data)
+				// 	{
+				// 		//if success close modal and reload ajax table
+				// 		$('#modal_form_edit').modal('hide');
+				// 		reload_table();
+				// 	},
+				// 	error: function (jqXHR, textStatus, errorThrown)
+				// 	{
+				// 		alert('Error adding / update data');
+				// 	}
+				// });
 			}
         </script>
 
@@ -285,6 +323,86 @@
 					</div>
 					<div class="modal-body form">
 						<form action="#" id="form" class="form-horizontal">
+<!-- 							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('id'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="id"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('name'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="name"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('father_name'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="fatherName"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('grand_father_name'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="grandFatherName"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('age'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="age"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('marital_status'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="maritalStatus"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('num_of_children'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="numOfChildren"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('criminal_history'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="criminalHistory"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('permanent_province'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="permanentProvince"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('permanent_district'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="permanentDistrict"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('present_province'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="presentProvince"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('present_district'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="presentDistrict"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-12">
+									<div class="thumbnail">
+										<img id="profilePic" alt="Profile Photo not exist" class="img-rounded">
+									</div>
+								</div>
+							</div> -->
+
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('id'); ?></label>
 								<div class="col-sm-8">
@@ -388,11 +506,10 @@
 									<p class="form-control-static" id="commissionMember"></p>
 								</div>
 							</div>
-
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal"><?= $this->lang->line('cancel'); ?></button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
@@ -409,13 +526,116 @@
 					</div>
 					<div class="modal-body form">
 						<form action="#" id="form" class="form-horizontal">
-							<input type="hidden" value="" name="id"/>
+<!-- 							<input type="hidden" value="" name="id"/>
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('id'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="id"></p>
 								</div>
 							</div>
+							<div class="form-group">
+								<label class="control-label col-md-4"><?= $this->lang->line('name'); ?></label>
+								<div class="col-md-8">
+									<input name="name" placeholder="Name" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-4"><?= $this->lang->line('father_name'); ?></label>
+								<div class="col-md-8">
+									<input name="fatherName" placeholder="Father Name" class="form-control" type="text">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('grand_father_name'); ?></label>
+								<div class="col-sm-8">
+									<input name="grandFatherName" placeholder="Grand Father Name" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('age'); ?></label>
+								<div class="col-sm-8">
+									<input name="age" placeholder="Age" class="form-control" type="number">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-4"><?= $this->lang->line('marital_status'); ?></label>
+								<div class="col-sm-8">
+									<select name="maritalStatus" class="form-control" class="form-control">
+										<option></option>
+										<?php foreach ($maritalStatusList as $key => $value) {
+											echo "<option value='" . $value->id . "'>" . $value->status . "</option>";
+										} ?>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('num_of_children'); ?></label>
+								<div class="col-sm-8">
+									<input name="numOfChildren" placeholder="Number of Children" class="form-control" type="number">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"></label>
+								<div class="col-sm-8">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" name="criminalHistory"> <?= $this->lang->line('criminal_history'); ?>
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-4"><?= $this->lang->line('permanent_province'); ?></label>
+								<div class="col-sm-8">
+									<select name="permanentProvince" class="form-control" class="form-control">
+										<option></option>
+										<?php foreach ($provincesList as $key => $value) {
+											echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
+										} ?>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-4"><?= $this->lang->line('permanent_district'); ?></label>
+								<div class="col-sm-8">
+									<select name="permanentDistrict" class="form-control" class="form-control">
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-4"><?= $this->lang->line('present_province'); ?></label>
+								<div class="col-sm-8">
+									<select name="presentProvince" class="form-control" class="form-control">
+										<option></option>
+										<?php foreach ($provincesList as $key => $value) {
+											echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
+										} ?>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-4"><?= $this->lang->line('present_district'); ?></label>
+								<div class="col-sm-8">
+									<select name="presentDistrict" class="form-control" class="form-control">
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-4"><?= $this->lang->line('profile_pic'); ?></label>
+								<div class="col-sm-8">
+									<input name="profilePic" placeholder="Number of Children" class="form-control" type="file" size="20">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-12">
+									<div class="thumbnail">
+										<img id="profilePicDisplay" alt="Profile Photo" class="img-rounded">
+									</div>
+								</div>
+							</div> -->
+
+
 							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('case_number'); ?></label>
 								<div class="col-md-8">
@@ -526,11 +746,78 @@
 								</div>
 							</div>
 
+<!-- Iteration of Court Types -->
+							<?php foreach ($courtDecisionTypeList as $key => $value) { ?>
+							
+							<fieldset>
+								<legend><?= $value->decision_type_name; ?></legend>
+
+								<!-- <div class="form-group">
+									<label class="control-label col-md-12"><?= $value->decision_type_name; ?></label>
+								</div> -->
+
+								<input type="hidden" value="<?= $value->id ?>" name="courtDecisionType[]"/>
+								<!-- <div class="form-group">
+									<label class="control-label col-md-4"><?= $this->lang->line('crime_id'); ?></label>
+									<div class="col-md-8">
+										<input name="crimeId[]" placeholder="Crime Id" class="form-control" type="text">
+									</div>
+								</div> -->
+								<!-- <div class="form-group">
+									<label class="control-label col-md-4"><?= $this->lang->line('court_decision_type'); ?></label>
+									<div class="col-md-8">
+										<select name="courtDecisionType[]" class="form-control" class="form-control">
+											<option></option>
+											<?php foreach ($courtDecisionTypeList as $key => $value) {
+												echo "<option value='" . $value->id . "'>" . $value->decision_type_name . "</option>";
+											} ?>
+										</select>
+									</div>
+								</div> -->
+								<div class="form-group">
+									<label class="col-sm-4 control-label"><?= $this->lang->line('decision_date'); ?></label>
+									<div class="col-sm-8">
+										<input name="decisionDate[]" placeholder="Decision Date" class="form-control" type="date">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label"><?= $this->lang->line('decision'); ?></label>
+									<div class="col-sm-8">
+										<input name="decision[]" placeholder="Decision" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label"><?= $this->lang->line('defence_lawyer_name'); ?></label>
+									<div class="col-sm-8">
+										<input name="defenceLawyerName[]" placeholder="defence Lawyer Name" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label"><?= $this->lang->line('defence_lawyer_certificate_id'); ?></label>
+									<div class="col-sm-8">
+										<input name="defenceLawyerCertificateId[]" placeholder="defence Lawyer Certificate Id" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label"><?= $this->lang->line('sentence_execution_date'); ?></label>
+									<div class="col-sm-8">
+										<input name="sentenceExecutionDate[]" placeholder="Sentence Execution Date" class="form-control" type="date">
+									</div>
+								</div>
+
+							</fieldset>
+							
+
+							<?php } ?>
+<!-- END of Iteration of Court Types -->
+
+							
+
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" id="btnSave" onclick="save_record()" class="btn btn-primary"><?= $this->lang->line('save'); ?></button>
-						<button type="button" class="btn btn-danger" data-dismiss="modal"><?= $this->lang->line('cancel'); ?></button>
+						<button type="button" id="btnSave" onclick="save_record()" class="btn btn-primary">Save</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->

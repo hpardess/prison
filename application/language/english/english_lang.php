@@ -17,6 +17,7 @@ $lang['login'] = 'Login';
 $lang['app_name'] = 'Prison Database';
 $lang['home'] = 'Home';
 $lang['dashboard'] = 'Dashboard';
+$lang['general'] = 'General';
 $lang['prisoners'] = 'Prisoners';
 $lang['criminal_cases'] = 'Criminal Cases';
 $lang['court_session'] = 'Court Session';
@@ -69,6 +70,13 @@ $lang['crime_province'] = 'Crime Province';
 $lang['arrest_location'] = 'Arrest Location';
 $lang['arrest_district'] = 'Arrest District';
 $lang['arrest_province'] = 'Arrest Province';
+$lang['time_spent_in_prison'] = 'time_spent_in_prison';
+$lang['remaining_jail_term'] = 'remaining_jail_term';
+$lang['use_benefit_forgiveness_presidential'] = 'use_benefit_forgiveness_presidential';
+$lang['command_issue_date'] = 'command_issue_date';
+$lang['commission_proposal'] = 'commission_proposal';
+$lang['prisoner_request'] = 'prisoner_request';
+$lang['commission_member'] = 'commission_member';
 
 // Court Session
 $lang['crime_id'] = 'Crime Id';

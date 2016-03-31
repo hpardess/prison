@@ -94,9 +94,11 @@ class Court_Session extends CI_Controller {
         $data = array(
                 'crime_id' => $this->input->post('crimeId'),
                 'court_decision_type_id' => $this->input->post('courtDecisionType'),
-                'date' => $this->input->post('date'),
+                'decision_date' => $this->input->post('decisionDate'),
+                'decision' => $this->input->post('decision'),
                 'defence_lawyer_name' => $this->input->post('defenceLawyerName'),
-                'defence_lawyer_certificate_id' => $this->input->post('defenceLawyerCertificateId')
+                'defence_lawyer_certificate_id' => $this->input->post('defenceLawyerCertificateId'),
+                'sentence_execution_date' => $this->input->post('sentenceExecutionDate')
             );
         $insert = $this->court_session_model->create($data);
         // log_message('debug', 'insert: ' . $insert);
@@ -109,9 +111,11 @@ class Court_Session extends CI_Controller {
         $data = array(
                 'crime_id' => $this->input->post('crimeId'),
                 'court_decision_type_id' => $this->input->post('courtDecisionType'),
-                'date' => $this->input->post('date'),
+                'decision_date' => $this->input->post('decisionDate'),
+                'decision' => $this->input->post('decision'),
                 'defence_lawyer_name' => $this->input->post('defenceLawyerName'),
-                'defence_lawyer_certificate_id' => $this->input->post('defenceLawyerCertificateId')
+                'defence_lawyer_certificate_id' => $this->input->post('defenceLawyerCertificateId'),
+                'sentence_execution_date' => $this->input->post('sentenceExecutionDate')
             );
         $affected_rows = $this->court_session_model->update(array('id' => $this->input->post('id')), $data);
         // log_message('debug', 'affected rows: ' . $affected_rows);

@@ -43,7 +43,9 @@
 
             $(document).ready(function () {
             	$("li#court_session", ".navbar-nav").addClass("active");
-            	$("input[type='date']").datepicker();
+            	$("input[type='date']").datepicker({
+            		dateFormat: "yy-mm-dd"
+            	});
             	
                 oTable = $('#table').DataTable({
                     "processing": true,

@@ -300,11 +300,16 @@
 									<input name="lastName" placeholder="Last Name" class="form-control" type="text">
 								</div>
 							</div>
-
 							<div class="form-group">
 								<label class="col-sm-3 control-label"><?= $this->lang->line('username'); ?></label>
 								<div class="col-sm-9">
 									<input name="username" placeholder="Username" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label"><?= $this->lang->line('password'); ?></label>
+								<div class="col-sm-9">
+									<input name="password" placeholder="Password" class="form-control" type="password">
 								</div>
 							</div>
 							<div class="form-group">

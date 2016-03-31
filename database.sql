@@ -90,7 +90,6 @@ DROP TABLE IF EXISTS `prison`.`crime` ;
 
 CREATE TABLE IF NOT EXISTS `prison`.`crime` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `case_number` VARCHAR(45) NULL,
   `crime_date` TIMESTAMP NULL,
   `crime_location` VARCHAR(70) NULL,
   `arrest_location` VARCHAR(70) NULL,
@@ -99,6 +98,14 @@ CREATE TABLE IF NOT EXISTS `prison`.`crime` (
   `crime_district_id` INT NOT NULL,
   `arrest_province_id` INT NOT NULL,
   `arrest_district_id` INT NOT NULL,
+  `case_number` VARCHAR(45) NULL,
+  `time_spent_in_prison` VARCHAR(45) NULL,
+  `remaining_jail_term` VARCHAR(45) NULL,
+  `use_benefit_forgiveness_presidential` VARCHAR(200) NULL,
+  `command_issue_date` TIMESTAMP NULL,
+  `commission_proposal` VARCHAR(200) NULL,
+  `prisoner_request` VARCHAR(200) NULL,
+  `commission_member` VARCHAR(200) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_crime_province1_idx` (`crime_province_id` ASC),
   INDEX `fk_crime_district1_idx` (`crime_district_id` ASC),
@@ -294,32 +301,32 @@ CREATE TABLE IF NOT EXISTS `prison`.`crime_crime_type` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `prison`.`official_command_discount`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `prison`.`official_command_discount` ;
+-- -- -----------------------------------------------------
+-- -- Table `prison`.`official_command_discount`
+-- -- -----------------------------------------------------
+-- DROP TABLE IF EXISTS `prison`.`official_command_discount` ;
 
-CREATE TABLE IF NOT EXISTS `prison`.`official_command_discount` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `command_issue_date` DATE NULL,
-  `discription` VARCHAR(200) NULL,
-  `years` INT NULL,
-  `months` INT NULL,
-  `days` INT NULL,
-  `crime_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_official_command_crime1_idx` (`crime_id` ASC),
-  CONSTRAINT `fk_official_command_crime1`
-    FOREIGN KEY (`crime_id`)
-    REFERENCES `prison`.`crime` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- CREATE TABLE IF NOT EXISTS `prison`.`official_command_discount` (
+--   `id` INT NOT NULL AUTO_INCREMENT,
+--   `command_issue_date` DATE NULL,
+--   `discription` VARCHAR(200) NULL,
+--   `years` INT NULL,
+--   `months` INT NULL,
+--   `days` INT NULL,
+--   `crime_id` INT NOT NULL,
+--   PRIMARY KEY (`id`),
+--   INDEX `fk_official_command_crime1_idx` (`crime_id` ASC),
+--   CONSTRAINT `fk_official_command_crime1`
+--     FOREIGN KEY (`crime_id`)
+--     REFERENCES `prison`.`crime` (`id`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION)
+-- ENGINE = InnoDB;
 
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+-- SET SQL_MODE=@OLD_SQL_MODE;
+-- SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+-- SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
 
@@ -372,7 +379,7 @@ CREATE or REPLACE VIEW `prisoner_view` AS select
 -- Structure for view `crime_view`
 --
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `crime_view` AS select `crime`.`id` AS `id`, `crime`.`case_number` AS `case_number`,`crime`.`crime_date` AS `crime_date`,`crime`.`crime_location` AS `crime_location`,`crime`.`arrest_location` AS `arrest_location`,`crime`.`police_custody` AS `police_custody`,`crime`.`crime_province_id` AS `crime_province_id`,`crime_province`.`name` AS `crime_province`,`crime`.`crime_district_id` AS `crime_district_id`,`crime_district`.`name` AS `crime_district`,`crime`.`arrest_province_id` AS `arrest_province_id`,`arrest_province`.`name` AS `arrest_province`,`crime`.`arrest_district_id` AS `arrest_district_id`,`arrest_district`.`name` AS `arrest_district` from ((((`crime` join `province` `crime_province` on((`crime_province`.`id` = `crime`.`crime_province_id`))) join `district` `crime_district` on((`crime_district`.`id` = `crime`.`crime_district_id`))) join `province` `arrest_province` on((`arrest_province`.`id` = `crime`.`arrest_province_id`))) join `district` `arrest_district` on((`arrest_district`.`id` = `crime`.`arrest_district_id`))) order by `crime`.`id`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `crime_view` AS select `crime`.`id` AS `id`,`crime`.`case_number` AS `case_number`,`crime`.`crime_date` AS `crime_date`,`crime`.`crime_location` AS `crime_location`,`crime`.`arrest_location` AS `arrest_location`,`crime`.`police_custody` AS `police_custody`,`crime`.`crime_province_id` AS `crime_province_id`,`crime_province`.`name` AS `crime_province`,`crime`.`crime_district_id` AS `crime_district_id`,`crime_district`.`name` AS `crime_district`,`crime`.`arrest_province_id` AS `arrest_province_id`,`arrest_province`.`name` AS `arrest_province`,`crime`.`arrest_district_id` AS `arrest_district_id`,`arrest_district`.`name` AS `arrest_district`,`crime`.`time_spent_in_prison` AS `time_spent_in_prison`,`crime`.`remaining_jail_term` AS `remaining_jail_term`,`crime`.`use_benefit_forgiveness_presidential` AS `use_benefit_forgiveness_presidential`,`crime`.`command_issue_date` AS `command_issue_date`,`crime`.`commission_proposal` AS `commission_proposal`,`crime`.`prisoner_request` AS `prisoner_request`,`crime`.`commission_member` AS `commission_member` from ((((`crime` join `province` `crime_province` on((`crime_province`.`id` = `crime`.`crime_province_id`))) join `district` `crime_district` on((`crime_district`.`id` = `crime`.`crime_district_id`))) join `province` `arrest_province` on((`arrest_province`.`id` = `crime`.`arrest_province_id`))) join `district` `arrest_district` on((`arrest_district`.`id` = `crime`.`arrest_district_id`))) order by `crime`.`id`;
 
 --
 -- VIEW  `crime_view`
@@ -382,7 +389,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 /*
 CREATE or REPLACE VIEW `crime_view` AS select 
 `crime`.`id` AS `id`,
-`crime`.`case_number` AS `case_number`
+`crime`.`case_number` AS `case_number`,
 `crime`.`crime_date` AS `crime_date`,
 `crime`.`crime_location` AS `crime_location`,
 `crime`.`arrest_location` AS `arrest_location`,
@@ -394,7 +401,14 @@ CREATE or REPLACE VIEW `crime_view` AS select
 `crime`.`arrest_province_id` AS `arrest_province_id`,
 `arrest_province`.`name` AS `arrest_province`,
 `crime`.`arrest_district_id` AS `arrest_district_id`,
-`arrest_district`.`name` AS `arrest_district`
+`arrest_district`.`name` AS `arrest_district`,
+`crime`.`time_spent_in_prison` AS `time_spent_in_prison`,
+`crime`.`remaining_jail_term` AS `remaining_jail_term`,
+`crime`.`use_benefit_forgiveness_presidential` AS `use_benefit_forgiveness_presidential`,
+`crime`.`command_issue_date` AS `command_issue_date`,
+`crime`.`commission_proposal` AS `commission_proposal`,
+`crime`.`prisoner_request` AS `prisoner_request`,
+`crime`.`commission_member` AS `commission_member`
  from `crime`
  INNER JOIN `province` AS `crime_province` ON `crime_province`.id = `crime`.`crime_province_id`
  INNER JOIN `district` AS `crime_district` ON `crime_district`.id = `crime`.`crime_district_id`

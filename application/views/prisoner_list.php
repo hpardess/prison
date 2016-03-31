@@ -51,6 +51,9 @@
 
             $(document).ready(function () {
             	$("li#prisoners", ".navbar-nav").addClass("active");
+            	$("input[type='date']").datepicker({
+            		dateFormat: "yy-mm-dd"
+            	});
             	
                 oTable = $('#table').DataTable({
                     "processing": true,

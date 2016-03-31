@@ -17,6 +17,7 @@ $lang['login'] = 'د ننه کیدل';
 $lang['app_name'] = 'زندان ډیټابیس';
 $lang['home'] = 'کور';
 $lang['dashboard'] = 'ډشبورډ';
+$lang['general'] = 'General';
 $lang['prisoners'] = 'بندیان';
 $lang['criminal_cases'] = 'جنایي پېښو';
 $lang['court_session'] = 'د محکمی غونده';
@@ -69,6 +70,13 @@ $lang['crime_province'] = 'جرم ولايت';
 $lang['arrest_location'] = 'نيولو ځای';
 $lang['arrest_district'] = 'نيولو ولسوالۍ';
 $lang['arrest_province'] = 'نيولو ولايت';
+$lang['time_spent_in_prison'] = 'time_spent_in_prison';
+$lang['remaining_jail_term'] = 'remaining_jail_term';
+$lang['use_benefit_forgiveness_presidential'] = 'use_benefit_forgiveness_presidential';
+$lang['command_issue_date'] = 'command_issue_date';
+$lang['commission_proposal'] = 'commission_proposal';
+$lang['prisoner_request'] = 'prisoner_request';
+$lang['commission_member'] = 'commission_member';
 
 // Court Session
 $lang['crime_id'] = 'جرمونه شمیر';

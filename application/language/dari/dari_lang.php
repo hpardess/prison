@@ -17,6 +17,7 @@ $lang['login'] = 'ورود';
 $lang['app_name'] = 'دیتابیس زندان';
 $lang['home'] = 'خانه';
 $lang['dashboard'] = 'داشبورد';
+$lang['general'] = 'General';
 $lang['prisoners'] = 'زندانیان';
 $lang['criminal_cases'] = 'پرونده های جنایی';
 $lang['court_session'] = 'فیصله های محاکم';
@@ -69,6 +70,13 @@ $lang['crime_province'] = 'ولایت جرم و جنایت';
 $lang['arrest_location'] = 'محل بازداشت';
 $lang['arrest_district'] = 'ولسوالی بازداشت';
 $lang['arrest_province'] = 'ولایت بازداشت';
+$lang['time_spent_in_prison'] = 'time_spent_in_prison';
+$lang['remaining_jail_term'] = 'remaining_jail_term';
+$lang['use_benefit_forgiveness_presidential'] = 'use_benefit_forgiveness_presidential';
+$lang['command_issue_date'] = 'command_issue_date';
+$lang['commission_proposal'] = 'commission_proposal';
+$lang['prisoner_request'] = 'prisoner_request';
+$lang['commission_member'] = 'commission_member';
 
 // Court Session
 $lang['crime_id'] = 'نمبر قضیه';
