@@ -21,6 +21,7 @@ class My_Session {
         // session->set_userdata is a CodeIgniter function that
         // stores data in CodeIgniter's session storage.  Some of the values are built in
         // to CodeIgniter, others are added.  See CodeIgniter's documentation for details.
+        
         $this->CI->session->set_userdata( array(
                 'id'=>$user_details->id,
                 'name'=> $user_details->firstname . ' ' . $user_details->lastname,

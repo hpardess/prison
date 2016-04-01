@@ -72,6 +72,7 @@ class User_model extends CI_Model {
         $result = $this->db->get()->result();
         if ( is_array($result) && count($result) == 1 ) {
             $this->details = $result[0];
+            log_message('debug', 'User_model check_user passed');
             return true;
         }
         return false;

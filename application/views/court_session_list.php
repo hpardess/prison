@@ -48,6 +48,7 @@
             	});
             	
                 oTable = $('#table').DataTable({
+                	"scrollX": true,
                     "processing": true,
                     "serverSide": true,
                     // "bJQueryUI": true,

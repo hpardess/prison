@@ -56,6 +56,7 @@
             	});
             	
                 oTable = $('#table').DataTable({
+                	"scrollX": true,
                     "processing": true,
                     "serverSide": true,
                     // "bJQueryUI": true,
@@ -135,30 +136,34 @@
 					dataType: "JSON",
 					success: function(data)
 					{
-						$('p#id', '#modal_form_view').html(data.id);
-						$('p#name', '#modal_form_view').html(data.name);
-						$('p#fatherName', '#modal_form_view').html(data.father_name);
-						$('p#grandFatherName', '#modal_form_view').html(data.grand_father_name);
-						$('p#age', '#modal_form_view').html(data.age);
-						$('p#maritalStatus', '#modal_form_view').html(data.marital_status);
-						$('p#numOfChildren', '#modal_form_view').html(data.num_of_children);
-						$('p#criminalHistory', '#modal_form_view').html(data.criminal_history===1? 'Yes': 'No');
-						$('p#permanentProvince', '#modal_form_view').html(data.permanent_province);
-						$('p#permanentDistrict', '#modal_form_view').html(data.permanent_district);
-						$('p#presentProvince', '#modal_form_view').html(data.present_province);
-						$('p#presentDistrict', '#modal_form_view').html(data.present_district);
-						
-						if(data.profile_pic !== '' && data.profile_pic !== null)
-						{
-							$('img#profilePic', '#modal_form_view').attr("src", photos_directory + '/' + data.profile_pic);
-							$('img#profilePic', '#modal_form_view').attr("alt", 'Failed to display the photo.');
-						}
-						else
-						{
-							$('img#profilePic', '#modal_form_view').attr("alt", 'Profile photo is not uploaded.');
-						}
+						if(data.success === true) {
+							$('p#id', '#modal_form_view').html(data.result.id);
+							$('p#name', '#modal_form_view').html(data.result.name);
+							$('p#fatherName', '#modal_form_view').html(data.result.father_name);
+							$('p#grandFatherName', '#modal_form_view').html(data.result.grand_father_name);
+							$('p#age', '#modal_form_view').html(data.result.age);
+							$('p#maritalStatus', '#modal_form_view').html(data.result.marital_status);
+							$('p#numOfChildren', '#modal_form_view').html(data.result.num_of_children);
+							$('p#criminalHistory', '#modal_form_view').html(data.result.criminal_history===1? 'Yes': 'No');
+							$('p#permanentProvince', '#modal_form_view').html(data.result.permanent_province);
+							$('p#permanentDistrict', '#modal_form_view').html(data.result.permanent_district);
+							$('p#presentProvince', '#modal_form_view').html(data.result.present_province);
+							$('p#presentDistrict', '#modal_form_view').html(data.result.present_district);
+							
+							if(data.result.profile_pic !== '' && data.result.profile_pic !== null)
+							{
+								$('img#profilePic', '#modal_form_view').attr("src", photos_directory + '/' + data.result.profile_pic);
+								$('img#profilePic', '#modal_form_view').attr("alt", 'Failed to display the photo.');
+							}
+							else
+							{
+								$('img#profilePic', '#modal_form_view').attr("alt", 'Profile photo is not uploaded.');
+							}
 
-						$('#modal_form_view').modal('show'); // show bootstrap modal when complete loaded
+							$('#modal_form_view').modal('show'); // show bootstrap modal when complete loaded
+						} else {
+							alert(data.message);
+						}
 					},
 					error: function (jqXHR, textStatus, errorThrown)
 					{
@@ -182,40 +187,44 @@
 					dataType: "JSON",
 					success: function(data)
 					{
-						$('p#id', '#modal_form_edit').html(data.prisoner.id);
-						$('[name="id"]', '#modal_form_edit').val(data.prisoner.id);
-						$('[name="name"]', '#modal_form_edit').val(data.prisoner.name);
-						$('[name="fatherName"]', '#modal_form_edit').val(data.prisoner.father_name);
-						$('[name="grandFatherName"]', '#modal_form_edit').val(data.prisoner.grand_father_name);
-						$('[name="age"]', '#modal_form_edit').val(data.prisoner.age);
-						$('[name="maritalStatus"]', '#modal_form_edit').val(data.prisoner.marital_status_id);
-						$('[name="numOfChildren"]', '#modal_form_edit').val(data.prisoner.num_of_children);
-						$('[name="criminalHistory"]', '#modal_form_edit').prop('checked', (data.prisoner.criminal_history===1||data.prisoner.criminal_history==='1'? true: false));
-						$('[name="permanentProvince"]', '#modal_form_edit').val(data.prisoner.permanent_province_id);
+						if(data.success === true) {
+							$('p#id', '#modal_form_edit').html(data.result.prisoner.id);
+							$('[name="id"]', '#modal_form_edit').val(data.result.prisoner.id);
+							$('[name="name"]', '#modal_form_edit').val(data.result.prisoner.name);
+							$('[name="fatherName"]', '#modal_form_edit').val(data.result.prisoner.father_name);
+							$('[name="grandFatherName"]', '#modal_form_edit').val(data.result.prisoner.grand_father_name);
+							$('[name="age"]', '#modal_form_edit').val(data.result.prisoner.age);
+							$('[name="maritalStatus"]', '#modal_form_edit').val(data.result.prisoner.marital_status_id);
+							$('[name="numOfChildren"]', '#modal_form_edit').val(data.result.prisoner.num_of_children);
+							$('[name="criminalHistory"]', '#modal_form_edit').prop('checked', (data.result.prisoner.criminal_history===1||data.result.prisoner.criminal_history==='1'? true: false));
+							$('[name="permanentProvince"]', '#modal_form_edit').val(data.result.prisoner.permanent_province_id);
 
-						var permanentDistrictsSelectEl = $('[name="permanentDistrict"]', '#modal_form_edit');
-						render_district_list(data.permanentDistricts, permanentDistrictsSelectEl);
+							var permanentDistrictsSelectEl = $('[name="permanentDistrict"]', '#modal_form_edit');
+							render_district_list(data.result.permanentDistricts, permanentDistrictsSelectEl);
 
-						$('[name="permanentDistrict"]', '#modal_form_edit').val(data.prisoner.permanent_district_id);
-						$('[name="presentProvince"]', '#modal_form_edit').val(data.prisoner.present_province_id);
+							$('[name="permanentDistrict"]', '#modal_form_edit').val(data.result.prisoner.permanent_district_id);
+							$('[name="presentProvince"]', '#modal_form_edit').val(data.result.prisoner.present_province_id);
 
-						var presentDistrictsSelectEl = $('[name="presentDistrict"]', '#modal_form_edit');
-						render_district_list(data.presentDistricts, presentDistrictsSelectEl);
+							var presentDistrictsSelectEl = $('[name="presentDistrict"]', '#modal_form_edit');
+							render_district_list(data.result.presentDistricts, presentDistrictsSelectEl);
 
-						$('[name="presentDistrict"]', '#modal_form_edit').val(data.prisoner.present_district_id);
+							$('[name="presentDistrict"]', '#modal_form_edit').val(data.result.prisoner.present_district_id);
 
-						if(data.prisoner.profile_pic !== '' && data.prisoner.profile_pic !== null)
-						{
-							$('img#profilePicDisplay', '#modal_form_edit').attr("src", photos_directory + '/' + data.prisoner.profile_pic);
-							$('img#profilePicDisplay', '#modal_form_edit').attr("alt", 'Failed to display the photo.');
+							if(data.result.prisoner.profile_pic !== '' && data.result.prisoner.profile_pic !== null)
+							{
+								$('img#profilePicDisplay', '#modal_form_edit').attr("src", photos_directory + '/' + data.result.prisoner.profile_pic);
+								$('img#profilePicDisplay', '#modal_form_edit').attr("alt", 'Failed to display the photo.');
+							}
+							else
+							{
+								$('img#profilePicDisplay', '#modal_form_edit').attr("alt", 'Profile photo is not uploaded.');
+							}
+
+							$('#modal_form_edit').modal('show'); // show bootstrap modal when complete loaded
+							$('.modal-title', '#modal_form_edit').text('Edit User'); // Set Title to Bootstrap modal title
+						} else {
+							alert(data.message);
 						}
-						else
-						{
-							$('img#profilePicDisplay', '#modal_form_edit').attr("alt", 'Profile photo is not uploaded.');
-						}
-
-						$('#modal_form_edit').modal('show'); // show bootstrap modal when complete loaded
-						$('.modal-title', '#modal_form_edit').text('Edit User'); // Set Title to Bootstrap modal title
 					},
 					error: function (jqXHR, textStatus, errorThrown)
 					{
@@ -235,9 +244,13 @@
 						dataType: "JSON",
 						success: function(data)
 						{
-							//if success reload ajax table
-							$('#modal_form_edit').modal('hide');
-							reload_table();
+							if(data.success === true) {
+								//if success reload ajax table
+								$('#modal_form_edit').modal('hide');
+								reload_table();
+							} else {
+								alert(data.message);
+							}
 						},
 						error: function (jqXHR, textStatus, errorThrown)
 						{

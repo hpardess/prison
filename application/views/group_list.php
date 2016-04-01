@@ -47,6 +47,7 @@
             	$("li#group_management", ".navbar-nav").addClass("active");
 
                 oTable = $('#table').DataTable({
+                	"scrollX": true,
                     "processing": true,
                     "serverSide": true,
                     // "bJQueryUI": true,

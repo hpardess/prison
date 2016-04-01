@@ -43,7 +43,8 @@ class User extends CI_Controller {
 
         $filteredDataArray = [];
         foreach ($results['data'] as $dataRow) {
-            $dataRow[] = '<a class="btn btn-xs btn-primary" title="View" onclick="view_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-list"></i>|</a>
+            $dataRow[] = '<a class="btn btn-xs btn-primary" title="Change Password" onclick="view_record_password('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-pushpin"></i>|</a>
+                        <a class="btn btn-xs btn-primary" title="View" onclick="view_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-list"></i>|</a>
                     <a class="btn btn-xs btn-primary" title="Edit" onclick="edit_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-pencil"></i>|</a>
                   <a class="btn btn-xs btn-danger" title="Delete" onclick="delete_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-trash"></i>|</a>';
 
@@ -97,7 +98,6 @@ class User extends CI_Controller {
                 'firstname' => $this->input->post('firstName'),
                 'lastname' => $this->input->post('lastName'),
                 'username' => $this->input->post('username'),
-                'password' => md5($this->input->post('password')),
                 'isadmin' => isset($isAdmin)? 1: 0,
                 'email' => $this->input->post('email'),
                 'groups_id' => $this->input->post('group')
@@ -115,7 +115,6 @@ class User extends CI_Controller {
                 'firstname' => $this->input->post('firstName'),
                 'lastname' => $this->input->post('lastName'),
                 'username' => $this->input->post('username'),
-                'password' => md5($this->input->post('password')),
                 'isadmin' => isset($isAdmin)? 1: 0,
                 'email' => $this->input->post('email'),
                 'groups_id' => $this->input->post('group')
@@ -125,8 +124,13 @@ class User extends CI_Controller {
         echo json_encode(array("status" => TRUE));
     }
 
+    // this function is called form menu bar 
     public function change_password()
     {
+        $response['success'] = TRUE;
+        $response['message'] = '';
+        $response['result'] = '';
+
         $username = $this->session->userdata('username');
         $currentPass = $this->input->post("curPsw");
         $newPass = $this->input->post("newPsw");
@@ -134,16 +138,59 @@ class User extends CI_Controller {
 
         if ($newPass == $confirmNewPass && $this->user_model->check_user($username, $currentPass))
         {
-
+            log_message('debug', 'user change_password username: ' . $username);
             $data = array(
                     'password' => md5($newPass)
                 );
             $affected_rows = $this->user_model->update(array('id' => $this->session->userdata('id')), $data);
-            echo json_encode(array("status" => TRUE));
+            echo json_encode($response);
         }
         else
         {
-            return false;
+            $response['success'] = FALSE;
+            $response['message'] = 'Authentication failed. Try again';
+            echo json_encode($response);
+        }
+    }
+
+    // this function is called from user list table
+    public function change_user_password()
+    {
+        $response['success'] = TRUE;
+        $response['message'] = '';
+        $response['result'] = '';
+
+        log_message('debug', 'user change_user_password isAdmin: ' . $this->session->userdata('isAdmin'));
+        if($this->session->userdata('isAdmin') == '1' || $this->session->userdata('isAdmin') == 1)
+        {
+            $id = $this->input->post('id');
+            $newPass = $this->input->post("newPsw");
+            $confirmNewPass = $this->input->post("confNewPsw");
+
+            log_message('debug', 'user change_user_password userId: ' . $id);
+            log_message('debug', 'user change_user_password newPass: ' . $newPass);
+            log_message('debug', 'user change_user_password confirmNewPass: ' . $confirmNewPass);
+            if ($newPass == $confirmNewPass)
+            {
+                $data = array(
+                        'password' => md5($newPass)
+                    );
+                $affected_rows = $this->user_model->update(array('id' => $id), $data);
+                echo json_encode($response);
+            }
+            else
+            {
+                $response['success'] = FALSE;
+                $response['message'] = 'New Password and Confirm Password are not same.';
+                echo json_encode($response);
+            }
+        }
+        else
+        {
+            log_message('DEBUG', 'crime edit false');
+            $response['success'] = FALSE;
+            $response['message'] = 'You are unauthrized. Please contact system administrator.';
+            echo json_encode($response);
         }
     }
 

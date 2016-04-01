@@ -4,7 +4,6 @@ class Group_model extends CI_Model {
 
     // table name
     private $tableName= 'groups';
-    var $details;
 
     function __construct() {
         parent::__construct();

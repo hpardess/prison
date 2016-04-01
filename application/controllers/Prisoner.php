@@ -13,6 +13,7 @@ class Prisoner extends CI_Controller {
 		$this->load->model("province_model");
 		$this->load->model('district_model');
 		$this->load->model('marital_status_model');
+		$this->load->library('my_authentication');
 
 		$idiom = $this->session->userdata('language');
 		log_message('debug', 'selected language: ' . $idiom);
@@ -75,107 +76,164 @@ class Prisoner extends CI_Controller {
 
 	public function view($id)
 	{
-		$result = $this->prisoner_model->get_by_id_with_joins($id);
-        echo json_encode($result);
+		$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'prisoner_view'))
+		{
+			log_message('DEBUG', 'crime edit false');
+			$response['success'] = FALSE;
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
+		}
+		else
+		{
+			$result = $this->prisoner_model->get_by_id_with_joins($id);
+	        $response['result'] = $result;
+	    	echo json_encode($response);
+		}
 	}
 
 	public function edit($id)
 	{
-		$prisoner = $this->prisoner_model->get_by_id($id);
+		$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
 
-		$result = array();
-		$result['prisoner'] = $prisoner;
-		$result['permanentDistricts'] = $this->district_model->get_by_province_id($prisoner->permanent_province_id);
-		$result['presentDistricts'] = $this->district_model->get_by_province_id($prisoner->present_province_id);
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'prisoner_edit'))
+		{
+			log_message('DEBUG', 'crime edit false');
+			$response['success'] = FALSE;
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
+		}
+		else
+		{
+			$prisoner = $this->prisoner_model->get_by_id($id);
 
-        echo json_encode($result);
+			$result = array();
+			$result['prisoner'] = $prisoner;
+			$result['permanentDistricts'] = $this->district_model->get_by_province_id($prisoner->permanent_province_id);
+			$result['presentDistricts'] = $this->district_model->get_by_province_id($prisoner->present_province_id);
+			$response['result'] = $result;
+	    	echo json_encode($response);
+		}
 	}
 
 	public function delete($id)
 	{
-		$this->prisoner_model->delete_by_id($id);
-        echo json_encode(array("status" => TRUE));
+		$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'prisoner_delete'))
+		{
+			log_message('DEBUG', 'crime edit false');
+			$response['success'] = FALSE;
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
+		}
+		else
+		{
+			$this->prisoner_model->delete_by_id($id);
+	        echo json_encode($response);
+		}
 	}
 
 	// add new record
 	public function add()
     {
-		// $attachment_file=$_FILES["attachment_file"];
-		// $output_dir = "upload/";
-		// $fileName = $_FILES["attachment_file"]["name"];
-		// move_uploaded_file($_FILES["attachment_file"]["tmp_name"],$output_dir.$fileName);
-		// echo "File uploaded successfully";
-
     	$response['success'] = TRUE;
     	$response['message'] = '';
     	$response['result'] = '';
 
-		// start of transaction
-		$this->db->trans_begin();
-
-		$criminal_history = $this->input->post('criminalHistory');
-
-        $data = array(
-                'name' => $this->input->post('name'),
-                'father_name' => $this->input->post('fatherName'),
-                'grand_father_name' => $this->input->post('grandFatherName'),
-                'age' => $this->input->post('age'),
-                'marital_status_id' => $this->input->post('maritalStatus'),
-                'num_of_children' => $this->input->post('numOfChildren'),
-                'criminal_history' => isset($criminal_history)? 1: 0,
-                'permanent_province_id' => $this->input->post('permanentProvince'),
-                'permanent_district_id' => $this->input->post('permanentDistrict'),
-                'present_province_id' => $this->input->post('presentProvince'),
-                'present_district_id' => $this->input->post('presentDistrict')
-                // 'profile_pic' => $this->input->post('profilePic')
-            );
-        $record_id = $this->prisoner_model->create($data);
-        log_message('debug', 'insert ID: ' . $record_id);
-
-		if ($this->db->trans_status() === FALSE)
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'prisoner_new'))
 		{
+			log_message('DEBUG', 'crime edit false');
 			$response['success'] = FALSE;
-			$response['message'] = 'Falied to save the data.';
-			$this->db->trans_rollback();
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
 		}
 		else
 		{
-			$extension = 'jpg';
-			if($_FILES['profilePic'] && $_FILES['profilePic']['size'] > 0)
+			// $attachment_file=$_FILES["attachment_file"];
+			// $output_dir = "upload/";
+			// $fileName = $_FILES["attachment_file"]["name"];
+			// move_uploaded_file($_FILES["attachment_file"]["tmp_name"],$output_dir.$fileName);
+			// echo "File uploaded successfully";
+
+	    	// $response['success'] = TRUE;
+	    	// $response['message'] = '';
+	    	// $response['result'] = '';
+
+			// start of transaction
+			$this->db->trans_begin();
+
+			$criminal_history = $this->input->post('criminalHistory');
+
+	        $data = array(
+	                'name' => $this->input->post('name'),
+	                'father_name' => $this->input->post('fatherName'),
+	                'grand_father_name' => $this->input->post('grandFatherName'),
+	                'age' => $this->input->post('age'),
+	                'marital_status_id' => $this->input->post('maritalStatus'),
+	                'num_of_children' => $this->input->post('numOfChildren'),
+	                'criminal_history' => isset($criminal_history)? 1: 0,
+	                'permanent_province_id' => $this->input->post('permanentProvince'),
+	                'permanent_district_id' => $this->input->post('permanentDistrict'),
+	                'present_province_id' => $this->input->post('presentProvince'),
+	                'present_district_id' => $this->input->post('presentDistrict')
+	                // 'profile_pic' => $this->input->post('profilePic')
+	            );
+	        $record_id = $this->prisoner_model->create($data);
+	        log_message('debug', 'insert ID: ' . $record_id);
+
+			if ($this->db->trans_status() === FALSE)
 			{
-				$image = $_FILES['profilePic'];
-				log_message('debug', 'file name: ' . $image['name']);
-				$path_info = pathinfo($image['name']);
-				$extension = $path_info['extension'];
-
-				$file_new_name = $record_id . '.' . $extension;
-				log_message('debug', 'new file name: ' . $file_new_name);
-
-				if(!$this->upload_photo('profilePic', $file_new_name))
+				$response['success'] = FALSE;
+				$response['message'] = 'Falied to save the data.';
+				$this->db->trans_rollback();
+			}
+			else
+			{
+				$extension = 'jpg';
+				if($_FILES['profilePic'] && $_FILES['profilePic']['size'] > 0)
 				{
-					$response['success'] = FALSE;
-					$response['message'] = $this->upload->display_errors();
-					// rollback transaction
-					$this->db->trans_rollback();
+					$image = $_FILES['profilePic'];
+					log_message('debug', 'file name: ' . $image['name']);
+					$path_info = pathinfo($image['name']);
+					$extension = $path_info['extension'];
+
+					$file_new_name = $record_id . '.' . $extension;
+					log_message('debug', 'new file name: ' . $file_new_name);
+
+					if(!$this->upload_photo('profilePic', $file_new_name))
+					{
+						$response['success'] = FALSE;
+						$response['message'] = $this->upload->display_errors();
+						// rollback transaction
+						$this->db->trans_rollback();
+					}
+					else
+					{
+						$dataUpdate = array(
+				                'profile_pic' => $file_new_name
+				            );
+						$this->prisoner_model->update_by_id($record_id, $dataUpdate);
+
+						// commit transaction
+						$this->db->trans_commit();
+					}
 				}
 				else
 				{
-					$dataUpdate = array(
-			                'profile_pic' => $file_new_name
-			            );
-					$this->prisoner_model->update_by_id($record_id, $dataUpdate);
-
 					// commit transaction
 					$this->db->trans_commit();
 				}
 			}
-			else
-			{
-				// commit transaction
-				$this->db->trans_commit();
-			}
+	        echo json_encode($response);
 		}
-        echo json_encode($response);
     }
  
  	// update exisitn record
@@ -185,74 +243,84 @@ class Prisoner extends CI_Controller {
     	$response['message'] = '';
     	$response['result'] = '';
 
-    	// start of transaction
-		$this->db->trans_begin();
-
-    	$criminal_history = $this->input->post('criminalHistory');
-
-        $data = array(
-                'name' => $this->input->post('name'),
-                'father_name' => $this->input->post('fatherName'),
-                'grand_father_name' => $this->input->post('grandFatherName'),
-                'age' => $this->input->post('age'),
-                'marital_status_id' => $this->input->post('maritalStatus'),
-                'num_of_children' => $this->input->post('numOfChildren'),
-                'criminal_history' => isset($criminal_history)? 1: 0,
-                'permanent_province_id' => $this->input->post('permanentProvince'),
-                'permanent_district_id' => $this->input->post('permanentDistrict'),
-                'present_province_id' => $this->input->post('presentProvince'),
-                'present_district_id' => $this->input->post('presentDistrict')
-                // 'profile_pic' => $this->input->post('profilePic')
-            );
-        $affected_rows = $this->prisoner_model->update(array('id' => $this->input->post('id')), $data);
-        // log_message('debug', 'affected rows: ' . $affected_rows);
-
-        $record_id = $this->input->post('id');
-
-        if ($this->db->trans_status() === FALSE)
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'prisoner_edit'))
 		{
+			log_message('DEBUG', 'crime edit false');
 			$response['success'] = FALSE;
-			$response['message'] = 'Falied to save the data.';
-			$this->db->trans_rollback();
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
 		}
 		else
 		{
-			$extension = 'jpg';
-			if($_FILES['profilePic'] && $_FILES['profilePic']['size'] > 0)
+	    	// start of transaction
+			$this->db->trans_begin();
+
+	    	$criminal_history = $this->input->post('criminalHistory');
+
+	        $data = array(
+	                'name' => $this->input->post('name'),
+	                'father_name' => $this->input->post('fatherName'),
+	                'grand_father_name' => $this->input->post('grandFatherName'),
+	                'age' => $this->input->post('age'),
+	                'marital_status_id' => $this->input->post('maritalStatus'),
+	                'num_of_children' => $this->input->post('numOfChildren'),
+	                'criminal_history' => isset($criminal_history)? 1: 0,
+	                'permanent_province_id' => $this->input->post('permanentProvince'),
+	                'permanent_district_id' => $this->input->post('permanentDistrict'),
+	                'present_province_id' => $this->input->post('presentProvince'),
+	                'present_district_id' => $this->input->post('presentDistrict')
+	                // 'profile_pic' => $this->input->post('profilePic')
+	            );
+	        $affected_rows = $this->prisoner_model->update(array('id' => $this->input->post('id')), $data);
+	        // log_message('debug', 'affected rows: ' . $affected_rows);
+
+	        $record_id = $this->input->post('id');
+
+	        if ($this->db->trans_status() === FALSE)
 			{
-				$image = $_FILES['profilePic'];
-				log_message('debug', 'file name: ' . $image['name']);
-				$path_info = pathinfo($image['name']);
-				$extension = $path_info['extension'];
-
-				$file_new_name = $record_id . '.' . $extension;
-				log_message('debug', 'new file name: ' . $file_new_name);
-
-				if(!$this->upload_photo('profilePic', $file_new_name))
+				$response['success'] = FALSE;
+				$response['message'] = 'Falied to save the data.';
+				$this->db->trans_rollback();
+			}
+			else
+			{
+				$extension = 'jpg';
+				if($_FILES['profilePic'] && $_FILES['profilePic']['size'] > 0)
 				{
-					$response['success'] = FALSE;
-					$response['message'] = $this->upload->display_errors();
-					// rollback transaction
-					$this->db->trans_rollback();
+					$image = $_FILES['profilePic'];
+					log_message('debug', 'file name: ' . $image['name']);
+					$path_info = pathinfo($image['name']);
+					$extension = $path_info['extension'];
+
+					$file_new_name = $record_id . '.' . $extension;
+					log_message('debug', 'new file name: ' . $file_new_name);
+
+					if(!$this->upload_photo('profilePic', $file_new_name))
+					{
+						$response['success'] = FALSE;
+						$response['message'] = $this->upload->display_errors();
+						// rollback transaction
+						$this->db->trans_rollback();
+					}
+					else
+					{
+						$dataUpdate = array(
+				                'profile_pic' => $file_new_name
+				            );
+						$this->prisoner_model->update_by_id($record_id, $dataUpdate);
+
+						// commit transaction
+						$this->db->trans_commit();
+					}
 				}
 				else
 				{
-					$dataUpdate = array(
-			                'profile_pic' => $file_new_name
-			            );
-					$this->prisoner_model->update_by_id($record_id, $dataUpdate);
-
 					// commit transaction
 					$this->db->trans_commit();
 				}
 			}
-			else
-			{
-				// commit transaction
-				$this->db->trans_commit();
-			}
-		}
-        echo json_encode($response);
+	        echo json_encode($response);
+	    }
     }
 
     private function upload_photo($field, $file_new_name) {

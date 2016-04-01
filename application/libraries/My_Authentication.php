@@ -15,6 +15,10 @@ class My_Authentication {
 		// log_message('DEBUG', 'My_Authentication stdClass ' . var_export($groupRight));
 		// log_message('DEBUG', 'My_Authentication stdClass ' . var_export($sessionRights));
 		// Log_message('DEBUG', 'My_Authentication stdClass ' . var_export($sessionRights->{$groupRight}));
+		log_message('DEBUG', 'My_Authentication isAdmin: ' . $isAdmin);
+		log_message('DEBUG', 'My_Authentication right: ' . $groupRight);
+		// log_message('DEBUG', 'My_Authentication sessionRights: ' . var_export($sessionRights));
+		log_message('DEBUG', 'My_Authentication groupRight: ' . $sessionRights->{$groupRight});
 
 		if($isAdmin == '1' || $sessionRights->{$groupRight} == 1 || $sessionRights->{$groupRight} == '1')
 		{

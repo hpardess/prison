@@ -58,6 +58,7 @@
             	});
             	
                 oTable = $('#table').DataTable({
+                	"scrollX": true,
                     "processing": true,
                     "serverSide": true,
                     // "bJQueryUI": true,
@@ -137,26 +138,30 @@
 					dataType: "JSON",
 					success: function(data)
 					{
-						$('p#id', '#modal_form_view').html(data.id);
-						$('p#caseNumber', '#modal_form_view').html(data.case_number);
-						$('p#crimeDate', '#modal_form_view').html(data.crime_date);
-						$('p#policeCustody', '#modal_form_view').html(data.police_custody);
-						$('p#crimeProvince', '#modal_form_view').html(data.crime_province);
-						$('p#crimeDistrict', '#modal_form_view').html(data.crime_district);
-						$('p#crimeLocation', '#modal_form_view').html(data.crime_location);
-						$('p#arrestProvince', '#modal_form_view').html(data.arrest_province);
-						$('p#arrestDistrict', '#modal_form_view').html(data.arrest_district);
-						$('p#arrestLocation', '#modal_form_view').html(data.arrest_location);
+						if(data.success === true) {
+							$('p#id', '#modal_form_view').html(data.result.id);
+							$('p#caseNumber', '#modal_form_view').html(data.result.case_number);
+							$('p#crimeDate', '#modal_form_view').html(data.result.crime_date);
+							$('p#policeCustody', '#modal_form_view').html(data.result.police_custody);
+							$('p#crimeProvince', '#modal_form_view').html(data.result.crime_province);
+							$('p#crimeDistrict', '#modal_form_view').html(data.result.crime_district);
+							$('p#crimeLocation', '#modal_form_view').html(data.result.crime_location);
+							$('p#arrestProvince', '#modal_form_view').html(data.result.arrest_province);
+							$('p#arrestDistrict', '#modal_form_view').html(data.result.arrest_district);
+							$('p#arrestLocation', '#modal_form_view').html(data.result.arrest_location);
 
-						$('p#timeSpentInPrison', '#modal_form_view').html(data.time_spent_in_prison);
-						$('p#remainingJailTerm', '#modal_form_view').html(data.remaining_jail_term);
-						$('p#useBenefitForgivenessPresidential', '#modal_form_view').html(data.use_benefit_forgiveness_presidential);
-						$('p#commandIssueDate', '#modal_form_view').html(data.command_issue_date);
-						$('p#commissionProposal', '#modal_form_view').html(data.commission_proposal);
-						$('p#prisonerRequest', '#modal_form_view').html(data.prisoner_request);
-						$('p#commissionMember', '#modal_form_view').html(data.commission_member);
+							$('p#timeSpentInPrison', '#modal_form_view').html(data.result.time_spent_in_prison);
+							$('p#remainingJailTerm', '#modal_form_view').html(data.result.remaining_jail_term);
+							$('p#useBenefitForgivenessPresidential', '#modal_form_view').html(data.result.use_benefit_forgiveness_presidential);
+							$('p#commandIssueDate', '#modal_form_view').html(data.result.command_issue_date);
+							$('p#commissionProposal', '#modal_form_view').html(data.result.commission_proposal);
+							$('p#prisonerRequest', '#modal_form_view').html(data.result.prisoner_request);
+							$('p#commissionMember', '#modal_form_view').html(data.result.commission_member);
 
-						$('#modal_form_view').modal('show'); // show bootstrap modal when complete loaded
+							$('#modal_form_view').modal('show'); // show bootstrap modal when complete loaded
+						} else {
+							alert(data.message);
+						}
 					},
 					error: function (jqXHR, textStatus, errorThrown)
 					{
@@ -180,32 +185,36 @@
 					dataType: "JSON",
 					success: function(data)
 					{
-						$('p#id', '#modal_form_edit').html(data.crime.id);
-						$('[name="id"]', '#modal_form_edit').val(data.crime.id);
-						$('[name="caseNumber"]', '#modal_form_edit').val(data.crime.case_number);
-						$('[name="crimeDate"]', '#modal_form_edit').val(data.crime.crime_date);
-						$('[name="policeCustody"]', '#modal_form_edit').val(data.crime.police_custody);
-						$('[name="crimeProvince"]', '#modal_form_edit').val(data.crime.crime_province_id);
-						var crimeDistrictsSelectEl = $('[name="crimeDistrict"]', '#modal_form_edit');
-						render_district_list(data.crimeDistricts, crimeDistrictsSelectEl);
-						$('[name="crimeDistrict"]', '#modal_form_edit').val(data.crime.crime_district_id);
-						$('[name="crimeLocation"]', '#modal_form_edit').val(data.crime.crime_location);
-						$('[name="arrestProvince"]', '#modal_form_edit').val(data.crime.arrest_province_id);
-						var arrestDistrictsSelectEl = $('[name="arrestDistrict"]', '#modal_form_edit');
-						render_district_list(data.arrestDistricts, arrestDistrictsSelectEl);
-						$('[name="arrestDistrict"]', '#modal_form_edit').val(data.crime.arrest_district_id);
-						$('[name="arrestLocation"]', '#modal_form_edit').val(data.crime.arrest_location);
+						if(data.success === true) {
+							$('p#id', '#modal_form_edit').html(data.result.crime.id);
+							$('[name="id"]', '#modal_form_edit').val(data.result.crime.id);
+							$('[name="caseNumber"]', '#modal_form_edit').val(data.result.crime.case_number);
+							$('[name="crimeDate"]', '#modal_form_edit').val(data.result.crime.crime_date);
+							$('[name="policeCustody"]', '#modal_form_edit').val(data.result.crime.police_custody);
+							$('[name="crimeProvince"]', '#modal_form_edit').val(data.result.crime.crime_province_id);
+							var crimeDistrictsSelectEl = $('[name="crimeDistrict"]', '#modal_form_edit');
+							render_district_list(data.result.crimeDistricts, crimeDistrictsSelectEl);
+							$('[name="crimeDistrict"]', '#modal_form_edit').val(data.result.crime.crime_district_id);
+							$('[name="crimeLocation"]', '#modal_form_edit').val(data.result.crime.crime_location);
+							$('[name="arrestProvince"]', '#modal_form_edit').val(data.result.crime.arrest_province_id);
+							var arrestDistrictsSelectEl = $('[name="arrestDistrict"]', '#modal_form_edit');
+							render_district_list(data.result.arrestDistricts, arrestDistrictsSelectEl);
+							$('[name="arrestDistrict"]', '#modal_form_edit').val(data.result.crime.arrest_district_id);
+							$('[name="arrestLocation"]', '#modal_form_edit').val(data.result.crime.arrest_location);
 
-						$('[name="timeSpentInPrison"]', '#modal_form_edit').val(data.crime.time_spent_in_prison);
-						$('[name="remainingJailTerm"]', '#modal_form_edit').val(data.crime.remaining_jail_term);
-						$('[name="useBenefitForgivenessPresidential"]', '#modal_form_edit').val(data.crime.use_benefit_forgiveness_presidential);
-						$('[name="commandIssueDate"]', '#modal_form_edit').val(data.crime.command_issue_date);
-						$('[name="commissionProposal"]', '#modal_form_edit').val(data.crime.commission_proposal);
-						$('[name="prisonerRequest"]', '#modal_form_edit').val(data.crime.prisoner_request);
-						$('[name="commissionMember"]', '#modal_form_edit').val(data.crime.commission_member);
+							$('[name="timeSpentInPrison"]', '#modal_form_edit').val(data.result.crime.time_spent_in_prison);
+							$('[name="remainingJailTerm"]', '#modal_form_edit').val(data.result.crime.remaining_jail_term);
+							$('[name="useBenefitForgivenessPresidential"]', '#modal_form_edit').val(data.result.crime.use_benefit_forgiveness_presidential);
+							$('[name="commandIssueDate"]', '#modal_form_edit').val(data.result.crime.command_issue_date);
+							$('[name="commissionProposal"]', '#modal_form_edit').val(data.result.crime.commission_proposal);
+							$('[name="prisonerRequest"]', '#modal_form_edit').val(data.result.crime.prisoner_request);
+							$('[name="commissionMember"]', '#modal_form_edit').val(data.result.crime.commission_member);
 
-						$('#modal_form_edit').modal('show'); // show bootstrap modal when complete loaded
-						$('.modal-title', '#modal_form_edit').text('Edit User'); // Set Title to Bootstrap modal title
+							$('#modal_form_edit').modal('show'); // show bootstrap modal when complete loaded
+							$('.modal-title', '#modal_form_edit').text('Edit User'); // Set Title to Bootstrap modal title
+						} else {
+							alert(data.message);
+						}
 					},
 					error: function (jqXHR, textStatus, errorThrown)
 					{
@@ -225,9 +234,13 @@
 						dataType: "JSON",
 						success: function(data)
 						{
-							//if success reload ajax table
-							$('#modal_form_edit').modal('hide');
-							reload_table();
+							if(data.success === true) {
+								//if success reload ajax table
+								$('#modal_form_edit').modal('hide');
+								reload_table();
+							} else {
+								alert(data.message);
+							}
 						},
 						error: function (jqXHR, textStatus, errorThrown)
 						{
@@ -263,9 +276,13 @@
 					dataType: "JSON",
 					success: function(data)
 					{
-						//if success close modal and reload ajax table
-						$('#modal_form_edit').modal('hide');
-						reload_table();
+						if(data.success === true) {
+							//if success close modal and reload ajax table
+							$('#modal_form_edit').modal('hide');
+							reload_table();
+						} else {
+							alert(data.message);
+						}
 					},
 					error: function (jqXHR, textStatus, errorThrown)
 					{

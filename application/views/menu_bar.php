@@ -107,9 +107,12 @@
             dataType: "JSON",
             success: function(data)
             {
-                //if success close modal and reload ajax table
-                $('#modal_form_edit').modal('hide');
-                reload_table();
+                if(data.success === true) {
+                    //if success close modal and reload ajax table
+                    $('#changePasswordModel').modal('hide');
+                } else {
+                    alert(data.message);
+                }
             },
             error: function (jqXHR, textStatus, errorThrown)
             {

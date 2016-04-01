@@ -30,7 +30,7 @@ class Crime extends CI_Controller {
 	{
 		$this->load->model("datatables_model");
 		$tableName = 'crime_view';
-// `crime`.`time_spent_in_prison` AS `time_spent_in_prison`,`crime`.`remaining_jail_term` AS `remaining_jail_term`,`crime`.`use_benefit_forgiveness_presidential` AS `use_benefit_forgiveness_presidential`,`crime`.`command_issue_date` AS `command_issue_date`,`crime`.`commission_proposal` AS `commission_proposal`,`crime`.`prisoner_request` AS `prisoner_request`,`crime`.`commission_member` AS `commission_member`
+
 		$aColumns = array(
 			'id',
 			'case_number',
@@ -77,82 +77,149 @@ class Crime extends CI_Controller {
 
 	public function view($id)
 	{
-		$result = $this->crime_model->get_by_id_with_joins($id);
-        echo json_encode($result);
+		$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'crime_view'))
+		{
+			log_message('DEBUG', 'crime edit false');
+			$response['success'] = FALSE;
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
+		}
+		else
+		{
+			$result = $this->crime_model->get_by_id_with_joins($id);
+			$response['result'] = $result;
+	        echo json_encode($response);
+		}
 	}
 
 	public function edit($id)
 	{
+		$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
 		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'crime_edit'))
 		{
 			log_message('DEBUG', 'crime edit false');
+			$response['success'] = FALSE;
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
 		}
+		else
+		{
+			$crime = $this->crime_model->get_by_id($id);
 
-		$crime = $this->crime_model->get_by_id($id);
+			$result = array();
+			$result['crime'] = $crime;
+			$result['crimeDistricts'] = $this->district_model->get_by_province_id($crime->crime_province_id);
+			$result['arrestDistricts'] = $this->district_model->get_by_province_id($crime->arrest_province_id);
+			$response['result'] = $result;
 
-		$result = array();
-		$result['crime'] = $crime;
-		$result['crimeDistricts'] = $this->district_model->get_by_province_id($crime->crime_province_id);
-		$result['arrestDistricts'] = $this->district_model->get_by_province_id($crime->arrest_province_id);
-
-        echo json_encode($result);
+	        echo json_encode($response);
+		}
 	}
 
 	public function delete($id)
 	{
-		$this->crime_model->delete_by_id($id);
-        echo json_encode(array("status" => TRUE));
+		$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'crime_delete'))
+		{
+			log_message('DEBUG', 'crime edit false');
+			$response['success'] = FALSE;
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
+		}
+		else
+		{
+			$this->crime_model->delete_by_id($id);
+	        echo json_encode($response);
+	    }
 	}
 
 	// add new record
 	public function add()
     {
-        $data = array(
-                'crime_date' => $this->input->post('crimeDate'),
-                'case_number' => $this->input->post('caseNumber'),
-                'police_custody' => $this->input->post('policeCustody'),
-                'crime_province_id' => $this->input->post('crimeProvince'),
-                'crime_district_id' => $this->input->post('crimeDistrict'),
-                'crime_location' => $this->input->post('crimeLocation'),
-                'arrest_province_id' => $this->input->post('arrestProvince'),
-                'arrest_district_id' => $this->input->post('arrestDistrict'),
-                'arrest_location' => $this->input->post('arrestLocation'),
-                'time_spent_in_prison' => $this->input->post('timeSpentInPrison'),
-                'remaining_jail_term' => $this->input->post('remainingJailTerm'),
-                'use_benefit_forgiveness_presidential' => $this->input->post('useBenefitForgivenessPresidential'),
-                'command_issue_date' => $this->input->post('commandIssueDate'),
-                'commission_proposal' => $this->input->post('commissionProposal'),
-                'prisoner_request' => $this->input->post('prisonerRequest'),
-                'commission_member' => $this->input->post('commissionMember')
-            );
-        $insert = $this->crime_model->create($data);
-        // log_message('debug', 'insert: ' . $insert);
-        echo json_encode(array("status" => TRUE));
+    	$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'crime_new'))
+		{
+			log_message('DEBUG', 'crime edit false');
+			$response['success'] = FALSE;
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
+		}
+		else
+		{
+			$data = array(
+	                'crime_date' => $this->input->post('crimeDate'),
+	                'case_number' => $this->input->post('caseNumber'),
+	                'police_custody' => $this->input->post('policeCustody'),
+	                'crime_province_id' => $this->input->post('crimeProvince'),
+	                'crime_district_id' => $this->input->post('crimeDistrict'),
+	                'crime_location' => $this->input->post('crimeLocation'),
+	                'arrest_province_id' => $this->input->post('arrestProvince'),
+	                'arrest_district_id' => $this->input->post('arrestDistrict'),
+	                'arrest_location' => $this->input->post('arrestLocation'),
+	                'time_spent_in_prison' => $this->input->post('timeSpentInPrison'),
+	                'remaining_jail_term' => $this->input->post('remainingJailTerm'),
+	                'use_benefit_forgiveness_presidential' => $this->input->post('useBenefitForgivenessPresidential'),
+	                'command_issue_date' => $this->input->post('commandIssueDate'),
+	                'commission_proposal' => $this->input->post('commissionProposal'),
+	                'prisoner_request' => $this->input->post('prisonerRequest'),
+	                'commission_member' => $this->input->post('commissionMember')
+	            );
+	        $insert = $this->crime_model->create($data);
+	        // log_message('debug', 'insert: ' . $insert);
+			echo json_encode($response);
+	    }
     }
  
  	// update exisitn record
     public function update()
     {
-        $data = array(
-        		'case_number' => $this->input->post('caseNumber'),
-                'crime_date' => $this->input->post('crimeDate'),
-                'police_custody' => $this->input->post('policeCustody'),
-                'crime_province_id' => $this->input->post('crimeProvince'),
-                'crime_district_id' => $this->input->post('crimeDistrict'),
-                'crime_location' => $this->input->post('crimeLocation'),
-                'arrest_province_id' => $this->input->post('arrestProvince'),
-                'arrest_district_id' => $this->input->post('arrestDistrict'),
-                'arrest_location' => $this->input->post('arrestLocation'),
-                'time_spent_in_prison' => $this->input->post('timeSpentInPrison'),
-                'remaining_jail_term' => $this->input->post('remainingJailTerm'),
-                'use_benefit_forgiveness_presidential' => $this->input->post('useBenefitForgivenessPresidential'),
-                'command_issue_date' => $this->input->post('commandIssueDate'),
-                'commission_proposal' => $this->input->post('commissionProposal'),
-                'prisoner_request' => $this->input->post('prisonerRequest'),
-                'commission_member' => $this->input->post('commissionMember')
-            );
-        $affected_rows = $this->crime_model->update(array('id' => $this->input->post('id')), $data);
-        // log_message('debug', 'affected rows: ' . $affected_rows);
-        echo json_encode(array("status" => TRUE));
+    	$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'crime_edit'))
+		{
+			log_message('DEBUG', 'crime edit false');
+			$response['success'] = FALSE;
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
+		}
+		else
+		{
+	        $data = array(
+	        		'case_number' => $this->input->post('caseNumber'),
+	                'crime_date' => $this->input->post('crimeDate'),
+	                'police_custody' => $this->input->post('policeCustody'),
+	                'crime_province_id' => $this->input->post('crimeProvince'),
+	                'crime_district_id' => $this->input->post('crimeDistrict'),
+	                'crime_location' => $this->input->post('crimeLocation'),
+	                'arrest_province_id' => $this->input->post('arrestProvince'),
+	                'arrest_district_id' => $this->input->post('arrestDistrict'),
+	                'arrest_location' => $this->input->post('arrestLocation'),
+	                'time_spent_in_prison' => $this->input->post('timeSpentInPrison'),
+	                'remaining_jail_term' => $this->input->post('remainingJailTerm'),
+	                'use_benefit_forgiveness_presidential' => $this->input->post('useBenefitForgivenessPresidential'),
+	                'command_issue_date' => $this->input->post('commandIssueDate'),
+	                'commission_proposal' => $this->input->post('commissionProposal'),
+	                'prisoner_request' => $this->input->post('prisonerRequest'),
+	                'commission_member' => $this->input->post('commissionMember')
+	            );
+	        $affected_rows = $this->crime_model->update(array('id' => $this->input->post('id')), $data);
+	        // log_message('debug', 'affected rows: ' . $affected_rows);
+	        echo json_encode($response);
+	    }
     }
 }

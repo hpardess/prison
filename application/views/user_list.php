@@ -42,6 +42,7 @@
             	$("li#user_management", ".navbar-nav").addClass("active");
 
                 oTable = $('#table').DataTable({
+                	"scrollX": true,
                     "processing": true,
                     "serverSide": true,
                     // "bJQueryUI": true,
@@ -84,6 +85,38 @@
 						alert('Error get data from ajax');
 					}
 				});
+			}
+
+			function view_record_password(id)
+			{
+				$('#form', '#changeUserPasswordModel')[0].reset(); // reset form on modals
+				$('[name="id"]', '#changeUserPasswordModel').val(id);
+				$('#changeUserPasswordModel').modal('show'); // show bootstrap modal when complete loaded
+			}
+
+			function change_user_password()
+			{
+				// ajax adding data to database
+		        $.ajax({
+		            url : "<?php echo site_url('user/change_user_password')?>",
+		            type: "POST",
+		            data: $('#form', '#changeUserPasswordModel').serialize(),
+		            dataType: "JSON",
+		            success: function(data)
+		            {
+		            	if(data.success === true) {
+			                //if success close modal and reload ajax table
+			                $('#changeUserPasswordModel').modal('hide');
+			            } else {
+			            	alert(data.message);
+			            }
+
+		            },
+		            error: function (jqXHR, textStatus, errorThrown)
+		            {
+		                alert('Error adding / update data');
+		            }
+		        });
 			}
 
             function view_record(id)
@@ -307,12 +340,6 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label"><?= $this->lang->line('password'); ?></label>
-								<div class="col-sm-9">
-									<input name="password" placeholder="Password" class="form-control" type="password">
-								</div>
-							</div>
-							<div class="form-group">
 								<label class="col-sm-3 control-label"><?= $this->lang->line('email'); ?></label>
 								<div class="col-sm-9">
 									<input name="email" placeholder="Email" class="form-control" type="email">
@@ -345,6 +372,41 @@
 			</div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
 		<!-- End Bootstrap modal -->
+
+		<!-- ****************************************************************** -->
+		<!--                        Change Password Modal Window                       -->
+		<!-- ****************************************************************** -->
+		<div class="modal fade" tabindex="-1" role="dialog" id="changeUserPasswordModel">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		                <h4 class="modal-title"><?= $this->lang->line('change_password'); ?></h4>
+		            </div>
+		            <div class="modal-body">
+		                <form action="#" id="form" class="form-horizontal">
+		                	<input type="hidden" value="" name="id"/>
+		                    <div class="form-group">
+		                        <label class="col-sm-4 control-label"><?= $this->lang->line('new_password'); ?></label>
+		                        <div class="col-sm-8">
+		                            <input name="newPsw" placeholder="New Password" class="form-control" type="password">
+		                        </div>
+		                    </div>
+		                    <div class="form-group">
+		                        <label class="col-sm-4 control-label"><?= $this->lang->line('confirm_new_password'); ?></label>
+		                        <div class="col-sm-8">
+		                            <input name="confNewPsw" placeholder="Confirm" class="form-control" type="password">
+		                        </div>
+		                    </div>
+		                </form>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-primary" onclick="change_user_password()"><?= $this->lang->line('save'); ?></button>
+		                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('close'); ?></button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 		<?php $this->load->view('footer'); ?>
 	</body>
 </html>
