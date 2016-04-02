@@ -16,16 +16,30 @@
 			<table id="table" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">
 				<thead>
 					<tr>
-	                    <th><?= $this->lang->line('id'); ?></th>
+						<th><?= $this->lang->line('prisoner_id'); ?></th>
+						<th><?= $this->lang->line('name'); ?></th>
+						<th><?= $this->lang->line('father_name'); ?></th>
+						<th><?= $this->lang->line('grand_father_name'); ?></th>
+						<th><?= $this->lang->line('age'); ?></th>
+						<th><?= $this->lang->line('criminal_history'); ?></th>
+						<th><?= $this->lang->line('marital_status'); ?></th>
+						<th><?= $this->lang->line('num_of_children'); ?></th>
+						<th><?= $this->lang->line('present_province'); ?></th>
+						<th><?= $this->lang->line('present_district'); ?></th>
+						<th><?= $this->lang->line('permanent_province'); ?></th>
+						<th><?= $this->lang->line('permanent_district'); ?></th>
+						<th><?= $this->lang->line('profile_pic'); ?></th>
+
+	                    <th><?= $this->lang->line('crime_id'); ?></th>
 	                    <th><?= $this->lang->line('case_number'); ?></th>
 	                    <th><?= $this->lang->line('crime_date'); ?></th>
-	                    <th><?= $this->lang->line('police_custody'); ?></th>
 	                    <th><?= $this->lang->line('crime_location'); ?></th>
-	                    <th><?= $this->lang->line('crime_district'); ?></th>
-	                    <th><?= $this->lang->line('crime_province'); ?></th>
 	                    <th><?= $this->lang->line('arrest_location'); ?></th>
-	                    <th><?= $this->lang->line('arrest_district'); ?></th>
+	                    <th><?= $this->lang->line('police_custody'); ?></th>
+	                    <th><?= $this->lang->line('crime_province'); ?></th>
+	                    <th><?= $this->lang->line('crime_district'); ?></th>
 	                    <th><?= $this->lang->line('arrest_province'); ?></th>
+	                    <th><?= $this->lang->line('arrest_district'); ?></th>
 	                    <th><?= $this->lang->line('time_spent_in_prison'); ?></th>
 	                    <th><?= $this->lang->line('remaining_jail_term'); ?></th>
 	                    <th><?= $this->lang->line('use_benefit_forgiveness_presidential'); ?></th>
@@ -33,6 +47,15 @@
 	                    <th><?= $this->lang->line('commission_proposal'); ?></th>
 	                    <th><?= $this->lang->line('prisoner_request'); ?></th>
 	                    <th><?= $this->lang->line('commission_member'); ?></th>
+
+	                    <th><?= $this->lang->line('court_session_id'); ?></th>
+	                    <th><?= $this->lang->line('court_decision_type'); ?></th>
+	                    <th><?= $this->lang->line('decision_date'); ?></th>
+	                    <th><?= $this->lang->line('decision'); ?></th>
+	                    <th><?= $this->lang->line('defence_lawyer_name'); ?></th>
+	                    <th><?= $this->lang->line('defence_lawyer_certificate_id'); ?></th>
+	                    <th><?= $this->lang->line('sentence_execution_date'); ?></th>
+
 	                    <th><?= $this->lang->line('actions'); ?></th>
 	                </tr>
 				</thead>
@@ -42,7 +65,7 @@
 		
 		<link rel="stylesheet" href="<?php echo base_url("assets/datatables/media/css/dataTables.bootstrap.min.css"); ?>" />
 		<script src="<?php echo base_url('assets/datatables/media/js/jquery.dataTables.min.js')?>"></script>
-		<script src="<?php echo base_url('assets/datatables/media/js/dataTables.bootstrap.js')?>"></script>
+		<script src="<?php echo base_url('assets/datatables/media/js/dataTables.bootstrap.min.js')?>"></script>
 		<script src="<?php echo base_url('assets/underscore-min.js')?>"></script>
 		  
 		  
@@ -60,16 +83,18 @@
             	});
             	
                 oTable = $('#table').DataTable({
+                	"scrollX": true,
                     "processing": true,
                     "serverSide": true,
+                    "sServerMethod": "POST",
                     // "bJQueryUI": true,
-                    "ajax": "<?php echo site_url('crime/crime_list')?>",
+                    "ajax": "<?php echo site_url('general/general_list')?>",
                     // "sDom": 'T<"clear">lfrtip'
                     language: {
 						search: "<?= $this->lang->line('search'); ?>"
 					},
 					columnDefs: [{
-						"targets": 9,
+						"targets": 33,
 						"searchable": false,
 						"orderable": false,
 						"width": "125px"

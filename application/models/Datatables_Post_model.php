@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
  
 /**
- * Description of datatables using get request
+ * Description of datatables with post request
  *
  * @author hpardess
  */
-class Datatables_model extends CI_Model {
+class Datatables_Post_model extends CI_Model {
  
     /* $tableName */
 
@@ -43,40 +43,43 @@ class Datatables_model extends CI_Model {
                     intval($iDisplayLength);
         }
  
-        $uri_string = $_SERVER['QUERY_STRING'];
-        $uri_string = preg_replace("/\%5B/", '[', $uri_string);
-        $uri_string = preg_replace("/\%5D/", ']', $uri_string);
+        // $uri_string = $_SERVER['QUERY_STRING'];
+        // $uri_string = preg_replace("/\%5B/", '[', $uri_string);
+        // $uri_string = preg_replace("/\%5D/", ']', $uri_string);
  
-        $get_param_array = explode("&", $uri_string);
-        $arr = array();
-        foreach ($get_param_array as $value) {
-            $v = $value;
-            $explode = explode("=", $v);
-            $arr[$explode[0]] = $explode[1];
-        }
+        // $get_param_array = explode("&", $uri_string);
+        // $arr = array();
+        // foreach ($get_param_array as $value) {
+        //     $v = $value;
+        //     $explode = explode("=", $v);
+        //     $arr[$explode[0]] = $explode[1];
+        // }
  
-        $index_of_columns = strpos($uri_string, "columns", 1);
-        $index_of_start = strpos($uri_string, "start");
-        $uri_columns = substr($uri_string, 7, ($index_of_start - $index_of_columns - 1));
-        $columns_array = explode("&", $uri_columns);
-        $arr_columns = array();
-        foreach ($columns_array as $value) {
-            $v = $value;
-            $explode = explode("=", $v);
-            if (count($explode) == 2) {
-                $arr_columns[$explode[0]] = $explode[1];
-            } else {
-                $arr_columns[$explode[0]] = '';
-            }
-        }
+        // $index_of_columns = strpos($uri_string, "columns", 1);
+        // $index_of_start = strpos($uri_string, "start");
+        // $uri_columns = substr($uri_string, 7, ($index_of_start - $index_of_columns - 1));
+        // $columns_array = explode("&", $uri_columns);
+        // $arr_columns = array();
+        // foreach ($columns_array as $value) {
+        //     $v = $value;
+        //     $explode = explode("=", $v);
+        //     if (count($explode) == 2) {
+        //         $arr_columns[$explode[0]] = $explode[1];
+        //     } else {
+        //         $arr_columns[$explode[0]] = '';
+        //     }
+        // }
  
         /*
          * Ordering
          */
         $sOrder = "ORDER BY ";
-        $sOrderIndex = $arr['order[0][column]'];
-        $sOrderDir = $arr['order[0][dir]'];
-        $bSortable_ = $arr_columns['columns[' . $sOrderIndex . '][orderable]'];
+        // $sOrderIndex = $arr['order[0][column]'];
+        $sOrderIndex = $this->input->get_post('order', true)[0]['column'];
+        // $sOrderDir = $arr['order[0][dir]'];
+        $sOrderDir = $this->input->get_post('order', true)[0]['dir'];
+        // $bSortable_ = $arr_columns['columns[' . $sOrderIndex . '][orderable]'];
+        $bSortable_ = $this->input->get_post('columns', true)[$sOrderIndex]['orderable'];
         if ($bSortable_ == "true") {
             $sOrder .= $aColumns[$sOrderIndex] .
                     ($sOrderDir === 'asc' ? ' asc' : ' desc');
@@ -86,7 +89,8 @@ class Datatables_model extends CI_Model {
          * Filtering
          */
         $sWhere = "";
-        $sSearchVal = $arr['search[value]'];
+        // $sSearchVal = $arr['search[value]'];
+        $sSearchVal = $this->input->get_post('search', true)['value'];
         if (isset($sSearchVal) && $sSearchVal != '') {
             $sWhere = "WHERE (";
             for ($i = 0; $i < count($aColumns); $i++) {
@@ -97,11 +101,14 @@ class Datatables_model extends CI_Model {
         }
  
         /* Individual column filtering */
-        $sSearchReg = $arr['search[regex]'];
+        // $sSearchReg = $arr['search[regex]'];
+        $sSearchReg = $this->input->get_post('search', true)['regex'];
         for ($i = 0; $i < count($aColumns); $i++) {
-            $bSearchable_ = $arr['columns[' . $i . '][searchable]'];
+            // $bSearchable_ = $arr['columns[' . $i . '][searchable]'];
+            $bSearchable_ = $this->input->get_post('columns', true)[$i]['searchable'];
             if (isset($bSearchable_) && $bSearchable_ == "true" && $sSearchReg != 'false') {
-                $search_val = $arr['columns[' . $i . '][search][value]'];
+                // $search_val = $arr['columns[' . $i . '][search][value]'];
+                $search_val = $this->input->get_post('columns', true)[$i]['search']['value'];
                 if ($sWhere == "") {
                     $sWhere = "WHERE ";
                 } else {
@@ -157,4 +164,4 @@ class Datatables_model extends CI_Model {
  
 }
  
-/* End of file Datatables_model.php */
+/* End of file Datatables_Post_model.php */

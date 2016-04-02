@@ -38,7 +38,7 @@ class Login extends CI_Controller {
             $this->user_model->details->direction = 'ltr';
 
             $this->my_session->set_session($this->user_model->details);
-            $this->my_session->set_session_group_with_permissions($this->group_model->get_by_id($this->user_model->details->id));
+            $this->my_session->set_session_group_with_permissions($this->group_model->get_by_id($this->user_model->details->groups_id));
             return TRUE;
         } else {
             // Otherwise show the login screen with an error message.

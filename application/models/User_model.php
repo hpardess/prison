@@ -10,6 +10,11 @@ class User_model extends CI_Model {
         parent::__construct();
     }
 
+    // get number of records in database
+    function count_all(){
+        return $this->db->count_all($this->tableName);
+    }
+
     // get record by id
     function get_by_id($id){
         $this->db->select('id, firstname, lastname, username, email, isadmin, groups_id');
@@ -79,12 +84,6 @@ class User_model extends CI_Model {
     }
 
 // ---------------------------------------------------------
-
-
-    // get number of records in database
-    function count_all(){
-        return $this->db->count_all($this->tableName);
-    }
 
     // get records with paging
     function get_paged_list($limit = 10, $offset = 0){

@@ -72,34 +72,61 @@ class General extends CI_Controller {
 	//     echo json_encode($results);
 	// }
 
-	public function crime_list()
+	public function general_list()
 	{
-		$this->load->model("datatables_model");
-		$tableName = 'crime_view';
+		$this->load->model("datatables_post_model");
+		$tableName = 'general_view';
+
+		// echo print_r($_SERVER);
+		// echo print_r($_SESSION);
+		// echo print_r($_POST);
+		// echo print_r($_GET);
 
 		$aColumns = array(
-			'id',
+			'prisoner_id',
+			'name',
+			'father_name',
+			'grand_father_name',
+			'age',
+			'criminal_history',
+			'marital_status',
+			'num_of_children',
+			'present_province',
+			'present_district',
+			'permanent_province',
+			'permanent_district',
+			'profile_pic',
+
+			'crime_id',
 			'case_number',
 			'crime_date',
-			'police_custody',
 			'crime_location',
-			'crime_district',
-			'crime_province',
 			'arrest_location',
-			'arrest_district',
+			'police_custody',
+			'crime_province',
+			'crime_district',
 			'arrest_province',
+			'arrest_district',
 			'time_spent_in_prison',
 			'remaining_jail_term',
 			'use_benefit_forgiveness_presidential',
 			'command_issue_date',
 			'commission_proposal',
 			'prisoner_request',
-			'commission_member');
+			'commission_member',
+
+			'court_session_id',
+			'court_decision_type',
+			'decision_date',
+			'decision',
+			'defence_lawyer_name',
+			'defence_lawyer_certificate_id',
+			'sentence_execution_date');
  
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = "id";
 
-        $results = $this->datatables_model->get_data_list($tableName, $sIndexColumn, $aColumns);
+        $results = $this->datatables_post_model->get_data_list($tableName, $sIndexColumn, $aColumns);
 
         $filteredDataArray = [];
         foreach ($results['data'] as $dataRow) {

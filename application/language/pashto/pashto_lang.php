@@ -46,6 +46,11 @@ $lang['actions'] = 'کړنې';
 // datatable
 $lang['search'] = 'د لټون';
 
+// General
+$lang['prisoner_id'] = 'Prisoner ID';
+$lang['crime_id'] = 'Crime ID';
+$lang['court_session_id'] = 'Court Session ID';
+
 // Prisoners
 $lang['name'] = 'نوم';
 $lang['father_name'] = 'دپلارنوم';

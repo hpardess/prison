@@ -9,6 +9,11 @@ class Court_Session_model extends CI_Model {
         parent::__construct();
     }
 
+    // get number of records in database
+    function count_all(){
+        return $this->db->count_all($this->tableName);
+    }
+
     // get record by id
     function get_by_id($id, $column_list = '*'){
         $this->db->select($column_list);

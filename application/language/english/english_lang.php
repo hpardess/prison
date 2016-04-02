@@ -46,6 +46,11 @@ $lang['actions'] = 'Actions';
 // datatable
 $lang['search'] = 'Search';
 
+// General
+$lang['prisoner_id'] = 'Prisoner ID';
+$lang['crime_id'] = 'Crime ID';
+$lang['court_session_id'] = 'Court Session ID';
+
 // Prisoners
 $lang['name'] = 'Name';
 $lang['father_name'] = 'Father Name';
