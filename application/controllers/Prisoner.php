@@ -46,7 +46,8 @@ class Prisoner extends CI_Controller {
 			'permanent_district',
 			'present_province',
 			'present_district',
-			'profile_pic');
+			'profile_pic',
+			'locked');
  
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = "id";
@@ -54,12 +55,43 @@ class Prisoner extends CI_Controller {
         $results = $this->datatables_model->get_data_list($tableName, $sIndexColumn, $aColumns);
 
         $filteredDataArray = [];
+       	$aColumnsCount = count($aColumns);
         foreach ($results['data'] as $dataRow) {
-            $dataRow[] = '<a class="btn btn-xs btn-warning" title="Lock" onclick="lock_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-lock"></i>|</a>
-            			<a class="btn btn-xs btn-primary" title="View" onclick="view_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-list"></i>|</a>
-                    <a class="btn btn-xs btn-primary" title="Edit" onclick="edit_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-pencil"></i>|</a>
-                  <a class="btn btn-xs btn-danger" title="Delete" onclick="delete_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-trash"></i>|</a>';
+        	$isLocked = $dataRow[$aColumnsCount - 1];
+        	$buttons = '';
 
+        	// lock
+        	if($isLocked == '1')
+        	{
+        		if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_unlock'))
+				{
+					$buttons = $buttons . '<a class="btn btn-xs btn-warning" title="Unlock" onclick="unlock_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-flash"></i>|</a>';
+				}
+        	}
+        	else
+        	{
+        		$buttons = $buttons . '<a class="btn btn-xs btn-warning" title="Lock" onclick="lock_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-lock"></i>|</a>';
+        	}
+
+			// view
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_view'))
+			{
+				$buttons = $buttons . '<a class="btn btn-xs btn-primary" title="View" onclick="view_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-list"></i>|</a>';
+			}
+
+			// edit
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_edit'))
+			{
+				$buttons = $buttons . '<a class="btn btn-xs btn-primary" title="Edit" onclick="edit_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-pencil"></i>|</a>';
+			}
+
+			// delete
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_delete'))
+			{
+				$buttons = $buttons . '<a class="btn btn-xs btn-danger" title="Delete" onclick="delete_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-trash"></i>|</a>';
+			}
+
+            $dataRow[$aColumnsCount - 1] = $buttons;
             $filteredDataArray[] = $dataRow;
         }
 
@@ -342,5 +374,44 @@ class Prisoner extends CI_Controller {
 		
 		log_message('debug', 'file upload: ' . var_export($this->upload->data(), true));
 		return TRUE;
+    }
+
+    public function lock($id)
+    {
+    	$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+        $data = array(
+                'locked' => 1
+            );
+        
+        $affected_rows = $this->prisoner_model->update(array('id' => $id), $data);
+        // log_message('debug', 'affected rows: ' . $affected_rows);
+        echo json_encode($response);
+    }
+
+    public function unlock($id)
+    {
+    	$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+        if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_unlock'))
+		{
+			log_message('DEBUG', 'crime edit false');
+			$response['success'] = FALSE;
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
+		}
+		else
+		{
+	        $data = array(
+                'locked' => 0
+            );
+	        $affected_rows = $this->prisoner_model->update(array('id' => $id), $data);
+	        // log_message('debug', 'affected rows: ' . $affected_rows);
+	        echo json_encode($response);
+	    }
     }
 }

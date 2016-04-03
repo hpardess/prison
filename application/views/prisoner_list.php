@@ -261,6 +261,58 @@
 				}
 			}
 
+			function lock_record(id)
+			{
+				if(confirm('Are you sure to lock this data?'))
+				{
+					// ajax delete data to database
+					$.ajax({
+						url : "<?php echo site_url('prisoner/lock')?>/"+id,
+						type: "GET",
+						dataType: "JSON",
+						success: function(data)
+						{
+							if(data.success === true) {
+								reload_table();
+							} else {
+								alert(data.message);
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown)
+						{
+							alert('Error adding / update data');
+						}
+					});
+
+				}
+			}
+
+			function unlock_record(id)
+			{
+				if(confirm('Are you sure to unlock this data?'))
+				{
+					// ajax delete data to database
+					$.ajax({
+						url : "<?php echo site_url('prisoner/unlock')?>/"+id,
+						type: "GET",
+						dataType: "JSON",
+						success: function(data)
+						{
+							if(data.success === true) {
+								reload_table();
+							} else {
+								alert(data.message);
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown)
+						{
+							alert('Error adding / update data');
+						}
+					});
+
+				}
+			}
+
 			function reload_table()
 			{
 				oTable.ajax.reload(null,false); //reload datatable ajax

@@ -28,6 +28,11 @@
 	                    <th><?= $this->lang->line('crime_edit'); ?></th>
 	                    <th><?= $this->lang->line('crime_delete'); ?></th>
 	                    <th><?= $this->lang->line('crime_unlock'); ?></th>
+	                    <th><?= $this->lang->line('court_session_new'); ?></th>
+	                    <th><?= $this->lang->line('court_session_view'); ?></th>
+	                    <th><?= $this->lang->line('court_session_edit'); ?></th>
+	                    <th><?= $this->lang->line('court_session_delete'); ?></th>
+	                    <th><?= $this->lang->line('court_session_unlock'); ?></th>
 	                    <th><?= $this->lang->line('actions'); ?></th>
 	                </tr>
 				</thead>
@@ -57,7 +62,7 @@
 						search: "<?= $this->lang->line('search'); ?>"
 					},
 					columnDefs: [{
-						"targets": 12,
+						"targets": 17,
 						"searchable": false,
 						"orderable": false,
 						"width": "125px"
@@ -116,6 +121,11 @@
 						$('i#prisoner_edit', '#modal_form_view').addClass(data.prisoner_edit===1||data.prisoner_edit==='1'? 'glyphicon-ok': 'glyphicon-remove');
 						$('i#prisoner_delete', '#modal_form_view').addClass(data.prisoner_delete===1||data.prisoner_delete==='1'? 'glyphicon-ok': 'glyphicon-remove');
 						$('i#prisoner_unlock', '#modal_form_view').addClass(data.prisoner_unlock===1||data.prisoner_unlock==='1'? 'glyphicon-ok': 'glyphicon-remove');
+						$('i#court_session_new', '#modal_form_view').addClass(data.court_session_new===1||data.court_session_new==='1'? 'glyphicon-ok': 'glyphicon-remove');
+						$('i#court_session_view', '#modal_form_view').addClass(data.court_session_view===1||data.court_session_view==='1'? 'glyphicon-ok': 'glyphicon-remove');
+						$('i#court_session_edit', '#modal_form_view').addClass(data.court_session_edit===1||data.court_session_edit==='1'? 'glyphicon-ok': 'glyphicon-remove');
+						$('i#court_session_delete', '#modal_form_view').addClass(data.court_session_delete===1||data.court_session_delete==='1'? 'glyphicon-ok': 'glyphicon-remove');
+						$('i#court_session_unlock', '#modal_form_view').addClass(data.court_session_unlock===1||data.court_session_unlock==='1'? 'glyphicon-ok': 'glyphicon-remove');
 
 						$('#modal_form_view').modal('show'); // show bootstrap modal when complete loaded
 					},
@@ -154,6 +164,11 @@
 						$('[name="prisoner_edit"]', '#modal_form_edit').prop('checked', (data.prisoner_edit===1||data.prisoner_edit==='1'? true: false));
 						$('[name="prisoner_delete"]', '#modal_form_edit').prop('checked', (data.prisoner_delete===1||data.prisoner_delete==='1'? true: false));
 						$('[name="prisoner_unlock"]', '#modal_form_edit').prop('checked', (data.prisoner_unlock===1||data.prisoner_unlock==='1'? true: false));
+						$('[name="court_session_new"]', '#modal_form_edit').prop('checked', (data.court_session_new===1||data.court_session_new==='1'? true: false));
+						$('[name="court_session_view"]', '#modal_form_edit').prop('checked', (data.court_session_view===1||data.court_session_view==='1'? true: false));
+						$('[name="court_session_edit"]', '#modal_form_edit').prop('checked', (data.court_session_edit===1||data.court_session_edit==='1'? true: false));
+						$('[name="court_session_delete"]', '#modal_form_edit').prop('checked', (data.court_session_delete===1||data.court_session_delete==='1'? true: false));
+						$('[name="court_session_unlock"]', '#modal_form_edit').prop('checked', (data.court_session_unlock===1||data.court_session_unlock==='1'? true: false));
 
 						$('#modal_form_edit').modal('show'); // show bootstrap modal when complete loaded
 						$('.modal-title', '#modal_form_edit').text('Edit Group'); // Set Title to Bootstrap modal title
@@ -288,6 +303,26 @@
 									</label>
 								</div>
 							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3"><?= $this->lang->line('court_session'); ?></label>
+								<div class="col-md-9">
+									<label class="checkbox-inline">
+										<i class="glyphicon" id="court_session_new"></i> <?= $this->lang->line('new'); ?>
+									</label>
+									<label class="checkbox-inline">
+										<i class="glyphicon" id="court_session_view"></i> <?= $this->lang->line('view'); ?>
+									</label>
+									<label class="checkbox-inline">
+										<i class="glyphicon" id="court_session_edit"></i> <?= $this->lang->line('edit'); ?>
+									</label>
+									<label class="checkbox-inline">
+										<i class="glyphicon" id="court_session_delete"></i> <?= $this->lang->line('delete'); ?>
+									</label>
+									<label class="checkbox-inline">
+										<i class="glyphicon" id="court_session_unlock"></i> <?= $this->lang->line('unlock'); ?>
+									</label>
+								</div>
+							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
@@ -358,6 +393,26 @@
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="crime_unlock"> <?= $this->lang->line('unlock'); ?>
+									</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3"><?= $this->lang->line('court_session'); ?></label>
+								<div class="col-md-9">
+									<label class="checkbox-inline">
+										<input type="checkbox" name="court_session_new"> <?= $this->lang->line('new'); ?>
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="court_session_view"> <?= $this->lang->line('view'); ?>
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="court_session_edit"> <?= $this->lang->line('edit'); ?>
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="court_session_delete"> <?= $this->lang->line('delete'); ?>
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="court_session_unlock"> <?= $this->lang->line('unlock'); ?>
 									</label>
 								</div>
 							</div>

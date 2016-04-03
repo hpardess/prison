@@ -17,9 +17,13 @@
 				<thead>
 					<tr>
 	                    <th><?= $this->lang->line('id'); ?></th>
+	                    <th><?= $this->lang->line('registration_date'); ?></th>
 	                    <th><?= $this->lang->line('case_number'); ?></th>
 	                    <th><?= $this->lang->line('crime_date'); ?></th>
+	                    <th><?= $this->lang->line('arrest_date'); ?></th>
 	                    <th><?= $this->lang->line('police_custody'); ?></th>
+	                    <th><?= $this->lang->line('crime_reason'); ?></th>
+	                    <th><?= $this->lang->line('crime_supporter'); ?></th>
 	                    <th><?= $this->lang->line('crime_location'); ?></th>
 	                    <th><?= $this->lang->line('crime_district'); ?></th>
 	                    <th><?= $this->lang->line('crime_province'); ?></th>
@@ -40,6 +44,9 @@
 			</table>
 		</div>
 		
+		<link rel="stylesheet" href="<?php echo base_url("assets/select2-4.0.2/dist/css/select2.min.css"); ?>" />
+		<script src="<?php echo base_url('assets/select2-4.0.2/dist/js/select2.min.js')?>"></script>
+
 		<link rel="stylesheet" href="<?php echo base_url("assets/datatables/media/css/dataTables.bootstrap.min.css"); ?>" />
 		<script src="<?php echo base_url('assets/datatables/media/js/jquery.dataTables.min.js')?>"></script>
 		<script src="<?php echo base_url('assets/datatables/media/js/dataTables.bootstrap.js')?>"></script>
@@ -68,7 +75,7 @@
 						search: "<?= $this->lang->line('search'); ?>"
 					},
 					columnDefs: [{
-						"targets": 9,
+						"targets": 21,
 						"searchable": false,
 						"orderable": false,
 						"width": "125px"
@@ -140,9 +147,13 @@
 					{
 						if(data.success === true) {
 							$('p#id', '#modal_form_view').html(data.result.id);
+							$('p#registrationDate', '#modal_form_view').html(data.result.registration_date);
 							$('p#caseNumber', '#modal_form_view').html(data.result.case_number);
 							$('p#crimeDate', '#modal_form_view').html(data.result.crime_date);
+							$('p#arrestDate', '#modal_form_view').html(data.result.arrest_date);
 							$('p#policeCustody', '#modal_form_view').html(data.result.police_custody);
+							$('p#crimeReason', '#modal_form_view').html(data.result.crime_reason);
+							$('p#crimeSupporter', '#modal_form_view').html(data.result.crime_supporter);
 							$('p#crimeProvince', '#modal_form_view').html(data.result.crime_province);
 							$('p#crimeDistrict', '#modal_form_view').html(data.result.crime_district);
 							$('p#crimeLocation', '#modal_form_view').html(data.result.crime_location);
@@ -188,9 +199,13 @@
 						if(data.success === true) {
 							$('p#id', '#modal_form_edit').html(data.result.crime.id);
 							$('[name="id"]', '#modal_form_edit').val(data.result.crime.id);
+							$('p#registrationDate', '#modal_form_edit').html(data.result.crime.registration_date);
 							$('[name="caseNumber"]', '#modal_form_edit').val(data.result.crime.case_number);
 							$('[name="crimeDate"]', '#modal_form_edit').val(data.result.crime.crime_date);
+							$('[name="arrestDate"]', '#modal_form_edit').val(data.result.crime.arrest_date);
 							$('[name="policeCustody"]', '#modal_form_edit').val(data.result.crime.police_custody);
+							$('[name="crimeReason"]', '#modal_form_edit').val(data.result.crime.crime_reason);
+							$('[name="crimeSupporter"]', '#modal_form_edit').val(data.result.crime.crime_supporter);
 							$('[name="crimeProvince"]', '#modal_form_edit').val(data.result.crime.crime_province_id);
 							var crimeDistrictsSelectEl = $('[name="crimeDistrict"]', '#modal_form_edit');
 							render_district_list(data.result.crimeDistricts, crimeDistrictsSelectEl);
@@ -230,13 +245,65 @@
 					// ajax delete data to database
 					$.ajax({
 						url : "<?php echo site_url('crime/delete')?>/"+id,
-						type: "POST",
+						type: "GET",
 						dataType: "JSON",
 						success: function(data)
 						{
 							if(data.success === true) {
 								//if success reload ajax table
 								$('#modal_form_edit').modal('hide');
+								reload_table();
+							} else {
+								alert(data.message);
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown)
+						{
+							alert('Error adding / update data');
+						}
+					});
+
+				}
+			}
+
+			function lock_record(id)
+			{
+				if(confirm('Are you sure to lock this data?'))
+				{
+					// ajax delete data to database
+					$.ajax({
+						url : "<?php echo site_url('crime/lock')?>/"+id,
+						type: "GET",
+						dataType: "JSON",
+						success: function(data)
+						{
+							if(data.success === true) {
+								reload_table();
+							} else {
+								alert(data.message);
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown)
+						{
+							alert('Error adding / update data');
+						}
+					});
+
+				}
+			}
+
+			function unlock_record(id)
+			{
+				if(confirm('Are you sure to unlock this data?'))
+				{
+					// ajax delete data to database
+					$.ajax({
+						url : "<?php echo site_url('crime/unlock')?>/"+id,
+						type: "GET",
+						dataType: "JSON",
+						success: function(data)
+						{
+							if(data.success === true) {
 								reload_table();
 							} else {
 								alert(data.message);
@@ -308,10 +375,16 @@
 									<p class="form-control-static" id="id"></p>
 								</div>
 							</div>
-							<div class="form-group">
+	                    	<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('case_number'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="caseNumber"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('registration_date'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="registrationDate"></p>
 								</div>
 							</div>
 							<div class="form-group">
@@ -321,9 +394,27 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_date'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="arrestDate"></p>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('police_custody'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="policeCustody"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_reason'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="crimeReason"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_supporter'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="crimeSupporter"></p>
 								</div>
 							</div>
 							<div class="form-group">
@@ -434,6 +525,12 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('registration_date'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="registrationDate"></p>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('case_number'); ?></label>
 								<div class="col-md-8">
 									<input name="caseNumber" placeholder="Case Number" class="form-control" type="text">
@@ -446,9 +543,27 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="control-label col-md-4"><?= $this->lang->line('arrest_date'); ?></label>
+								<div class="col-md-8">
+									<input name="arrestDate" placeholder="Arrest Date" class="form-control" type="date">
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('police_custody'); ?></label>
 								<div class="col-md-8">
 									<input name="policeCustody" placeholder="Police Custody" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-4"><?= $this->lang->line('crime_reason'); ?></label>
+								<div class="col-md-8">
+									<input name="crimeReason" placeholder="Crime Reason" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-4"><?= $this->lang->line('crime_supporter'); ?></label>
+								<div class="col-md-8">
+									<input name="crimeSupporter" placeholder="Crime Supporter" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">

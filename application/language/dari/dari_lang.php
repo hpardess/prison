@@ -66,9 +66,13 @@ $lang['present_district'] = 'ولسوالی اصلی';
 $lang['profile_pic'] = 'تصویر';
 
 // Crime
+$lang['registration_date'] = 'Registration Date';
 $lang['crime_date'] = ' تاریخ جرم';
+$lang['arrest_date'] = 'Arrest Date';
 $lang['case_number'] = 'Case Number';
 $lang['police_custody'] = 'مدت حبس در هوزه پولیس';
+$lang['crime_reason'] = 'Crime Reason';
+$lang['crime_supporter'] = 'Crime Supporter';
 $lang['crime_location'] = 'محل جرم';
 $lang['crime_district'] = 'ولسوالی جرم و جنایت';
 $lang['crime_province'] = 'ولایت جرم و جنایت';
@@ -114,3 +118,8 @@ $lang['crime_view'] = 'نمایش جرم';
 $lang['crime_edit'] = 'ویرایش جرم';
 $lang['crime_delete'] = 'حذف جرم';
 $lang['crime_unlock'] = 'قفل';
+$lang['court_session_new'] = 'Court Session New';
+$lang['court_session_view'] = 'Court Session View';
+$lang['court_session_edit'] = 'Court Session Edit';
+$lang['court_session_delete'] = 'Court Session Delete';
+$lang['court_session_unlock'] = 'Court Session Unlock';

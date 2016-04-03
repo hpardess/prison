@@ -39,7 +39,12 @@ class Group extends CI_Controller {
 			'crime_view',
 			'crime_edit',
 			'crime_delete',
-			'crime_unlock');
+			'crime_unlock',
+			'court_session_new',
+			'court_session_view',
+			'court_session_edit',
+			'court_session_delete',
+			'court_session_unlock');
  
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = "id";
@@ -98,6 +103,12 @@ class Group extends CI_Controller {
 		$crime_delete = $this->input->post('crime_delete');
 		$crime_unlock = $this->input->post('crime_unlock');
 
+		$court_session_new = $this->input->post('court_session_new');
+		$court_session_view = $this->input->post('court_session_view');
+		$court_session_edit = $this->input->post('court_session_edit');
+		$court_session_delete = $this->input->post('court_session_delete');
+		$court_session_unlock = $this->input->post('court_session_unlock');
+
         $data = array(
                 'group_name' => $this->input->post('groupName'),
                 'prisoner_new' => isset($prisoner_new)? 1: 0,
@@ -110,7 +121,13 @@ class Group extends CI_Controller {
                 'crime_view' => isset($crime_view)? 1: 0,
                 'crime_edit' => isset($crime_edit)? 1: 0,
                 'crime_delete' => isset($crime_delete)? 1: 0,
-                'crime_unlock' => isset($crime_unlock)? 1: 0
+                'crime_unlock' => isset($crime_unlock)? 1: 0,
+
+                'court_session_new' => isset($court_session_new)? 1: 0,
+                'court_session_view' => isset($court_session_view)? 1: 0,
+                'court_session_edit' => isset($court_session_edit)? 1: 0,
+                'court_session_delete' => isset($court_session_delete)? 1: 0,
+                'court_session_unlock' => isset($court_session_unlock)? 1: 0
             );
         $insert = $this->group_model->create($data);
         // log_message('debug', 'insert: ' . $insert);
@@ -132,6 +149,12 @@ class Group extends CI_Controller {
 		$crime_delete = $this->input->post('crime_delete');
 		$crime_unlock = $this->input->post('crime_unlock');
 
+		$court_session_new = $this->input->post('court_session_new');
+		$court_session_view = $this->input->post('court_session_view');
+		$court_session_edit = $this->input->post('court_session_edit');
+		$court_session_delete = $this->input->post('court_session_delete');
+		$court_session_unlock = $this->input->post('court_session_unlock');
+
         $data = array(
                 'group_name' => $this->input->post('groupName'),
                 'prisoner_new' => isset($prisoner_new)? 1: 0,
@@ -144,7 +167,13 @@ class Group extends CI_Controller {
                 'crime_view' => isset($crime_view)? 1: 0,
                 'crime_edit' => isset($crime_edit)? 1: 0,
                 'crime_delete' => isset($crime_delete)? 1: 0,
-                'crime_unlock' => isset($crime_unlock)? 1: 0
+                'crime_unlock' => isset($crime_unlock)? 1: 0,
+
+                'court_session_new' => isset($court_session_new)? 1: 0,
+                'court_session_view' => isset($court_session_view)? 1: 0,
+                'court_session_edit' => isset($court_session_edit)? 1: 0,
+                'court_session_delete' => isset($court_session_delete)? 1: 0,
+                'court_session_unlock' => isset($court_session_unlock)? 1: 0
             );
         $affected_rows = $this->group_model->update(array('id' => $this->input->post('id')), $data);
         // log_message('debug', 'affected rows: ' . $affected_rows);

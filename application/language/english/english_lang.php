@@ -66,9 +66,13 @@ $lang['present_district'] = 'Present District';
 $lang['profile_pic'] = 'Profile Photo';
 
 // Crime
+$lang['registration_date'] = 'Registration Date';
 $lang['crime_date'] = 'Crime Date';
+$lang['arrest_date'] = 'Arrest Date';
 $lang['case_number'] = 'Case Number';
 $lang['police_custody'] = 'Police Custody';
+$lang['crime_reason'] = 'Crime Reason';
+$lang['crime_supporter'] = 'Crime Supporter';
 $lang['crime_location'] = 'Crime Location';
 $lang['crime_district'] = 'Crime District';
 $lang['crime_province'] = 'Crime Province';
@@ -114,3 +118,8 @@ $lang['crime_view'] = 'Crime View';
 $lang['crime_edit'] = 'Crime Edit';
 $lang['crime_delete'] = 'Crime Delete';
 $lang['crime_unlock'] = 'Crime Unlock';
+$lang['court_session_new'] = 'Court Session New';
+$lang['court_session_view'] = 'Court Session View';
+$lang['court_session_edit'] = 'Court Session Edit';
+$lang['court_session_delete'] = 'Court Session Delete';
+$lang['court_session_unlock'] = 'Court Session Unlock';

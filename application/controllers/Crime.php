@@ -33,9 +33,13 @@ class Crime extends CI_Controller {
 
 		$aColumns = array(
 			'id',
+			'registration_date',
 			'case_number',
 			'crime_date',
+			'arrest_date',
 			'police_custody',
+			'crime_reason',
+			'crime_supporter',
 			'crime_location',
 			'crime_district',
 			'crime_province',
@@ -48,7 +52,8 @@ class Crime extends CI_Controller {
 			'command_issue_date',
 			'commission_proposal',
 			'prisoner_request',
-			'commission_member');
+			'commission_member',
+			'locked');
  
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = "id";
@@ -56,12 +61,43 @@ class Crime extends CI_Controller {
         $results = $this->datatables_model->get_data_list($tableName, $sIndexColumn, $aColumns);
 
         $filteredDataArray = [];
+        $aColumnsCount = count($aColumns);
         foreach ($results['data'] as $dataRow) {
-            $dataRow[] = '<a class="btn btn-xs btn-warning" title="Lock" onclick="lock_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-lock"></i>|</a>
-            			<a class="btn btn-xs btn-primary" title="View" onclick="view_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-list"></i>|</a>
-                    <a class="btn btn-xs btn-primary" title="Edit" onclick="edit_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-pencil"></i>|</a>
-                  <a class="btn btn-xs btn-danger" title="Delete" onclick="delete_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-trash"></i>|</a>';
+        	$isLocked = $dataRow[$aColumnsCount - 1];
+        	$buttons = '';
 
+        	// lock
+        	if($isLocked == '1')
+        	{
+        		if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_unlock'))
+				{
+					$buttons = $buttons . '<a class="btn btn-xs btn-warning" title="Unlock" onclick="unlock_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-flash"></i>|</a>';
+				}
+        	}
+        	else
+        	{
+        		$buttons = $buttons . '<a class="btn btn-xs btn-warning" title="Lock" onclick="lock_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-lock"></i>|</a>';
+        	}
+
+			// view
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_view'))
+			{
+				$buttons = $buttons . '<a class="btn btn-xs btn-primary" title="View" onclick="view_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-list"></i>|</a>';
+			}
+
+			// edit
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_edit'))
+			{
+				$buttons = $buttons . '<a class="btn btn-xs btn-primary" title="Edit" onclick="edit_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-pencil"></i>|</a>';
+			}
+
+			// delete
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_delete'))
+			{
+				$buttons = $buttons . '<a class="btn btn-xs btn-danger" title="Delete" onclick="delete_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-trash"></i>|</a>';
+			}
+
+            $dataRow[$aColumnsCount - 1] = $buttons;
             $filteredDataArray[] = $dataRow;
         }
 
@@ -81,7 +117,7 @@ class Crime extends CI_Controller {
     	$response['message'] = '';
     	$response['result'] = '';
 
-		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'crime_view'))
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_view'))
 		{
 			log_message('DEBUG', 'crime edit false');
 			$response['success'] = FALSE;
@@ -102,7 +138,7 @@ class Crime extends CI_Controller {
     	$response['message'] = '';
     	$response['result'] = '';
 
-		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'crime_edit'))
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_edit'))
 		{
 			log_message('DEBUG', 'crime edit false');
 			$response['success'] = FALSE;
@@ -129,7 +165,7 @@ class Crime extends CI_Controller {
     	$response['message'] = '';
     	$response['result'] = '';
 
-		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'crime_delete'))
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_delete'))
 		{
 			log_message('DEBUG', 'crime edit false');
 			$response['success'] = FALSE;
@@ -150,7 +186,7 @@ class Crime extends CI_Controller {
     	$response['message'] = '';
     	$response['result'] = '';
 
-		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'crime_new'))
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_new'))
 		{
 			log_message('DEBUG', 'crime edit false');
 			$response['success'] = FALSE;
@@ -160,9 +196,13 @@ class Crime extends CI_Controller {
 		else
 		{
 			$data = array(
+					// 'registration_date' => $this->input->post('registrationDate'),
 	                'crime_date' => $this->input->post('crimeDate'),
+	                'arrest_date' => $this->input->post('arrestDate'),
 	                'case_number' => $this->input->post('caseNumber'),
 	                'police_custody' => $this->input->post('policeCustody'),
+	                'crime_reason' => $this->input->post('crimeReason'),
+	                'crime_supporter' => $this->input->post('crimeSupporter'),
 	                'crime_province_id' => $this->input->post('crimeProvince'),
 	                'crime_district_id' => $this->input->post('crimeDistrict'),
 	                'crime_location' => $this->input->post('crimeLocation'),
@@ -190,7 +230,7 @@ class Crime extends CI_Controller {
     	$response['message'] = '';
     	$response['result'] = '';
 
-		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isadmin'), $this->session->userdata('group'), 'crime_edit'))
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_edit'))
 		{
 			log_message('DEBUG', 'crime edit false');
 			$response['success'] = FALSE;
@@ -200,9 +240,13 @@ class Crime extends CI_Controller {
 		else
 		{
 	        $data = array(
+					// 'registration_date' => $this->input->post('registrationDate'),
 	        		'case_number' => $this->input->post('caseNumber'),
 	                'crime_date' => $this->input->post('crimeDate'),
+	                'arrest_date' => $this->input->post('arrestDate'),
 	                'police_custody' => $this->input->post('policeCustody'),
+	                'crime_reason' => $this->input->post('crimeReason'),
+	                'crime_supporter' => $this->input->post('crimeSupporter'),
 	                'crime_province_id' => $this->input->post('crimeProvince'),
 	                'crime_district_id' => $this->input->post('crimeDistrict'),
 	                'crime_location' => $this->input->post('crimeLocation'),
@@ -218,6 +262,45 @@ class Crime extends CI_Controller {
 	                'commission_member' => $this->input->post('commissionMember')
 	            );
 	        $affected_rows = $this->crime_model->update(array('id' => $this->input->post('id')), $data);
+	        // log_message('debug', 'affected rows: ' . $affected_rows);
+	        echo json_encode($response);
+	    }
+    }
+
+    public function lock($id)
+    {
+    	$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+        $data = array(
+                'locked' => 1
+            );
+
+        $affected_rows = $this->crime_model->update(array('id' => $id), $data);
+        // log_message('debug', 'affected rows: ' . $affected_rows);
+        echo json_encode($response);
+    }
+
+    public function unlock($id)
+    {
+    	$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+        if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_unlock'))
+		{
+			log_message('DEBUG', 'crime edit false');
+			$response['success'] = FALSE;
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
+		}
+		else
+		{
+	        $data = array(
+                'locked' => 0
+            );
+	        $affected_rows = $this->crime_model->update(array('id' => $id), $data);
 	        // log_message('debug', 'affected rows: ' . $affected_rows);
 	        echo json_encode($response);
 	    }

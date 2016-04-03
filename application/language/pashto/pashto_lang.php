@@ -66,9 +66,13 @@ $lang['present_district'] = 'ولسوالي';
 $lang['profile_pic'] = 'انځور';
 
 // Crime
+$lang['registration_date'] = 'Registration Date';
 $lang['crime_date'] = 'نېټه د جرمونو';
+$lang['arrest_date'] = 'Arrest Date';
 $lang['case_number'] = 'Case Number';
 $lang['police_custody'] = 'د پوليسو په منګولو';
+$lang['crime_reason'] = 'Crime Reason';
+$lang['crime_supporter'] = 'Crime Supporter';
 $lang['crime_location'] = 'جرم ځای';
 $lang['crime_district'] = 'د جرم ولسوالۍ';
 $lang['crime_province'] = 'جرم ولايت';
@@ -114,3 +118,8 @@ $lang['crime_view'] = 'جرمونه محتویات';
 $lang['crime_edit'] = 'جرمونه سمول';
 $lang['crime_delete'] = 'جرمونه رنکول';
 $lang['crime_unlock'] = 'جرمونه خلاص کړئ';
+$lang['court_session_new'] = 'Court Session New';
+$lang['court_session_view'] = 'Court Session View';
+$lang['court_session_edit'] = 'Court Session Edit';
+$lang['court_session_delete'] = 'Court Session Delete';
+$lang['court_session_unlock'] = 'Court Session Unlock';
