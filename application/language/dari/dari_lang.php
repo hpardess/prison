@@ -52,6 +52,7 @@ $lang['crime_id'] = 'Crime ID';
 $lang['court_session_id'] = 'Court Session ID';
 
 // Prisoners
+$lang['tazkira_number'] = 'Tazkira Number';
 $lang['name'] = 'اسم';
 $lang['father_name'] = 'اسم پدر';
 $lang['grand_father_name'] = 'اسم پدرکالان';
@@ -69,6 +70,7 @@ $lang['profile_pic'] = 'تصویر';
 $lang['registration_date'] = 'Registration Date';
 $lang['crime_date'] = ' تاریخ جرم';
 $lang['arrest_date'] = 'Arrest Date';
+$lang['crime_type'] = 'Crime Type';
 $lang['case_number'] = 'Case Number';
 $lang['police_custody'] = 'مدت حبس در هوزه پولیس';
 $lang['crime_reason'] = 'Crime Reason';
@@ -123,3 +125,6 @@ $lang['court_session_view'] = 'Court Session View';
 $lang['court_session_edit'] = 'Court Session Edit';
 $lang['court_session_delete'] = 'Court Session Delete';
 $lang['court_session_unlock'] = 'Court Session Unlock';
+
+// Tips
+$lang['select_multiple_tip'] = 'Hold Controll key to select multiple options.';

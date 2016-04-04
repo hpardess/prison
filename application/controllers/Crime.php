@@ -10,6 +10,7 @@ class Crime extends CI_Controller {
 			redirect('/login');
 		}
 		$this->load->model('crime_model');
+		$this->load->model('crime_type_model');
 		$this->load->model("province_model");
 		$this->load->model('district_model');
 		$this->load->library('my_authentication');
@@ -23,6 +24,8 @@ class Crime extends CI_Controller {
 	{
 		$data['provincesList'] = $this->province_model->get_all();
 		$data['districtsList'] = $this->district_model->get_all();
+		$data['crimeTypeList'] = $this->crime_type_model->get_all();
+
 	    $this->load->view('crime_list', $data);
 	}
 
@@ -126,7 +129,8 @@ class Crime extends CI_Controller {
 		}
 		else
 		{
-			$result = $this->crime_model->get_by_id_with_joins($id);
+			$result['crime'] = $this->crime_model->get_by_id_with_joins($id);
+			$result['crimeTypes'] = $this->crime_type_model->get_by_crime_id($id, 'id, type_name');
 			$response['result'] = $result;
 	        echo json_encode($response);
 		}
@@ -153,6 +157,7 @@ class Crime extends CI_Controller {
 			$result['crime'] = $crime;
 			$result['crimeDistricts'] = $this->district_model->get_by_province_id($crime->crime_province_id);
 			$result['arrestDistricts'] = $this->district_model->get_by_province_id($crime->arrest_province_id);
+			$result['crimeTypes'] = $this->crime_type_model->get_by_crime_id($id, 'id, type_name');
 			$response['result'] = $result;
 
 	        echo json_encode($response);

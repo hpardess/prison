@@ -52,6 +52,7 @@ $lang['crime_id'] = 'Crime ID';
 $lang['court_session_id'] = 'Court Session ID';
 
 // Prisoners
+$lang['tazkira_number'] = 'Tazkira Number';
 $lang['name'] = 'Name';
 $lang['father_name'] = 'Father Name';
 $lang['grand_father_name'] = 'Grand Father Name';
@@ -69,6 +70,7 @@ $lang['profile_pic'] = 'Profile Photo';
 $lang['registration_date'] = 'Registration Date';
 $lang['crime_date'] = 'Crime Date';
 $lang['arrest_date'] = 'Arrest Date';
+$lang['crime_type'] = 'Crime Type';
 $lang['case_number'] = 'Case Number';
 $lang['police_custody'] = 'Police Custody';
 $lang['crime_reason'] = 'Crime Reason';
@@ -79,13 +81,13 @@ $lang['crime_province'] = 'Crime Province';
 $lang['arrest_location'] = 'Arrest Location';
 $lang['arrest_district'] = 'Arrest District';
 $lang['arrest_province'] = 'Arrest Province';
-$lang['time_spent_in_prison'] = 'time_spent_in_prison';
-$lang['remaining_jail_term'] = 'remaining_jail_term';
-$lang['use_benefit_forgiveness_presidential'] = 'use_benefit_forgiveness_presidential';
-$lang['command_issue_date'] = 'command_issue_date';
-$lang['commission_proposal'] = 'commission_proposal';
-$lang['prisoner_request'] = 'prisoner_request';
-$lang['commission_member'] = 'commission_member';
+$lang['time_spent_in_prison'] = 'Time Spent in Prison';
+$lang['remaining_jail_term'] = 'Remaining Jail Term';
+$lang['use_benefit_forgiveness_presidential'] = 'Use Benefit Forgiveness Presidential';
+$lang['command_issue_date'] = 'Command Issue Date';
+$lang['commission_proposal'] = 'Commission Proposal';
+$lang['prisoner_request'] = 'Prisoner Request';
+$lang['commission_member'] = 'Commission Member';
 
 // Court Session
 $lang['crime_id'] = 'Crime Id';
@@ -123,3 +125,6 @@ $lang['court_session_view'] = 'Court Session View';
 $lang['court_session_edit'] = 'Court Session Edit';
 $lang['court_session_delete'] = 'Court Session Delete';
 $lang['court_session_unlock'] = 'Court Session Unlock';
+
+// Tips
+$lang['select_multiple_tip'] = 'Hold Controll key to select multiple options.';

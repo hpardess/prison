@@ -35,6 +35,7 @@ class Prisoner extends CI_Controller {
 
 		$aColumns = array(
 			'id',
+			'tazkira_number',
 			'name',
 			'father_name',
 			'grand_father_name',
@@ -205,6 +206,7 @@ class Prisoner extends CI_Controller {
 			$criminal_history = $this->input->post('criminalHistory');
 
 	        $data = array(
+	        		'tazkira_number' => $this->input->post('tazkiraNumber'),
 	                'name' => $this->input->post('name'),
 	                'father_name' => $this->input->post('fatherName'),
 	                'grand_father_name' => $this->input->post('grandFatherName'),
@@ -290,6 +292,7 @@ class Prisoner extends CI_Controller {
 	    	$criminal_history = $this->input->post('criminalHistory');
 
 	        $data = array(
+	        		'tazkira_number' => $this->input->post('tazkiraNumber'),
 	                'name' => $this->input->post('name'),
 	                'father_name' => $this->input->post('fatherName'),
 	                'grand_father_name' => $this->input->post('grandFatherName'),

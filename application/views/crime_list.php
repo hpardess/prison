@@ -57,6 +57,7 @@
 		    var oTable;
 		    var provincesList = <?= json_encode($provincesList) ?>;
 		    var districtsList = <?= json_encode($districtsList) ?>;
+		    var crimeTypesList = <?= json_encode($crimeTypeList) ?>;
 
             $(document).ready(function () {
             	$("li#criminal_cases", ".navbar-nav").addClass("active");
@@ -105,6 +106,14 @@
 				});
             }
 
+            function render_crime_type_list(crime_type_list, selectEl) {
+            	$(selectEl).empty();
+            	$('<option>').appendTo(selectEl);
+            	$.each(crimeTypesList, function(index, value) {
+					$('<option>').attr('value', value.id).html(value.type_name).appendTo(selectEl);
+				});
+            }
+
 			function new_record()
 			{
 				save_method = 'new';
@@ -146,28 +155,35 @@
 					success: function(data)
 					{
 						if(data.success === true) {
-							$('p#id', '#modal_form_view').html(data.result.id);
-							$('p#registrationDate', '#modal_form_view').html(data.result.registration_date);
-							$('p#caseNumber', '#modal_form_view').html(data.result.case_number);
-							$('p#crimeDate', '#modal_form_view').html(data.result.crime_date);
-							$('p#arrestDate', '#modal_form_view').html(data.result.arrest_date);
-							$('p#policeCustody', '#modal_form_view').html(data.result.police_custody);
-							$('p#crimeReason', '#modal_form_view').html(data.result.crime_reason);
-							$('p#crimeSupporter', '#modal_form_view').html(data.result.crime_supporter);
-							$('p#crimeProvince', '#modal_form_view').html(data.result.crime_province);
-							$('p#crimeDistrict', '#modal_form_view').html(data.result.crime_district);
-							$('p#crimeLocation', '#modal_form_view').html(data.result.crime_location);
-							$('p#arrestProvince', '#modal_form_view').html(data.result.arrest_province);
-							$('p#arrestDistrict', '#modal_form_view').html(data.result.arrest_district);
-							$('p#arrestLocation', '#modal_form_view').html(data.result.arrest_location);
+							$('p#id', '#modal_form_view').html(data.result.crime.id);
+							$('p#registrationDate', '#modal_form_view').html(data.result.crime.registration_date);
+							$('p#caseNumber', '#modal_form_view').html(data.result.crime.case_number);
+							$('p#crimeDate', '#modal_form_view').html(data.result.crime.crime_date);
+							$('p#arrestDate', '#modal_form_view').html(data.result.crime.arrest_date);
 
-							$('p#timeSpentInPrison', '#modal_form_view').html(data.result.time_spent_in_prison);
-							$('p#remainingJailTerm', '#modal_form_view').html(data.result.remaining_jail_term);
-							$('p#useBenefitForgivenessPresidential', '#modal_form_view').html(data.result.use_benefit_forgiveness_presidential);
-							$('p#commandIssueDate', '#modal_form_view').html(data.result.command_issue_date);
-							$('p#commissionProposal', '#modal_form_view').html(data.result.commission_proposal);
-							$('p#prisonerRequest', '#modal_form_view').html(data.result.prisoner_request);
-							$('p#commissionMember', '#modal_form_view').html(data.result.commission_member);
+							var crimeTypesString = '';
+							$.each(data.result.crimeTypes, function(index, value) {
+								crimeTypesString = crimeTypesString + ' ' + value.type_name;
+							});
+							$('p#crimeType', '#modal_form_view').html(crimeTypesString);
+
+							$('p#policeCustody', '#modal_form_view').html(data.result.crime.police_custody);
+							$('p#crimeReason', '#modal_form_view').html(data.result.crime.crime_reason);
+							$('p#crimeSupporter', '#modal_form_view').html(data.result.crime.crime_supporter);
+							$('p#crimeProvince', '#modal_form_view').html(data.result.crime.crime_province);
+							$('p#crimeDistrict', '#modal_form_view').html(data.result.crime.crime_district);
+							$('p#crimeLocation', '#modal_form_view').html(data.result.crime.crime_location);
+							$('p#arrestProvince', '#modal_form_view').html(data.result.crime.arrest_province);
+							$('p#arrestDistrict', '#modal_form_view').html(data.result.crime.arrest_district);
+							$('p#arrestLocation', '#modal_form_view').html(data.result.crime.arrest_location);
+
+							$('p#timeSpentInPrison', '#modal_form_view').html(data.result.crime.time_spent_in_prison);
+							$('p#remainingJailTerm', '#modal_form_view').html(data.result.crime.remaining_jail_term);
+							$('p#useBenefitForgivenessPresidential', '#modal_form_view').html(data.result.crime.use_benefit_forgiveness_presidential);
+							$('p#commandIssueDate', '#modal_form_view').html(data.result.crime.command_issue_date);
+							$('p#commissionProposal', '#modal_form_view').html(data.result.crime.commission_proposal);
+							$('p#prisonerRequest', '#modal_form_view').html(data.result.crime.prisoner_request);
+							$('p#commissionMember', '#modal_form_view').html(data.result.crime.commission_member);
 
 							$('#modal_form_view').modal('show'); // show bootstrap modal when complete loaded
 						} else {
@@ -203,6 +219,16 @@
 							$('[name="caseNumber"]', '#modal_form_edit').val(data.result.crime.case_number);
 							$('[name="crimeDate"]', '#modal_form_edit').val(data.result.crime.crime_date);
 							$('[name="arrestDate"]', '#modal_form_edit').val(data.result.crime.arrest_date);
+
+							var crimeTypeSelectEl = $('[name="crimeType"]', '#modal_form_edit');
+							render_crime_type_list(crimeTypesList, crimeTypeSelectEl);
+
+							var crimeTypesArray = [];
+							$.each(data.result.crimeTypes, function(index, value) {
+								crimeTypesArray.push(value.id);
+							});
+							$('[name="crimeType"]', '#modal_form_edit').val(crimeTypesArray);
+
 							$('[name="policeCustody"]', '#modal_form_edit').val(data.result.crime.police_custody);
 							$('[name="crimeReason"]', '#modal_form_edit').val(data.result.crime.crime_reason);
 							$('[name="crimeSupporter"]', '#modal_form_edit').val(data.result.crime.crime_supporter);
@@ -400,6 +426,12 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_type'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="crimeType"></p>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('police_custody'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="policeCustody"></p>
@@ -549,6 +581,18 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="control-label col-md-4"><?= $this->lang->line('crime_type'); ?></label>
+								<div class="col-md-8">
+									<select multiple name="crimeType" class="form-control" class="form-control">
+										<option></option>
+										<?php foreach ($crimeTypeList as $key => $value) {
+											echo "<option value='" . $value->id . "'>" . $value->type_name . "</option>";
+										} ?>
+									</select>
+									<span><small><?= $this->lang->line('select_multiple_tip'); ?></small></span>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('police_custody'); ?></label>
 								<div class="col-md-8">
 									<input name="policeCustody" placeholder="Police Custody" class="form-control" type="text">
@@ -594,7 +638,6 @@
 								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_province'); ?></label>
 								<div class="col-sm-8">
 									<select name="arrestProvince" class="form-control" class="form-control">
-										<option></option>
 										<?php foreach ($provincesList as $key => $value) {
 											echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
 										} ?>

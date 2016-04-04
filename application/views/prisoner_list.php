@@ -18,6 +18,7 @@
 				<thead>
 					<tr>
 	                    <th><?= $this->lang->line('id'); ?></th>
+	                    <th><?= $this->lang->line('tazkira_number'); ?></th>
 	                    <th><?= $this->lang->line('name'); ?></th>
 	                    <th><?= $this->lang->line('father_name'); ?></th>
 	                    <th><?= $this->lang->line('grand_father_name'); ?></th>
@@ -66,7 +67,7 @@
 						search: "<?= $this->lang->line('search'); ?>"
 					},
 					columnDefs: [{
-						"targets": 13,
+						"targets": 14,
 						"searchable": false,
 						"orderable": false,
 						"width": "125px"
@@ -138,6 +139,7 @@
 					{
 						if(data.success === true) {
 							$('p#id', '#modal_form_view').html(data.result.id);
+							$('p#tazkiraNumber', '#modal_form_view').html(data.result.tazkira_number);
 							$('p#name', '#modal_form_view').html(data.result.name);
 							$('p#fatherName', '#modal_form_view').html(data.result.father_name);
 							$('p#grandFatherName', '#modal_form_view').html(data.result.grand_father_name);
@@ -190,6 +192,7 @@
 						if(data.success === true) {
 							$('p#id', '#modal_form_edit').html(data.result.prisoner.id);
 							$('[name="id"]', '#modal_form_edit').val(data.result.prisoner.id);
+							$('[name="tazkiraNumber"]', '#modal_form_edit').val(data.result.prisoner.tazkira_number);
 							$('[name="name"]', '#modal_form_edit').val(data.result.prisoner.name);
 							$('[name="fatherName"]', '#modal_form_edit').val(data.result.prisoner.father_name);
 							$('[name="grandFatherName"]', '#modal_form_edit').val(data.result.prisoner.grand_father_name);
@@ -397,6 +400,12 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('tazkira_number'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="tazkiraNumber"></p>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('name'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="name"></p>
@@ -495,6 +504,12 @@
 								<label class="col-sm-4 control-label"><?= $this->lang->line('id'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="id"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('tazkira_number'); ?></label>
+								<div class="col-sm-8">
+									<input name="tazkiraNumber" placeholder="Tazkira Number" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
