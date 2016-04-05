@@ -1,7 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Prisoner extends CI_Controller {
-	
+	var $language = 'english';
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -15,16 +16,16 @@ class Prisoner extends CI_Controller {
 		$this->load->model('marital_status_model');
 		$this->load->library('my_authentication');
 
-		$idiom = $this->session->userdata('language');
-		log_message('debug', 'selected language: ' . $idiom);
-		$this->lang->load($idiom, $idiom);
+		$this->language = $this->session->userdata('language');
+		log_message('debug', 'selected language: ' . $this->language);
+		$this->lang->load($this->language, $this->language);
 	}
 
 	public function index()
 	{
-		$data['provincesList'] = $this->province_model->get_all();
-		$data['districtsList'] = $this->district_model->get_all();
-		$data['maritalStatusList'] = $this->marital_status_model->get_all();
+		$data['provincesList'] = $this->province_model->get_all('id, name_' . $this->language .' AS name');
+		$data['districtsList'] = $this->district_model->get_all('id, name_' . $this->language .' AS name, province_id');
+		$data['maritalStatusList'] = $this->marital_status_model->get_all('id, status_' . $this->language .' AS status');
 	    $this->load->view('prisoner_list', $data);
 	}
 
@@ -40,13 +41,13 @@ class Prisoner extends CI_Controller {
 			'father_name',
 			'grand_father_name',
 			'age',
-			'marital_status',
+			'marital_status_' . $this->language,
 			'num_of_children',
 			'criminal_history',
-			'permanent_province',
-			'permanent_district',
-			'present_province',
-			'present_district',
+			'permanent_province_' . $this->language,
+			'permanent_district_' . $this->language,
+			'present_province_' . $this->language,
+			'present_district_' . $this->language,
 			'profile_pic',
 			'locked');
  

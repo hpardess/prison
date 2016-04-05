@@ -11,6 +11,10 @@ td { font-size: 12px; }
    text-align: right;
 }
 
+.dt-buttons {
+  display: inline-block;
+}
+
 /* bootstrap overridding */
 .form-group {
 	margin-bottom: 4px;

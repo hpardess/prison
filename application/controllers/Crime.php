@@ -1,7 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Crime extends CI_Controller {
-	
+	var $language = 'english';
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -15,16 +16,16 @@ class Crime extends CI_Controller {
 		$this->load->model('district_model');
 		$this->load->library('my_authentication');
 
-		$idiom = $this->session->userdata('language');
-		log_message('debug', 'selected language: ' . $idiom);
-		$this->lang->load($idiom, $idiom);
+		$this->language = $this->session->userdata('language');
+		log_message('debug', 'selected language: ' . $this->language);
+		$this->lang->load($this->language, $this->language);
 	}
 
 	public function index()
 	{
-		$data['provincesList'] = $this->province_model->get_all();
-		$data['districtsList'] = $this->district_model->get_all();
-		$data['crimeTypeList'] = $this->crime_type_model->get_all();
+		$data['provincesList'] = $this->province_model->get_all('id, name_' . $this->language .' AS name');
+		$data['districtsList'] = $this->district_model->get_all('id, name_' . $this->language .' AS name, province_id');
+		$data['crimeTypeList'] = $this->crime_type_model->get_all('id, type_name_' . $this->language .' AS type_name');
 
 	    $this->load->view('crime_list', $data);
 	}
@@ -44,11 +45,11 @@ class Crime extends CI_Controller {
 			'crime_reason',
 			'crime_supporter',
 			'crime_location',
-			'crime_district',
-			'crime_province',
+			'crime_district_' . $this->language,
+			'crime_province_' . $this->language,
 			'arrest_location',
-			'arrest_district',
-			'arrest_province',
+			'arrest_district_' . $this->language,
+			'arrest_province_' . $this->language,
 			'time_spent_in_prison',
 			'remaining_jail_term',
 			'use_benefit_forgiveness_presidential',

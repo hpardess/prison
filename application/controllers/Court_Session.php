@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Court_Session extends CI_Controller {
+	var $language = 'english';
 	
 	public function __construct()
 	{
@@ -13,16 +14,16 @@ class Court_Session extends CI_Controller {
 		$this->load->model('court_decision_type_model');
 		$this->load->library('my_authentication');
 
-		$idiom = $this->session->userdata('language');
-		log_message('debug', 'selected language: ' . $idiom);
-		$this->lang->load($idiom, $idiom);
+		$this->language = $this->session->userdata('language');
+		log_message('debug', 'selected language: ' . $this->language);
+		$this->lang->load($this->language, $this->language);
 	}
 
 	public function index()
 	{
 		// $data['provincesList'] = $this->province_model->get_all();
 		// $data['districtsList'] = $this->district_model->get_all();
-		$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all();
+		$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
 	    $this->load->view('court_session_list', $data);
 	}
 
@@ -34,7 +35,7 @@ class Court_Session extends CI_Controller {
 		$aColumns = array(
 			'id',
 			'crime_id',
-			'court_decision_type',
+			'court_decision_type_' . $this->language,
 			'decision_date',
 			'decision',
 			'defence_lawyer_name',
@@ -100,7 +101,7 @@ class Court_Session extends CI_Controller {
 
 	public function view($id)
 	{
-		$result = $this->court_session_model->get_by_id_with_joins($id);
+		$result = $this->court_session_model->get_by_id_with_joins($id, $this->language);
         echo json_encode($result);
 	}
 
