@@ -505,7 +505,7 @@ INNER JOIN `court_decision_type` ON `court_decision_type`.id =  `court_session`.
 -- Structure for view `general_view`
 --
 
--- CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `general_view` AS select `prisoner`.`marital_status_id` AS `marital_status_id`,`marital_status`.`status` AS `marital_status`,`prisoner`.`present_province_id` AS `present_province_id`,`present_province`.`name` AS `present_province`,`prisoner`.`present_district_id` AS `present_district_id`,`present_district`.`name` AS `present_district`,`prisoner`.`permanent_province_id` AS `permanent_province_id`,`permanent_province`.`name` AS `permanent_province`,`prisoner`.`permanent_district_id` AS `permanent_district_id`,`permanent_district`.`name` AS `permanent_district`,`prisoner`.`name` AS `name`,`prisoner`.`father_name` AS `father_name`,`prisoner`.`grand_father_name` AS `grand_father_name`,`prisoner`.`age` AS `age`,`prisoner`.`criminal_history` AS `criminal_history`,`prisoner`.`num_of_children` AS `num_of_children`,`prisoner`.`profile_pic` AS `profile_pic`,`crime`.`case_number` AS `case_number`,`crime`.`crime_date` AS `crime_date`,`crime`.`crime_location` AS `crime_location`,`crime`.`arrest_location` AS `arrest_location`,`crime`.`police_custody` AS `police_custody`,`crime`.`crime_province_id` AS `crime_province_id`,`crime_province`.`name` AS `crime_province`,`crime`.`crime_district_id` AS `crime_district_id`,`crime_district`.`name` AS `crime_district`,`crime`.`arrest_province_id` AS `arrest_province_id`,`arrest_province`.`name` AS `arrest_province`,`crime`.`arrest_district_id` AS `arrest_district_id`,`arrest_district`.`name` AS `arrest_district`,`crime`.`time_spent_in_prison` AS `time_spent_in_prison`,`crime`.`remaining_jail_term` AS `remaining_jail_term`,`crime`.`use_benefit_forgiveness_presidential` AS `use_benefit_forgiveness_presidential`,`crime`.`command_issue_date` AS `command_issue_date`,`crime`.`commission_proposal` AS `commission_proposal`,`crime`.`prisoner_request` AS `prisoner_request`,`crime`.`commission_member` AS `commission_member`,`court_session`.`court_decision_type_id` AS `court_decision_type_id`,`court_decision_type`.`decision_type_name` AS `court_decision_type`,`court_session`.`decision_date` AS `decision_date`,`court_session`.`decision` AS `decision`,`court_session`.`defence_lawyer_name` AS `defence_lawyer_name`,`court_session`.`defence_lawyer_certificate_id` AS `defence_lawyer_certificate_id`,`court_session`.`sentence_execution_date` AS `sentence_execution_date`,`court_session`.`id` AS `court_session_id`,`crime_prisoner`.`prisoner_id` AS `prisoner_id`,`crime_prisoner`.`crime_id` AS `crime_id` from (((((((((((((`prisoner` join `marital_status` on((`marital_status`.`id` = `prisoner`.`marital_status_id`))) join `province` `present_province` on((`present_province`.`id` = `prisoner`.`present_province_id`))) join `district` `present_district` on((`present_district`.`id` = `prisoner`.`present_district_id`))) join `province` `permanent_province` on((`permanent_province`.`id` = `prisoner`.`permanent_province_id`))) join `district` `permanent_district` on((`permanent_district`.`id` = `prisoner`.`permanent_district_id`))) join `crime_prisoner` on((`crime_prisoner`.`prisoner_id` = `prisoner`.`id`))) join `crime` on((`crime`.`id` = `crime_prisoner`.`crime_id`))) join `province` `crime_province` on((`crime_province`.`id` = `crime`.`crime_province_id`))) join `district` `crime_district` on((`crime_district`.`id` = `crime`.`crime_district_id`))) join `province` `arrest_province` on((`arrest_province`.`id` = `crime`.`arrest_province_id`))) join `district` `arrest_district` on((`arrest_district`.`id` = `crime`.`arrest_district_id`))) join `court_session` on((`court_session`.`crime_id` = `crime`.`id`))) join `court_decision_type` on((`court_decision_type`.`id` = `court_session`.`court_decision_type_id`))) order by `crime_prisoner`.`crime_id`;
+ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `general_view` AS select `prisoner`.`tazkira_number` AS `tazkira_number`,`prisoner`.`marital_status_id` AS `marital_status_id`,`marital_status`.`status_english` AS `marital_status_english`,`marital_status`.`status_dari` AS `marital_status_dari`,`marital_status`.`status_pashto` AS `marital_status_pashto`,`prisoner`.`present_province_id` AS `present_province_id`,`present_province`.`name_english` AS `present_province_english`,`present_province`.`name_dari` AS `present_province_dari`,`present_province`.`name_pashto` AS `present_province_pashto`,`prisoner`.`present_district_id` AS `present_district_id`,`present_district`.`name_english` AS `present_district_english`,`present_district`.`name_dari` AS `present_district_dari`,`present_district`.`name_pashto` AS `present_district_pashto`,`prisoner`.`permanent_province_id` AS `permanent_province_id`,`permanent_province`.`name_english` AS `permanent_province_english`,`permanent_province`.`name_dari` AS `permanent_province_dari`,`permanent_province`.`name_pashto` AS `permanent_province_pashto`,`prisoner`.`permanent_district_id` AS `permanent_district_id`,`permanent_district`.`name_english` AS `permanent_district_english`,`permanent_district`.`name_dari` AS `permanent_district_dari`,`permanent_district`.`name_pashto` AS `permanent_district_pashto`,`prisoner`.`name` AS `name`,`prisoner`.`father_name` AS `father_name`,`prisoner`.`grand_father_name` AS `grand_father_name`,`prisoner`.`age` AS `age`,`prisoner`.`criminal_history` AS `criminal_history`,`prisoner`.`num_of_children` AS `num_of_children`,`prisoner`.`profile_pic` AS `profile_pic`,`crime`.`registration_date` AS `registration_date`,`crime`.`case_number` AS `case_number`,`crime`.`crime_date` AS `crime_date`,`crime`.`arrest_date` AS `arrest_date`,`crime`.`crime_reason` AS `crime_reason`,`crime`.`crime_supporter` AS `crime_supporter`,`crime`.`crime_location` AS `crime_location`,`crime`.`arrest_location` AS `arrest_location`,`crime`.`police_custody` AS `police_custody`,`crime`.`crime_province_id` AS `crime_province_id`,`crime_province`.`name_english` AS `crime_province_english`,`crime_province`.`name_dari` AS `crime_province_dari`,`crime_province`.`name_pashto` AS `crime_province_pashto`,`crime`.`crime_district_id` AS `crime_district_id`,`crime_district`.`name_english` AS `crime_district_english`,`crime_district`.`name_dari` AS `crime_district_dari`,`crime_district`.`name_pashto` AS `crime_district_pashto`,`crime`.`arrest_province_id` AS `arrest_province_id`,`arrest_province`.`name_english` AS `arrest_province_english`,`arrest_province`.`name_dari` AS `arrest_province_dari`,`arrest_province`.`name_pashto` AS `arrest_province_pashto`,`crime`.`arrest_district_id` AS `arrest_district_id`,`arrest_district`.`name_english` AS `arrest_district_english`,`arrest_district`.`name_dari` AS `arrest_district_dari`,`arrest_district`.`name_pashto` AS `arrest_district_pashto`,`crime`.`time_spent_in_prison` AS `time_spent_in_prison`,`crime`.`remaining_jail_term` AS `remaining_jail_term`,`crime`.`use_benefit_forgiveness_presidential` AS `use_benefit_forgiveness_presidential`,`crime`.`command_issue_date` AS `command_issue_date`,`crime`.`commission_proposal` AS `commission_proposal`,`crime`.`prisoner_request` AS `prisoner_request`,`crime`.`commission_member` AS `commission_member`,`crime_prisoner`.`prisoner_id` AS `prisoner_id`,`crime_prisoner`.`crime_id` AS `crime_id` from (((((((((((`prisoner` join `marital_status` on((`marital_status`.`id` = `prisoner`.`marital_status_id`))) join `province` `present_province` on((`present_province`.`id` = `prisoner`.`present_province_id`))) join `district` `present_district` on((`present_district`.`id` = `prisoner`.`present_district_id`))) join `province` `permanent_province` on((`permanent_province`.`id` = `prisoner`.`permanent_province_id`))) join `district` `permanent_district` on((`permanent_district`.`id` = `prisoner`.`permanent_district_id`))) join `crime_prisoner` on((`crime_prisoner`.`prisoner_id` = `prisoner`.`id`))) join `crime` on((`crime`.`id` = `crime_prisoner`.`crime_id`))) join `province` `crime_province` on((`crime_province`.`id` = `crime`.`crime_province_id`))) join `district` `crime_district` on((`crime_district`.`id` = `crime`.`crime_district_id`))) join `province` `arrest_province` on((`arrest_province`.`id` = `crime`.`arrest_province_id`))) join `district` `arrest_district` on((`arrest_district`.`id` = `crime`.`arrest_district_id`))) order by `crime_prisoner`.`crime_id`;
 
 --
 -- VIEW  `general_view`
@@ -513,9 +513,94 @@ INNER JOIN `court_decision_type` ON `court_decision_type`.id =  `court_session`.
 --
 
 /*
+CREATE or REPLACE VIEW `general_view` AS select
+`prisoner`.`tazkira_number` AS `tazkira_number`,
+`prisoner`.`marital_status_id` AS `marital_status_id`,
+`marital_status`.`status_english` AS `marital_status_english`,
+`marital_status`.`status_dari` AS `marital_status_dari`,
+`marital_status`.`status_pashto` AS `marital_status_pashto`,
+`prisoner`.`present_province_id` AS `present_province_id`,
+`present_province`.`name_english` AS `present_province_english`,
+`present_province`.`name_dari` AS `present_province_dari`,
+`present_province`.`name_pashto` AS `present_province_pashto`,
+`prisoner`.`present_district_id` AS `present_district_id`,
+`present_district`.`name_english` AS `present_district_english`,
+`present_district`.`name_dari` AS `present_district_dari`,
+`present_district`.`name_pashto` AS `present_district_pashto`,
+`prisoner`.`permanent_province_id` AS `permanent_province_id`,
+`permanent_province`.`name_english` AS `permanent_province_english`,
+`permanent_province`.`name_dari` AS `permanent_province_dari`,
+`permanent_province`.`name_pashto` AS `permanent_province_pashto`,
+`prisoner`.`permanent_district_id` AS `permanent_district_id`,
+`permanent_district`.`name_english` AS `permanent_district_english`,
+`permanent_district`.`name_dari` AS `permanent_district_dari`,
+`permanent_district`.`name_pashto` AS `permanent_district_pashto`,
+`prisoner`.`name` AS `name`,
+`prisoner`.`father_name` AS `father_name`,
+`prisoner`.`grand_father_name` AS `grand_father_name`,
+`prisoner`.`age` AS `age`,
+`prisoner`.`criminal_history` AS `criminal_history`,
+`prisoner`.`num_of_children` AS `num_of_children`,
+`prisoner`.`profile_pic` AS `profile_pic`,
+
+`crime`.`registration_date` AS `registration_date`,
+`crime`.`case_number` AS `case_number`,
+`crime`.`crime_date` AS `crime_date`,
+`crime`.`arrest_date` AS `arrest_date`,
+`crime`.`crime_reason` AS `crime_reason`,
+`crime`.`crime_supporter` AS `crime_supporter`,
+`crime`.`crime_location` AS `crime_location`,
+`crime`.`arrest_location` AS `arrest_location`,
+`crime`.`police_custody` AS `police_custody`,
+`crime`.`crime_province_id` AS `crime_province_id`,
+`crime_province`.`name_english` AS `crime_province_english`,
+`crime_province`.`name_dari` AS `crime_province_dari`,
+`crime_province`.`name_pashto` AS `crime_province_pashto`,
+`crime`.`crime_district_id` AS `crime_district_id`,
+`crime_district`.`name_english` AS `crime_district_english`,
+`crime_district`.`name_dari` AS `crime_district_dari`,
+`crime_district`.`name_pashto` AS `crime_district_pashto`,
+`crime`.`arrest_province_id` AS `arrest_province_id`,
+`arrest_province`.`name_english` AS `arrest_province_english`,
+`arrest_province`.`name_dari` AS `arrest_province_dari`,
+`arrest_province`.`name_pashto` AS `arrest_province_pashto`,
+`crime`.`arrest_district_id` AS `arrest_district_id`,
+`arrest_district`.`name_english` AS `arrest_district_english`,
+`arrest_district`.`name_dari` AS `arrest_district_dari`,
+`arrest_district`.`name_pashto` AS `arrest_district_pashto`,
+`crime`.`time_spent_in_prison` AS `time_spent_in_prison`,
+`crime`.`remaining_jail_term` AS `remaining_jail_term`,
+`crime`.`use_benefit_forgiveness_presidential` AS `use_benefit_forgiveness_presidential`,
+`crime`.`command_issue_date` AS `command_issue_date`,
+`crime`.`commission_proposal` AS `commission_proposal`,
+`crime`.`prisoner_request` AS `prisoner_request`,
+`crime`.`commission_member` AS `commission_member`,
+
+`crime_prisoner`.`prisoner_id`,
+`crime_prisoner`.`crime_id`
+
+ from `prisoner` 
+ INNER JOIN `marital_status` ON `marital_status`.`id` = `prisoner`.`marital_status_id`
+ INNER JOIN `province` AS `present_province` ON `present_province`.id = `prisoner`.`present_province_id`
+ INNER JOIN `district` AS `present_district` ON `present_district`.id = `prisoner`.`present_district_id`
+ INNER JOIN `province` AS `permanent_province` ON `permanent_province`.id = `prisoner`.`permanent_province_id`
+ INNER JOIN `district` AS `permanent_district` ON `permanent_district`.id = `prisoner`.`permanent_district_id`
+
+ INNER JOIN `crime_prisoner` AS `crime_prisoner` ON `crime_prisoner`.`prisoner_id` = `prisoner`.`id`
+
+ INNER JOIN `crime` AS `crime` ON `crime`.`id` = `crime_prisoner`.`crime_id`
+ INNER JOIN `province` AS `crime_province` ON `crime_province`.id = `crime`.`crime_province_id`
+ INNER JOIN `district` AS `crime_district` ON `crime_district`.id = `crime`.`crime_district_id`
+ INNER JOIN `province` AS `arrest_province` ON `arrest_province`.id = `crime`.`arrest_province_id`
+ INNER JOIN `district` AS `arrest_district` ON `arrest_district`.id = `crime`.`arrest_district_id`
+
+ order by `crime_prisoner`.`crime_id`;
+
+ */
 
 
 
+/*
 CREATE or REPLACE VIEW `general_view` AS select 
 `prisoner`.`marital_status_id` AS `marital_status_id`,
 `marital_status`.`status` AS `marital_status`,

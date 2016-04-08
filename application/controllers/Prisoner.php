@@ -123,7 +123,7 @@ class Prisoner extends CI_Controller {
 		}
 		else
 		{
-			$result = $this->prisoner_model->get_by_id_with_joins($id);
+			$result = $this->prisoner_model->get_by_id_with_joins($id, $this->language);
 	        $response['result'] = $result;
 	    	echo json_encode($response);
 		}

@@ -9,7 +9,7 @@
 		<div class="container">
 			<h3>
 				&nbsp;<?= $this->lang->line('general'); ?>&nbsp;
-				<button class="btn btn-success pull-right" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> <?= $this->lang->line('add_new'); ?></button>
+				<!-- <button class="btn btn-success pull-right" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> <?= $this->lang->line('add_new'); ?></button> -->
 			</h3>
 			<hr />
 			<!-- <table id="table" class="table table-striped table-hover" cellspacing="0" width="100%"> -->
@@ -47,14 +47,6 @@
 	                    <th><?= $this->lang->line('commission_proposal'); ?></th>
 	                    <th><?= $this->lang->line('prisoner_request'); ?></th>
 	                    <th><?= $this->lang->line('commission_member'); ?></th>
-
-	                    <th><?= $this->lang->line('court_session_id'); ?></th>
-	                    <th><?= $this->lang->line('court_decision_type'); ?></th>
-	                    <th><?= $this->lang->line('decision_date'); ?></th>
-	                    <th><?= $this->lang->line('decision'); ?></th>
-	                    <th><?= $this->lang->line('defence_lawyer_name'); ?></th>
-	                    <th><?= $this->lang->line('defence_lawyer_certificate_id'); ?></th>
-	                    <th><?= $this->lang->line('sentence_execution_date'); ?></th>
 
 	                    <th><?= $this->lang->line('actions'); ?></th>
 	                </tr>
@@ -94,7 +86,7 @@
 						search: "<?= $this->lang->line('search'); ?>"
 					},
 					columnDefs: [{
-						"targets": 33,
+						"targets": 30,
 						"searchable": false,
 						"orderable": false,
 						"width": "125px"

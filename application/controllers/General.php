@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class General extends CI_Controller {
+	var $language = 'english';
 	
 	public function __construct()
 	{
@@ -13,14 +14,15 @@ class General extends CI_Controller {
 		$this->load->model("province_model");
 		$this->load->model('district_model');
 		$this->load->model('marital_status_model');
+		$this->load->model('crime_type_model');
 		$this->load->model('crime_model');
-		$this->load->library('my_authentication');
 		$this->load->model('court_session_model');
 		$this->load->model('court_decision_type_model');
+		$this->load->library('my_authentication');
 
-		$idiom = $this->session->userdata('language');
-		log_message('debug', 'selected language: ' . $idiom);
-		$this->lang->load($idiom, $idiom);
+		$this->language = $this->session->userdata('language');
+		log_message('debug', 'selected language: ' . $this->language);
+		$this->lang->load($this->language, $this->language);
 	}
 
 	public function index()
@@ -33,44 +35,16 @@ class General extends CI_Controller {
 	    $this->load->view('general_list', $data);
 	}
 
-	// public function prisoner_list()
-	// {
-	// 	$this->load->model("datatables_model");
-	// 	$tableName = 'prisoner_view';
+	public function new_case()
+	{
+		$data['provincesList'] = $this->province_model->get_all('id, name_' . $this->language .' AS name');
+		$data['districtsList'] = $this->district_model->get_all('id, name_' . $this->language .' AS name, province_id');
+		$data['crimeTypeList'] = $this->crime_type_model->get_all('id, type_name_' . $this->language .' AS type_name');
+		$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
+		$data['maritalStatusList'] = $this->marital_status_model->get_all('id, status_' . $this->language .' AS status');
 
-	// 	$aColumns = array(
-	// 		'id',
-	// 		'name',
-	// 		'father_name',
-	// 		'grand_father_name',
-	// 		'age',
-	// 		'marital_status',
-	// 		'num_of_children',
-	// 		'criminal_history',
-	// 		'permanent_province',
-	// 		'permanent_district',
-	// 		'present_province',
-	// 		'present_district',
-	// 		'profile_pic');
- 
- //        /* Indexed column (used for fast and accurate table cardinality) */
- //        $sIndexColumn = "id";
-
- //        $results = $this->datatables_model->get_data_list($tableName, $sIndexColumn, $aColumns);
-
- //        $filteredDataArray = [];
- //        foreach ($results['data'] as $dataRow) {
- //            $dataRow[] = '<a class="btn btn-xs btn-warning" title="Lock" onclick="lock_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-lock"></i>|</a>
- //            			<a class="btn btn-xs btn-primary" title="View" onclick="view_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-list"></i>|</a>
- //                    <a class="btn btn-xs btn-primary" title="Edit" onclick="edit_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-pencil"></i>|</a>
- //                  <a class="btn btn-xs btn-danger" title="Delete" onclick="delete_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-trash"></i>|</a>';
-
- //            $filteredDataArray[] = $dataRow;
- //        }
-
- //        $results['data'] = $filteredDataArray;
-	//     echo json_encode($results);
-	// }
+	    $this->load->view('new_case', $data);
+	}
 
 	public function general_list()
 	{
@@ -89,12 +63,12 @@ class General extends CI_Controller {
 			'grand_father_name',
 			'age',
 			'criminal_history',
-			'marital_status',
+			'marital_status_' . $this->language,
 			'num_of_children',
-			'present_province',
-			'present_district',
-			'permanent_province',
-			'permanent_district',
+			'present_province_' . $this->language,
+			'present_district_' . $this->language,
+			'permanent_province_' . $this->language,
+			'permanent_district_' . $this->language,
 			'profile_pic',
 
 			'crime_id',
@@ -103,25 +77,17 @@ class General extends CI_Controller {
 			'crime_location',
 			'arrest_location',
 			'police_custody',
-			'crime_province',
-			'crime_district',
-			'arrest_province',
-			'arrest_district',
+			'crime_province_' . $this->language,
+			'crime_district_' . $this->language,
+			'arrest_province_' . $this->language,
+			'arrest_district_' . $this->language,
 			'time_spent_in_prison',
 			'remaining_jail_term',
 			'use_benefit_forgiveness_presidential',
 			'command_issue_date',
 			'commission_proposal',
 			'prisoner_request',
-			'commission_member',
-
-			'court_session_id',
-			'court_decision_type',
-			'decision_date',
-			'decision',
-			'defence_lawyer_name',
-			'defence_lawyer_certificate_id',
-			'sentence_execution_date');
+			'commission_member');
  
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = "id";
@@ -142,11 +108,11 @@ class General extends CI_Controller {
 	    echo json_encode($results);
 	}
 
-	// public function new_crime()
-	// {
-	// 	$provinceList = $this->province_model->get_all();
- //        echo json_encode($provinceList);
-	// }
+	public function new_crime()
+	{
+		$provinceList = $this->province_model->get_all();
+        echo json_encode($provinceList);
+	}
 
 	public function view($id)
 	{
