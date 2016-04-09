@@ -47,12 +47,13 @@
 					</div>
 
 					<div class="row" id="existingPrisonForm" style="display: none;">
+						<input type="hidden" value="" name="prisoner_id"/>
 	<!-- ---------------------------- view Prisoer Column 1 --------------------------------------- -->
 						<div class="col-sm-4">
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('id'); ?></label>
 								<div class="col-sm-8">
-									<p class="form-control-static" id="id"></p>
+									<p class="form-control-static" id="prisoner_id"></p>
 								</div>
 							</div>
 							<div class="form-group">
@@ -274,7 +275,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('id'); ?></label>
 								<div class="col-sm-8">
-									<p class="form-control-static" id="id"></p>
+									<p class="form-control-static" id="crime_id"></p>
 								</div>
 							</div>
 							<div class="form-group">
@@ -405,7 +406,7 @@
 								<?php foreach ($courtDecisionTypeList as $key => $value) { ?>
 							<div class="col-sm-4">
 								<fieldset>
-									<legend><?= $value->decision_type_name; ?></legend>
+									<legend style="background-color: seashell;"><?= $value->decision_type_name; ?></legend>
 
 									<!-- <div class="form-group">
 										<label class="control-label col-md-12"><?= $value->decision_type_name; ?></label>
@@ -531,15 +532,15 @@
 				</form>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					<a class="btn btn-danger" href="<?= base_url() ?>index.php/home">Cancel</a>
 					<button type="button" id="btnSave" onclick="save_record()" class="btn btn-primary">Save</button>
 				</div>
 			</div>
 		</div>
 		
-		<link rel="stylesheet" href="<?php echo base_url("assets/datatables/media/css/dataTables.bootstrap.min.css"); ?>" />
+		<!-- <link rel="stylesheet" href="<?php echo base_url("assets/datatables/media/css/dataTables.bootstrap.min.css"); ?>" />
 		<script src="<?php echo base_url('assets/datatables/media/js/jquery.dataTables.min.js')?>"></script>
-		<script src="<?php echo base_url('assets/datatables/media/js/dataTables.bootstrap.min.js')?>"></script>
+		<script src="<?php echo base_url('assets/datatables/media/js/dataTables.bootstrap.min.js')?>"></script>-->
 		<script src="<?php echo base_url('assets/underscore-min.js')?>"></script>
 		  
 		  
@@ -556,6 +557,7 @@
             		dateFormat: "yy-mm-dd"
             	});
             	
+            	$('#form', '#newCaseRegistrationForm')[0].reset(); // reset form 
 
             	$('[name="newPrisoner"]', '#newCaseRegistrationForm').change(function(event) {
             		var isChecked = $(event.currentTarget).prop('checked');
@@ -575,6 +577,7 @@
             	
             	$('#searchPrisonerIdBtn', '#newCaseRegistrationForm').click(function(event) {
             		var prisonerId = $('#searchPrisonerIdInput', '#newCaseRegistrationForm').val();
+            		$('[name="prisoner_id"]', '#newCaseRegistrationForm').val("");
             		view_prisoner_record(prisonerId);
             	});
 
@@ -587,7 +590,7 @@
                 // });
 
                 $('[name="crimeProvince"]', '#newCaseRegistrationForm').change(function(event) {
-                	render_district_list(get_district_list(event.currentTarget.value), $('[name="newCaseRegistrationForm"]', '#modal_form_edit'));
+                	render_district_list(get_district_list(event.currentTarget.value), $('[name="crimeDistrict"]', '#newCaseRegistrationForm'));
                 });
 
                 $('[name="arrestProvince"]', '#newCaseRegistrationForm').change(function(event) {
@@ -595,11 +598,11 @@
                 });
 
                 $('[name="permanentProvince"]', '#newCaseRegistrationForm').change(function(event) {
-                	render_district_list(get_district_list(event.currentTarget.value), $('[name="permanentDistrict"]', '#modal_form_edit'));
+                	render_district_list(get_district_list(event.currentTarget.value), $('[name="permanentDistrict"]', '#newCaseRegistrationForm'));
                 });
 
                 $('[name="presentProvince"]', '#newCaseRegistrationForm').change(function(event) {
-                	render_district_list(get_district_list(event.currentTarget.value), $('[name="presentDistrict"]', '#modal_form_edit'));
+                	render_district_list(get_district_list(event.currentTarget.value), $('[name="presentDistrict"]', '#newCaseRegistrationForm'));
                 });
             });
 
@@ -637,7 +640,9 @@
 					{
 						if(data.success === true) {
 							if (data.result !== null) {
-								$('p#id', '#newCaseRegistrationForm').html(data.result.id);
+								$('[name="prisoner_id"]', '#newCaseRegistrationForm').val(data.result.id);
+
+								$('p#prisoner_id', '#newCaseRegistrationForm').html(data.result.id);
 								$('p#tazkiraNumber', '#newCaseRegistrationForm').html(data.result.tazkira_number);
 								$('p#name', '#newCaseRegistrationForm').html(data.result.name);
 								$('p#fatherName', '#newCaseRegistrationForm').html(data.result.father_name);
@@ -653,12 +658,12 @@
 								
 								if(data.result.profile_pic !== '' && data.result.profile_pic !== null)
 								{
-									$('img#profilePic', '#newCaseRegistrationForm').attr("src", photos_directory + '/' + data.result.profile_pic);
-									$('img#profilePic', '#newCaseRegistrationForm').attr("alt", 'Failed to display the photo.');
+									$('img#profilePicDisplay', '#newCaseRegistrationForm').attr("src", photos_directory + '/' + data.result.profile_pic);
+									$('img#profilePicDisplay', '#newCaseRegistrationForm').attr("alt", 'Failed to display the photo.');
 								}
 								else
 								{
-									$('img#profilePic', '#newCaseRegistrationForm').attr("alt", 'Profile photo is not uploaded.');
+									$('img#profilePicDisplay', '#newCaseRegistrationForm').attr("alt", 'Profile photo is not uploaded.');
 								}
 
 								$('#existingPrisonForm', '#newCaseRegistrationForm').slideDown();
@@ -679,30 +684,25 @@
 
 			function save_record()
 			{
-				var url;
-				if(save_method == 'new')
-				{
-					url = "<?php echo site_url('general/add')?>";
-				}
-				else
-				{
-					url = "<?php echo site_url('general/update')?>";
-				}
-
-				var formData = new FormData($('#form', '#modal_form_edit')[0]);
+				var url = "<?php echo site_url('general/add')?>";
+				var formData = new FormData($('#form', '#newCaseRegistrationForm')[0]);
 
 				// ajax adding data to database
 				$.ajax({
 					url : url,
 					type: "POST",
-					data: $('#form', '#modal_form_edit').serialize(),
-					dataType: "JSON",
+					data: formData,
+					mimeType: "multipart/form-data",
+					contentType: false,
+					cache: false,
+					processData: false,
 					success: function(data)
 					{
+						data = JSON.parse(data);
 						if(data.success === true)
 						{
-							// $('#modal_form_edit').modal('hide');
-							reload_table();
+							alert("successfully added.");
+							$('#form', '#newCaseRegistrationForm')[0].reset(); // reset form
 						}
 						else
 						{
