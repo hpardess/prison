@@ -8,7 +8,7 @@
 		<?php $this->load->view('menu_bar'); ?>
 		<div class="container">
 			<h3>
-				&nbsp;<?= $this->lang->line('prisoners'); ?>&nbsp;
+				&nbsp;<?= $this->lang->line('prisoners_list'); ?>&nbsp;
 				<button class="btn btn-success pull-right" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> Add New Prisoner</button>
 			</h3>
 			

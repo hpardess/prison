@@ -561,6 +561,7 @@
             		var isChecked = $(event.currentTarget).prop('checked');
             		console.log(isChecked);
             		if(isChecked) {
+            			$('#searchPrisonerIdInput', '#newCaseRegistrationForm').val("");
             			$('#searchPrisonerIdInput', '#newCaseRegistrationForm').parent().parent().parent().prop('disabled', true);
             			$('#existingPrisonForm', '#newCaseRegistrationForm').slideUp();
             			clean_prisoner_view_form();
