@@ -157,15 +157,18 @@
 						if(data.success === true) {
 							$('p#id', '#modal_form_view').html(data.result.crime.id);
 							$('p#registrationDate', '#modal_form_view').html(data.result.crime.registration_date);
+
+							$('p#prisonerId', '#modal_form_view').html(data.result.prisoner.id);
+
 							$('p#caseNumber', '#modal_form_view').html(data.result.crime.case_number);
 							$('p#crimeDate', '#modal_form_view').html(data.result.crime.crime_date);
 							$('p#arrestDate', '#modal_form_view').html(data.result.crime.arrest_date);
 
-							var crimeTypesString = '';
+							var crimeTypesArray = [];
 							$.each(data.result.crimeTypes, function(index, value) {
-								crimeTypesString = crimeTypesString + ' ' + value.type_name;
+								crimeTypesArray.push(value.type_name);
 							});
-							$('p#crimeType', '#modal_form_view').html(crimeTypesString);
+							$('p#crimeType', '#modal_form_view').html(crimeTypesArray.join(" , "));
 
 							$('p#policeCustody', '#modal_form_view').html(data.result.crime.police_custody);
 							$('p#crimeReason', '#modal_form_view').html(data.result.crime.crime_reason);
@@ -217,6 +220,9 @@
 							$('[name="id"]', '#modal_form_edit').val(data.result.crime.id);
 							$('p#registrationDate', '#modal_form_edit').html(data.result.crime.registration_date);
 							$('[name="caseNumber"]', '#modal_form_edit').val(data.result.crime.case_number);
+
+							$('[name="prisonerId"]', '#modal_form_edit').val(data.result.prisoner.id);
+
 							$('[name="crimeDate"]', '#modal_form_edit').val(data.result.crime.crime_date);
 							$('[name="arrestDate"]', '#modal_form_edit').val(data.result.crime.arrest_date);
 
@@ -227,7 +233,7 @@
 							$.each(data.result.crimeTypes, function(index, value) {
 								crimeTypesArray.push(value.id);
 							});
-							$('[name="crimeType"]', '#modal_form_edit').val(crimeTypesArray);
+							$('[name="crimeType[]"]', '#modal_form_edit').val(crimeTypesArray);
 
 							$('[name="policeCustody"]', '#modal_form_edit').val(data.result.crime.police_custody);
 							$('[name="crimeReason"]', '#modal_form_edit').val(data.result.crime.crime_reason);
@@ -361,6 +367,7 @@
 					url = "<?php echo site_url('crime/update')?>";
 				}
 
+				console.log($('#form', '#modal_form_edit').serialize());
 				// ajax adding data to database
 				$.ajax({
 					url : url,
@@ -405,6 +412,12 @@
 								<label class="col-sm-4 control-label"><?= $this->lang->line('case_number'); ?></label>
 								<div class="col-sm-8">
 									<p class="form-control-static" id="caseNumber"></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('prisoner_id'); ?></label>
+								<div class="col-sm-8">
+									<p class="form-control-static" id="prisonerId"></p>
 								</div>
 							</div>
 							<div class="form-group">
@@ -563,6 +576,12 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-4 control-label"><?= $this->lang->line('prisoner_id'); ?></label>
+								<div class="col-sm-8">
+									<input name="prisonerId" placeholder="Prisoner ID" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('case_number'); ?></label>
 								<div class="col-md-8">
 									<input name="caseNumber" placeholder="Case Number" class="form-control" type="text">
@@ -583,7 +602,7 @@
 							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('crime_type'); ?></label>
 								<div class="col-md-8">
-									<select multiple name="crimeType" class="form-control" class="form-control">
+									<select multiple name="crimeType[]" class="form-control" class="form-control">
 										<option></option>
 										<?php foreach ($crimeTypeList as $key => $value) {
 											echo "<option value='" . $value->id . "'>" . $value->type_name . "</option>";
@@ -638,6 +657,7 @@
 								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_province'); ?></label>
 								<div class="col-sm-8">
 									<select name="arrestProvince" class="form-control" class="form-control">
+										<option></option>
 										<?php foreach ($provincesList as $key => $value) {
 											echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
 										} ?>

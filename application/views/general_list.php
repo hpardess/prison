@@ -9,7 +9,7 @@
 		<div class="container">
 			<h3>
 				&nbsp;<?= $this->lang->line('general_list'); ?>&nbsp;
-				<!-- <button class="btn btn-success pull-right" onclick="new_record()"><i class="glyphicon glyphicon-plus"></i> <?= $this->lang->line('add_new'); ?></button> -->
+				<a class="btn btn-success pull-right" href="<?= base_url() ?>index.php/general/new_case"><i class="glyphicon glyphicon-plus"></i> <?= $this->lang->line('add_new'); ?></a>
 			</h3>
 			<hr />
 			<!-- <table id="table" class="table table-striped table-hover" cellspacing="0" width="100%"> -->

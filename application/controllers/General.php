@@ -15,6 +15,7 @@ class General extends CI_Controller {
 		$this->load->model('district_model');
 		$this->load->model('marital_status_model');
 		$this->load->model('crime_type_model');
+		$this->load->model('crime_crime_type_model');
 		$this->load->model('crime_model');
 		$this->load->model('court_session_model');
 		$this->load->model('court_decision_type_model');
@@ -55,7 +56,8 @@ class General extends CI_Controller {
 		// $data['maritalStatusList'] = $this->marital_status_model->get_all('id, status_' . $this->language .' AS status');
 		$data['prisoner'] = $this->prisoner_model->get_by_crime_id_with_joins($crimeId, $this->language);
 		$data['crime'] = $this->crime_model->get_by_id_with_joins($crimeId, $this->language);
-		$data['crimeTypes'] = $this->crime_type_model->get_by_crime_id($crimeId, 'id, type_name_' . $this->language);
+		$data['crimeTypes'] = $this->crime_type_model->get_by_crime_id_with_join($crimeId, 'id, type_name_' . $this->language . ' AS type_name');
+		$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
 
 	    $this->load->view('view_case', $data);
 	}
@@ -110,10 +112,7 @@ class General extends CI_Controller {
 
         $filteredDataArray = [];
         foreach ($results['data'] as $dataRow) {
-            $dataRow[] = '<a class="btn btn-xs btn-warning" title="Lock" onclick="lock_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-lock"></i>|</a>
-            			<a class="btn btn-xs btn-primary" title="View" onclick="view_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-list"></i>|</a>
-                    <a class="btn btn-xs btn-primary" title="Edit" onclick="edit_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-pencil"></i>|</a>
-                  <a class="btn btn-xs btn-danger" title="Delete" onclick="delete_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-trash"></i>|</a>';
+            $dataRow[] = '<a class="btn btn-xs btn-primary" title="View" href="'.base_url().'index.php/general/view_case/'.$dataRow[13].'"><i class="glyphicon glyphicon-list"></i>|</a>';
 
             $filteredDataArray[] = $dataRow;
         }
@@ -189,6 +188,15 @@ class General extends CI_Controller {
 	                'commission_member' => $this->input->post('commissionMember')
             );
         $crime_id = $this->crime_model->create($crimeData);
+
+        $response['result'] = $crime_id;
+
+        $selectedCrimeTypes = $this->input->post('crimeType');
+		$this->crime_crime_type_model->delete_by_crime_id($crime_id);
+
+		foreach ($selectedCrimeTypes as $key => $value) {
+			$this->crime_crime_type_model->create(array('crime_type_id'=> $value, 'crime_id'=> $crime_id));
+		}
 
         $courtSession = array();
         for ($i=0; $i < 3; $i++) { 

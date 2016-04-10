@@ -137,7 +137,7 @@
 							<div class="form-group center-block">
 								<div class="col-sm-8 col-sm-offset-2">
 									<div class="thumbnail">
-										<img id="profilePicDisplay" alt="Profile Photo" class="img-rounded" src="<?= base_url('photos/') ?>/1.jpg">
+										<img id="profilePicDisplay" alt="Profile Photo" class="img-rounded" src="<?= base_url('assets/images/') ?>/profile.png">
 									</div>
 								</div>
 							</div>
@@ -250,7 +250,7 @@
 							<div class="form-group center-block">
 								<div class="col-sm-7 col-sm-offset-2">
 									<div class="thumbnail">
-										<img id="profilePicDisplay" alt="Profile Photo" class="img-rounded" src="<?= base_url('photos/') ?>/1.jpg">
+										<img id="profilePicDisplay" alt="Profile Photo" class="img-rounded" src="<?= base_url('assets/images/') ?>/profile.png">
 									</div>
 								</div>
 							</div>
@@ -293,7 +293,7 @@
 							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('crime_type'); ?></label>
 								<div class="col-md-8">
-									<select multiple name="crimeType" class="form-control" class="form-control">
+									<select multiple name="crimeType[]" class="form-control" class="form-control">
 										<option></option>
 										<?php foreach ($crimeTypeList as $key => $value) {
 											echo "<option value='" . $value->id . "'>" . $value->type_name . "</option>";
@@ -701,8 +701,12 @@
 						data = JSON.parse(data);
 						if(data.success === true)
 						{
-							alert("successfully added.");
-							$('#form', '#newCaseRegistrationForm')[0].reset(); // reset form
+							if(confirm("Successfully saved. Do you want to register another case?")) {
+								$('#form', '#newCaseRegistrationForm')[0].reset(); // reset form
+							} else {
+								window.location.replace("<?= base_url() ?>index.php/general/view_case/" + data.result);
+							}
+							
 						}
 						else
 						{

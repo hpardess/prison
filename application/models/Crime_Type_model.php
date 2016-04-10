@@ -24,7 +24,7 @@ class Crime_Type_model extends CI_Model {
     }
 
     // get record by id
-    function get_by_crime_id($crimeId, $column_list = '*'){
+    function get_by_crime_id_with_join($crimeId, $column_list = '*'){
         $this->db->select($column_list);
         $this->db->from($this->tableName);
         $this->db->join('crime_crime_type AS crime_crime_type', 'crime_crime_type.crime_type_id = crime_type.id', 'inner');
