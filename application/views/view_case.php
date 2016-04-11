@@ -230,53 +230,107 @@
 					</div>
 
 					<div class="row">
+
 	<!-- -------------------------------- Court Decision all 3 Columns ----------------------------------- -->
 	<!-- Iteration of Court Types -->
 						<?php foreach ($courtDecisionTypeList as $key => $value) { ?>
+							<?php 	$found = false; ?>
+							<?php  foreach ($courtSessions as $k => $v) {
+									if ($value->id == $v->court_decision_type_id) { 
+										$found = true; ?>
+
 							<div class="col-sm-4">
 								<fieldset>
 									<legend style="background-color: seashell;"><?= $value->decision_type_name; ?></legend>
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('court_session_id'); ?></label>
 										<div class="col-sm-8">
-											<p class="form-control-static" id="id[<?= $key; ?>]"></p>
+											<p class="form-control-static" id="id[<?= $key; ?>]"><?= $v->id ?></p>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('decision_date'); ?></label>
 										<div class="col-sm-8">
-											<p class="form-control-static" id="decisionDate[<?= $key; ?>]"></p>
+											<p class="form-control-static" id="decisionDate[<?= $key; ?>]"><?= $v->decision_date ?></p>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('decision'); ?></label>
 										<div class="col-sm-8">
-											<p class="form-control-static" id="decision[<?= $key; ?>]"></p>
+											<p class="form-control-static" id="decision[<?= $key; ?>]"><?= $v->decision ?></p>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('defence_lawyer_name'); ?></label>
 										<div class="col-sm-8">
-											<p class="form-control-static" id="defenceLawyerName[<?= $key; ?>]"></p>
+											<p class="form-control-static" id="defenceLawyerName[<?= $key; ?>]"><?= $v->defence_lawyer_name ?></p>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('defence_lawyer_certificate_id'); ?></label>
 										<div class="col-sm-8">
-											<p class="form-control-static" id="defenceLawyerCertificateId[<?= $key; ?>]"></p>
+											<p class="form-control-static" id="defenceLawyerCertificateId[<?= $key; ?>]"><?= $v->defence_lawyer_certificate_id ?></p>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('sentence_execution_date'); ?></label>
 										<div class="col-sm-8">
-											<p class="form-control-static" id="sentenceExecutionDate[<?= $key; ?>]"></p>
+											<p class="form-control-static" id="sentenceExecutionDate[<?= $key; ?>]"><?= $v->sentence_execution_date ?></p>
 										</div>
 									</div>
 
 								</fieldset>
 								
 							</div>
-								<?php } ?>
+								<?php 	} 
+									}
+
+									if (!$found) { ?>
+										<div class="col-sm-4">
+											<fieldset>
+												<legend style="background-color: seashell;"><?= $value->decision_type_name; ?></legend>
+												<div class="form-group">
+													<label class="col-sm-4 control-label"><?= $this->lang->line('court_session_id'); ?></label>
+													<div class="col-sm-8">
+														<p class="form-control-static" id="id[<?= $key; ?>]"></p>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-4 control-label"><?= $this->lang->line('decision_date'); ?></label>
+													<div class="col-sm-8">
+														<p class="form-control-static" id="decisionDate[<?= $key; ?>]"></p>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-4 control-label"><?= $this->lang->line('decision'); ?></label>
+													<div class="col-sm-8">
+														<p class="form-control-static" id="decision[<?= $key; ?>]"></p>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-4 control-label"><?= $this->lang->line('defence_lawyer_name'); ?></label>
+													<div class="col-sm-8">
+														<p class="form-control-static" id="defenceLawyerName[<?= $key; ?>]"></p>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-4 control-label"><?= $this->lang->line('defence_lawyer_certificate_id'); ?></label>
+													<div class="col-sm-8">
+														<p class="form-control-static" id="defenceLawyerCertificateId[<?= $key; ?>]"></p>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-4 control-label"><?= $this->lang->line('sentence_execution_date'); ?></label>
+													<div class="col-sm-8">
+														<p class="form-control-static" id="sentenceExecutionDate[<?= $key; ?>]"></p>
+													</div>
+												</div>
+
+											</fieldset>
+											
+										</div>
+									<?php }
+								} ?>
 	<!-- END of Iteration of Court Types -->
 					</div>
 	<!-- ------------------------------------------------------------------- -->

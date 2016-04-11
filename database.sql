@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `prison`.`prisoner` (
   `num_of_children` INT NULL,
   `profile_pic` VARCHAR(200) NULL,
   `locked` TINYINT(1) NULL,
-  `tazkira_number` BIGINT NULL,
+  `tazkira_number` VARCHAR(30) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_prisoner_marital_status1_idx` (`marital_status_id` ASC),
   INDEX `fk_prisoner_province1_idx` (`present_province_id` ASC),

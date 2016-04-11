@@ -33,6 +33,15 @@ class Court_Session_model extends CI_Model {
         return $query->row();
     }
 
+    // get record by id
+    function get_by_crime_id($crime_id, $column_list = '*'){
+        $this->db->select($column_list);
+        $this->db->from($this->tableName);
+        $this->db->where('crime_id',$crime_id);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     // get all records
     function get_all($column_list = '*'){
         $this->db->select($column_list);

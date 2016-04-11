@@ -239,13 +239,17 @@
 							$('[name="crimeReason"]', '#modal_form_edit').val(data.result.crime.crime_reason);
 							$('[name="crimeSupporter"]', '#modal_form_edit').val(data.result.crime.crime_supporter);
 							$('[name="crimeProvince"]', '#modal_form_edit').val(data.result.crime.crime_province_id);
+
 							var crimeDistrictsSelectEl = $('[name="crimeDistrict"]', '#modal_form_edit');
 							render_district_list(data.result.crimeDistricts, crimeDistrictsSelectEl);
+
 							$('[name="crimeDistrict"]', '#modal_form_edit').val(data.result.crime.crime_district_id);
 							$('[name="crimeLocation"]', '#modal_form_edit').val(data.result.crime.crime_location);
 							$('[name="arrestProvince"]', '#modal_form_edit').val(data.result.crime.arrest_province_id);
+							
 							var arrestDistrictsSelectEl = $('[name="arrestDistrict"]', '#modal_form_edit');
 							render_district_list(data.result.arrestDistricts, arrestDistrictsSelectEl);
+							
 							$('[name="arrestDistrict"]', '#modal_form_edit').val(data.result.crime.arrest_district_id);
 							$('[name="arrestLocation"]', '#modal_form_edit').val(data.result.crime.arrest_location);
 

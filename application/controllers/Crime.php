@@ -163,8 +163,8 @@ class Crime extends CI_Controller {
 			// TODO here only prisoner id is enough
 			$result['prisoner'] = $this->prisoner_model->get_by_crime_id_with_joins($id, $this->language);
 			$result['crime'] = $crime;
-			$result['crimeDistricts'] = $this->district_model->get_by_province_id($crime->crime_province_id);
-			$result['arrestDistricts'] = $this->district_model->get_by_province_id($crime->arrest_province_id);
+			$result['crimeDistricts'] = $this->district_model->get_by_province_id($crime->crime_province_id, 'id, name_' . $this->language . ' AS name, province_id');
+			$result['arrestDistricts'] = $this->district_model->get_by_province_id($crime->arrest_province_id, 'id, name_' . $this->language . ' AS name, province_id');
 			$result['crimeTypes'] = $this->crime_type_model->get_by_crime_id_with_join($id, 'id, type_name_' . $this->language . ' AS type_name');
 			$response['result'] = $result;
 

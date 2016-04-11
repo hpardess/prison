@@ -59,6 +59,8 @@ class General extends CI_Controller {
 		$data['crimeTypes'] = $this->crime_type_model->get_by_crime_id_with_join($crimeId, 'id, type_name_' . $this->language . ' AS type_name');
 		$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
 
+		$data['courtSessions'] = $this->court_session_model->get_by_crime_id($crimeId);
+
 	    $this->load->view('view_case', $data);
 	}
 
