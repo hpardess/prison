@@ -38,13 +38,15 @@ class General extends CI_Controller {
 
 	public function new_case()
 	{
+		$data['isEdit'] = FALSE;
+
 		$data['provincesList'] = $this->province_model->get_all('id, name_' . $this->language .' AS name');
 		$data['districtsList'] = $this->district_model->get_all('id, name_' . $this->language .' AS name, province_id');
 		$data['crimeTypeList'] = $this->crime_type_model->get_all('id, type_name_' . $this->language .' AS type_name');
 		$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
 		$data['maritalStatusList'] = $this->marital_status_model->get_all('id, status_' . $this->language .' AS status');
 
-	    $this->load->view('new_case', $data);
+	    $this->load->view('new_edit_case', $data);
 	}
 
 	public function view_case($crimeId)
@@ -62,6 +64,30 @@ class General extends CI_Controller {
 		$data['courtSessions'] = $this->court_session_model->get_by_crime_id($crimeId);
 
 	    $this->load->view('view_case', $data);
+	}
+
+	public function edit_case($crimeId)
+	{
+		// $data['provincesList'] = $this->province_model->get_all('id, name_' . $this->language .' AS name');
+		// $data['districtsList'] = $this->district_model->get_all('id, name_' . $this->language .' AS name, province_id');
+		// $data['crimeTypeList'] = $this->crime_type_model->get_all('id, type_name_' . $this->language .' AS type_name');
+		// $data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
+		// $data['maritalStatusList'] = $this->marital_status_model->get_all('id, status_' . $this->language .' AS status');
+		$data['isEdit'] = TRUE;
+
+		$data['provincesList'] = $this->province_model->get_all('id, name_' . $this->language .' AS name');
+		$data['districtsList'] = $this->district_model->get_all('id, name_' . $this->language .' AS name, province_id');
+		$data['crimeTypeList'] = $this->crime_type_model->get_all('id, type_name_' . $this->language .' AS type_name');
+		$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
+		$data['maritalStatusList'] = $this->marital_status_model->get_all('id, status_' . $this->language .' AS status');
+
+		$data['prisoner'] = $this->prisoner_model->get_by_crime_id_with_joins($crimeId, $this->language);
+		$data['crime'] = $this->crime_model->get_by_id_with_joins($crimeId, $this->language);
+		$data['crimeTypes'] = $this->crime_type_model->get_by_crime_id_with_join($crimeId, 'id, type_name_' . $this->language . ' AS type_name');
+		
+		$data['courtSessions'] = $this->court_session_model->get_by_crime_id($crimeId);
+
+	    $this->load->view('new_edit_case', $data);
 	}
 
 	public function general_list()
@@ -105,7 +131,8 @@ class General extends CI_Controller {
 			'command_issue_date',
 			'commission_proposal',
 			'prisoner_request',
-			'commission_member');
+			'commission_member',
+			'locked');
  
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = "id";
@@ -113,11 +140,52 @@ class General extends CI_Controller {
         $results = $this->datatables_post_model->get_data_list($tableName, $sIndexColumn, $aColumns);
 
         $filteredDataArray = [];
+        $aColumnsCount = count($aColumns);
         foreach ($results['data'] as $dataRow) {
-            $dataRow[] = '<a class="btn btn-xs btn-primary" title="View" href="'.base_url().'index.php/general/view_case/'.$dataRow[13].'"><i class="glyphicon glyphicon-list"></i>|</a>';
+        	$isLocked = $dataRow[$aColumnsCount - 1];
+        	$buttons = '';
 
+        	// lock
+        	if($isLocked == '1')
+        	{
+        		if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_unlock'))
+				{
+					$buttons = $buttons . '<a class="btn btn-xs btn-warning" title="Unlock" onclick="unlock_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-flash"></i>|</a>';
+				}
+        	}
+        	else
+        	{
+        		$buttons = $buttons . '<a class="btn btn-xs btn-warning" title="Lock" onclick="lock_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-lock"></i>|</a>';
+        	}
+
+			// view
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_view'))
+			{
+				$buttons = $buttons . '<a class="btn btn-xs btn-primary" title="View" href="'.base_url().'index.php/general/view_case/'.$dataRow[13].'"><i class="glyphicon glyphicon-list"></i>|</a>';
+			}
+
+			// edit
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_edit'))
+			{
+				$buttons = $buttons . '<a class="btn btn-xs btn-primary" title="Edit" href="'.base_url().'index.php/general/edit_case/'.$dataRow[13].'"><i class="glyphicon glyphicon-pencil"></i>|</a>';
+			}
+
+			// delete
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_delete'))
+			{
+				$buttons = $buttons . '<a class="btn btn-xs btn-danger" title="Delete" onclick="delete_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-trash"></i>|</a>';
+			}
+
+            $dataRow[$aColumnsCount - 1] = $buttons;
             $filteredDataArray[] = $dataRow;
         }
+
+        // $results['data'] = $filteredDataArray;
+        // foreach ($results['data'] as $dataRow) {
+        //     $dataRow[] = '<a class="btn btn-xs btn-primary" title="View" href="'.base_url().'index.php/general/view_case/'.$dataRow[13].'"><i class="glyphicon glyphicon-list"></i>|</a>';
+
+        //     $filteredDataArray[] = $dataRow;
+        // }
 
         $results['data'] = $filteredDataArray;
 	    echo json_encode($results);

@@ -16,6 +16,7 @@ class Crime extends CI_Controller {
 		$this->load->model('crime_crime_type_model');
 		$this->load->model("province_model");
 		$this->load->model('district_model');
+		$this->load->model('crime_prisoner_model');
 		$this->load->library('my_authentication');
 
 		$this->language = $this->session->userdata('language');
@@ -242,11 +243,10 @@ class Crime extends CI_Controller {
 			}
 
 			$prisoner_id = $this->input->post('prisonerId');
-			if (!empty($prisoner_id))
-			{
-				// TODO 
-				// $this->db->insert('crime_prisoner', array('crime_id' => $crime_id, 'prisoner_id' => $prisoner_id););
-			}
+			// if (!empty($prisoner_id))
+			// {
+			$this->crime_prisoner_model->create(array('crime_id' => $crime_id, 'prisoner_id' => $prisoner_id));
+			// }
 
 	        if ($this->db->trans_status() === FALSE)
 			{
@@ -314,11 +314,10 @@ class Crime extends CI_Controller {
 			}
 
 			$prisoner_id = $this->input->post('prisonerId');
-			if (!empty($prisoner_id))
-			{
-				// TODO
-				// $this->db->insert('crime_prisoner', array('crime_id' => $crime_id, 'prisoner_id' => $prisoner_id););
-			}
+			// if (!empty($prisoner_id))
+			// {
+			$this->crime_prisoner_model->update_by_crime_id($crime_id, array('prisoner_id' => $prisoner_id));
+			// }
 
 	        if ($this->db->trans_status() === FALSE)
 			{

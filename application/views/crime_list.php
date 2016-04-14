@@ -703,7 +703,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('command_issue_date'); ?></label>
 								<div class="col-sm-8">
-									<input name="commandIssueDate" placeholder="Command Issue Date" class="form-control" type="date">
+									<input name="commandIssueDate" placeholder="Command Issue Date" class="form-control" type="text">
 								</div>
 							</div>
 							<div class="form-group">
