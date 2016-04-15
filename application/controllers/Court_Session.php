@@ -1,4 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
+/**
+ * @author Hameedullah Pardess <hameedullah.pardess@gmail.com>
+ *
+ */
 
 class Court_Session extends CI_Controller {
 	var $language = 'english';

@@ -1,5 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-   
+/**
+ * @author Hameedullah Pardess <hameedullah.pardess@gmail.com>
+ *
+ */
+
 class Crime_Type_model extends CI_Model {
 
     // table name

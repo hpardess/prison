@@ -1,10 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
- 
 /**
- * Description of datatables using get request
+ * @author Hameedullah Pardess <hameedullah.pardess@gmail.com>
  *
- * @author hpardess
  */
+
 class Datatables_model extends CI_Model {
  
     /* $tableName */
