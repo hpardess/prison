@@ -233,68 +233,233 @@ class General extends CI_Controller {
     	$response['message'] = '';
     	$response['result'] = '';
 
-    	// start of transaction
-		$this->db->trans_begin();
-
-		$crimeData = array(
-                'crime_date' => $this->input->post('crimeDate'),
-	                'arrest_date' => $this->input->post('arrestDate'),
-	                'case_number' => $this->input->post('caseNumber'),
-	                'police_custody' => $this->input->post('policeCustody'),
-	                'crime_reason' => $this->input->post('crimeReason'),
-	                'crime_supporter' => $this->input->post('crimeSupporter'),
-	                'crime_province_id' => $this->input->post('crimeProvince'),
-	                'crime_district_id' => $this->input->post('crimeDistrict'),
-	                'crime_location' => $this->input->post('crimeLocation'),
-	                'arrest_province_id' => $this->input->post('arrestProvince'),
-	                'arrest_district_id' => $this->input->post('arrestDistrict'),
-	                'arrest_location' => $this->input->post('arrestLocation'),
-	                'time_spent_in_prison' => $this->input->post('timeSpentInPrison'),
-	                'remaining_jail_term' => $this->input->post('remainingJailTerm'),
-	                'use_benefit_forgiveness_presidential' => $this->input->post('useBenefitForgivenessPresidential'),
-	                'command_issue_date' => $this->input->post('commandIssueDate'),
-	                'commission_proposal' => $this->input->post('commissionProposal'),
-	                'prisoner_request' => $this->input->post('prisonerRequest'),
-	                'commission_member' => $this->input->post('commissionMember')
-            );
-        $crime_id = $this->crime_model->create($crimeData);
-
-        $response['result'] = $crime_id;
-
-        $selectedCrimeTypes = $this->input->post('crimeType');
-		$this->crime_crime_type_model->delete_by_crime_id($crime_id);
-
-		foreach ($selectedCrimeTypes as $key => $value) {
-			$this->crime_crime_type_model->create(array('crime_type_id'=> $value, 'crime_id'=> $crime_id));
-		}
-
-        $courtSession = array();
-        for ($i=0; $i < 3; $i++) { 
-        	$courtSession[$i] = array(
-                // 'crime_id' => $this->input->post('crimeId')[$i],
-                // 'court_decision_type_id' => $this->input->post('courtDecisionType')[$i],
-                'decision_date' => $this->input->post('decisionDate')[$i],
-                'decision' => $this->input->post('decision')[$i],
-                'defence_lawyer_name' => $this->input->post('defenceLawyerName')[$i],
-                'defence_lawyer_certificate_id' => $this->input->post('defenceLawyerCertificateId')[$i],
-                'sentence_execution_date' => $this->input->post('sentenceExecutionDate')[$i]
-            );
-
-            if(count(array_filter($courtSession[$i])) != 0) {
-            	$courtSession[$i]['crime_id'] = $crime_id;
-            	$courtSession[$i]['court_decision_type_id'] = $this->input->post('courtDecisionType')[$i];
-
-            	// print_r($courtSession[$i]);
-            	$this->court_session_model->create($courtSession[$i]);
-            }
-        }
-
-
-
-		$isNewPrisoner = $this->input->post('newPrisoner');
-		$isNewPrisoner = isset($isNewPrisoner)? TRUE: FALSE;
-		if($isNewPrisoner)
+    	if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_new'))
 		{
+			log_message('DEBUG', 'crime edit false');
+			$response['success'] = FALSE;
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
+		}
+		else
+		{
+	    	// start of transaction
+			$this->db->trans_begin();
+
+			$crimeData = array(
+	                'crime_date' => $this->input->post('crimeDate'),
+		                'arrest_date' => $this->input->post('arrestDate'),
+		                'case_number' => $this->input->post('caseNumber'),
+		                'police_custody' => $this->input->post('policeCustody'),
+		                'crime_reason' => $this->input->post('crimeReason'),
+		                'crime_supporter' => $this->input->post('crimeSupporter'),
+		                'crime_province_id' => $this->input->post('crimeProvince'),
+		                'crime_district_id' => $this->input->post('crimeDistrict'),
+		                'crime_location' => $this->input->post('crimeLocation'),
+		                'arrest_province_id' => $this->input->post('arrestProvince'),
+		                'arrest_district_id' => $this->input->post('arrestDistrict'),
+		                'arrest_location' => $this->input->post('arrestLocation'),
+		                'time_spent_in_prison' => $this->input->post('timeSpentInPrison'),
+		                'remaining_jail_term' => $this->input->post('remainingJailTerm'),
+		                'use_benefit_forgiveness_presidential' => $this->input->post('useBenefitForgivenessPresidential'),
+		                'command_issue_date' => $this->input->post('commandIssueDate'),
+		                'commission_proposal' => $this->input->post('commissionProposal'),
+		                'prisoner_request' => $this->input->post('prisonerRequest'),
+		                'commission_member' => $this->input->post('commissionMember')
+	            );
+	        $crime_id = $this->crime_model->create($crimeData);
+
+	        $response['result'] = $crime_id;
+
+	        $selectedCrimeTypes = $this->input->post('crimeType');
+			$this->crime_crime_type_model->delete_by_crime_id($crime_id);
+
+			foreach ($selectedCrimeTypes as $key => $value) {
+				$this->crime_crime_type_model->create(array('crime_type_id'=> $value, 'crime_id'=> $crime_id));
+			}
+
+	        $courtSession = array();
+	        for ($i=0; $i < 3; $i++) { 
+	        	$courtSession[$i] = array(
+	                // 'crime_id' => $this->input->post('crimeId')[$i],
+	                // 'court_decision_type_id' => $this->input->post('courtDecisionType')[$i],
+	                'decision_date' => $this->input->post('decisionDate')[$i],
+	                'decision' => $this->input->post('decision')[$i],
+	                'defence_lawyer_name' => $this->input->post('defenceLawyerName')[$i],
+	                'defence_lawyer_certificate_id' => $this->input->post('defenceLawyerCertificateId')[$i],
+	                'sentence_execution_date' => $this->input->post('sentenceExecutionDate')[$i]
+	            );
+
+	            if(count(array_filter($courtSession[$i])) != 0) {
+	            	$courtSession[$i]['crime_id'] = $crime_id;
+	            	$courtSession[$i]['court_decision_type_id'] = $this->input->post('courtDecisionType')[$i];
+
+	            	// print_r($courtSession[$i]);
+	            	$this->court_session_model->create($courtSession[$i]);
+	            }
+	        }
+
+
+
+			$isNewPrisoner = $this->input->post('newPrisoner');
+			$isNewPrisoner = isset($isNewPrisoner)? TRUE: FALSE;
+			if($isNewPrisoner)
+			{
+				$criminal_history = $this->input->post('criminalHistory');
+
+		        $prisonerData = array(
+		        		'tazkira_number' => $this->input->post('tazkiraNumber'),
+		                'name' => $this->input->post('name'),
+		                'father_name' => $this->input->post('fatherName'),
+		                'grand_father_name' => $this->input->post('grandFatherName'),
+		                'age' => $this->input->post('age'),
+		                'marital_status_id' => $this->input->post('maritalStatus'),
+		                'num_of_children' => $this->input->post('numOfChildren'),
+		                'criminal_history' => isset($criminal_history)? 1: 0,
+		                'permanent_province_id' => $this->input->post('permanentProvince'),
+		                'permanent_district_id' => $this->input->post('permanentDistrict'),
+		                'present_province_id' => $this->input->post('presentProvince'),
+		                'present_district_id' => $this->input->post('presentDistrict')
+		                // 'profile_pic' => $this->input->post('profilePic')
+		            );
+		        $prisoner_id = $this->prisoner_model->create($prisonerData);
+		        log_message('debug', 'insert ID: ' . $prisoner_id);
+
+
+		        $this->db->insert('crime_prisoner', array(
+	        											'crime_id' => $crime_id,
+	        											'prisoner_id' => $prisoner_id));
+
+				$extension = 'jpg';
+				if($_FILES['profilePic'] && $_FILES['profilePic']['size'] > 0)
+				{
+					$image = $_FILES['profilePic'];
+					log_message('debug', 'file name: ' . $image['name']);
+					$path_info = pathinfo($image['name']);
+					$extension = $path_info['extension'];
+
+					$file_new_name = $prisoner_id . '.' . $extension;
+					log_message('debug', 'new file name: ' . $file_new_name);
+
+					if(!$this->upload_photo('profilePic', $file_new_name))
+					{
+						$response['success'] = FALSE;
+						$response['message'] = $this->upload->display_errors();
+						// rollback transaction
+						$this->db->trans_rollback();
+					}
+					else
+					{
+						$dataUpdate = array(
+				                'profile_pic' => $file_new_name
+				            );
+						$this->prisoner_model->update_by_id($prisoner_id, $dataUpdate);
+
+						// commit transaction
+						$this->db->trans_commit();
+					}
+				}
+				else
+				{
+					// commit transaction
+					$this->db->trans_commit();
+				}
+			}
+			else
+			{
+				$prisoner_id = $this->input->post('prisoner_id');
+				$this->db->insert('crime_prisoner', array(
+	        											'crime_id' => $crime_id,
+	        											'prisoner_id' => $prisoner_id));
+
+				if ($this->db->trans_status() === FALSE)
+				{
+					$response['success'] = FALSE;
+					$response['message'] = 'Falied to save the data.';
+
+					// rollback transaction
+					$this->db->trans_rollback();
+				}
+				else
+				{
+					// commit transaction
+					$this->db->trans_commit();
+				}
+			}
+	        echo json_encode($response);
+	    }
+    }
+ 
+ 	// update exisitn record
+    public function update()
+    {
+        $response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+    	if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_edit'))
+		{
+			log_message('DEBUG', 'crime edit false');
+			$response['success'] = FALSE;
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
+		}
+		else
+		{
+	    	// start of transaction
+			$this->db->trans_begin();
+
+			$crime_id = $this->input->post('crime_id');
+			$crimeData = array(
+	                'crime_date' => $this->input->post('crimeDate'),
+		                'arrest_date' => $this->input->post('arrestDate'),
+		                'case_number' => $this->input->post('caseNumber'),
+		                'police_custody' => $this->input->post('policeCustody'),
+		                'crime_reason' => $this->input->post('crimeReason'),
+		                'crime_supporter' => $this->input->post('crimeSupporter'),
+		                'crime_province_id' => $this->input->post('crimeProvince'),
+		                'crime_district_id' => $this->input->post('crimeDistrict'),
+		                'crime_location' => $this->input->post('crimeLocation'),
+		                'arrest_province_id' => $this->input->post('arrestProvince'),
+		                'arrest_district_id' => $this->input->post('arrestDistrict'),
+		                'arrest_location' => $this->input->post('arrestLocation'),
+		                'time_spent_in_prison' => $this->input->post('timeSpentInPrison'),
+		                'remaining_jail_term' => $this->input->post('remainingJailTerm'),
+		                'use_benefit_forgiveness_presidential' => $this->input->post('useBenefitForgivenessPresidential'),
+		                'command_issue_date' => $this->input->post('commandIssueDate'),
+		                'commission_proposal' => $this->input->post('commissionProposal'),
+		                'prisoner_request' => $this->input->post('prisonerRequest'),
+		                'commission_member' => $this->input->post('commissionMember')
+	            );
+			$affected_rows = $this->crime_model->update(array('id' => $crime_id), $crimeData);
+
+	        $response['result'] = $crime_id;
+
+	        $selectedCrimeTypes = $this->input->post('crimeType');
+			$this->crime_crime_type_model->delete_by_crime_id($crime_id);
+
+			foreach ($selectedCrimeTypes as $key => $value) {
+				$this->crime_crime_type_model->create(array('crime_type_id'=> $value, 'crime_id'=> $crime_id));
+			}
+
+	        $courtSession = array();
+	        for ($i=0; $i < 3; $i++) { 
+	        	$courtSession[$i] = array(
+	                'crime_id' => $this->input->post('crimeId')[$i],
+	                'court_decision_type_id' => $this->input->post('courtDecisionType')[$i],
+	                'decision_date' => $this->input->post('decisionDate')[$i],
+	                'decision' => $this->input->post('decision')[$i],
+	                'defence_lawyer_name' => $this->input->post('defenceLawyerName')[$i],
+	                'defence_lawyer_certificate_id' => $this->input->post('defenceLawyerCertificateId')[$i],
+	                'sentence_execution_date' => $this->input->post('sentenceExecutionDate')[$i]
+	            );
+
+	        	$courtSessionId = $this->input->post('courtSessionId')[$i];
+	            if(!empty($courtSessionId)) {
+	            	$this->court_session_model->update(array('id' => $courtSessionId), $courtSession[$i]);
+	            }
+	        }
+
+	        $prisoner_id = $this->input->post('prisoner_id');
 			$criminal_history = $this->input->post('criminalHistory');
 
 	        $prisonerData = array(
@@ -312,13 +477,13 @@ class General extends CI_Controller {
 	                'present_district_id' => $this->input->post('presentDistrict')
 	                // 'profile_pic' => $this->input->post('profilePic')
 	            );
-	        $prisoner_id = $this->prisoner_model->create($prisonerData);
-	        log_message('debug', 'insert ID: ' . $prisoner_id);
+	        $affected_rows = $this->prisoner_model->update(array('id' => $prisoner_id), $prisonerData);
+	        log_message('debug', 'prisoner update ID: ' . $prisoner_id);
 
 
-	        $this->db->insert('crime_prisoner', array(
-        											'crime_id' => $crime_id,
-        											'prisoner_id' => $prisoner_id));
+	        // $this->db->insert('crime_prisoner', array(
+        	// 										'crime_id' => $crime_id,
+        	// 										'prisoner_id' => $prisoner_id));
 
 			$extension = 'jpg';
 			if($_FILES['profilePic'] && $_FILES['profilePic']['size'] > 0)
@@ -354,56 +519,9 @@ class General extends CI_Controller {
 				// commit transaction
 				$this->db->trans_commit();
 			}
-		}
-		else
-		{
-			$prisoner_id = $this->input->post('prisoner_id');
-			$this->db->insert('crime_prisoner', array(
-        											'crime_id' => $crime_id,
-        											'prisoner_id' => $prisoner_id));
-
-			if ($this->db->trans_status() === FALSE)
-			{
-				$response['success'] = FALSE;
-				$response['message'] = 'Falied to save the data.';
-
-				// rollback transaction
-				$this->db->trans_rollback();
-			}
-			else
-			{
-				// commit transaction
-				$this->db->trans_commit();
-			}
-		}
-        echo json_encode($response);
+	        echo json_encode($response);
+	    }
     }
- 
- 	// update exisitn record
-    // public function update()
-    // {
-    //     $data = array(
-    //     		'case_number' => $this->input->post('caseNumber'),
-    //             'crime_date' => $this->input->post('crimeDate'),
-    //             'police_custody' => $this->input->post('policeCustody'),
-    //             'crime_province_id' => $this->input->post('crimeProvince'),
-    //             'crime_district_id' => $this->input->post('crimeDistrict'),
-    //             'crime_location' => $this->input->post('crimeLocation'),
-    //             'arrest_province_id' => $this->input->post('arrestProvince'),
-    //             'arrest_district_id' => $this->input->post('arrestDistrict'),
-    //             'arrest_location' => $this->input->post('arrestLocation'),
-    //             'time_spent_in_prison' => $this->input->post('timeSpentInPrison'),
-    //             'remaining_jail_term' => $this->input->post('remainingJailTerm'),
-    //             'use_benefit_forgiveness_presidential' => $this->input->post('useBenefitForgivenessPresidential'),
-    //             'command_issue_date' => $this->input->post('commandIssueDate'),
-    //             'commission_proposal' => $this->input->post('commissionProposal'),
-    //             'prisoner_request' => $this->input->post('prisonerRequest'),
-    //             'commission_member' => $this->input->post('commissionMember')
-    //         );
-    //     $affected_rows = $this->crime_model->update(array('id' => $this->input->post('id')), $data);
-    //     // log_message('debug', 'affected rows: ' . $affected_rows);
-    //     echo json_encode(array("status" => TRUE));
-    // }
 
     private function upload_photo($field, $file_new_name) {
     	// File upload config

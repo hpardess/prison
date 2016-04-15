@@ -13,6 +13,7 @@
 			<hr />
 			<div id="newCaseRegistrationForm">
 				<form action="#" id="form" class="form-horizontal">
+					<?php if(!$isEdit) { ?>
 					<div class="row">
 	<!-- ------------------------------------------------------------------- -->
 						<div class="col-sm-4">
@@ -143,8 +144,11 @@
 							</div>
 						</div>
 					</div>
-
+					
 					<div class="row" id="newPrisonForm" style="display: none;">
+					<?php } else { ?>
+					<div class="row" id="newPrisonForm">
+					<?php } ?>
 	<!-- ---------------------------- new Prisoer Column 1 --------------------------------------- -->
 						<div class="col-sm-4">
 							<div class="form-group">
@@ -156,26 +160,26 @@
 							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('name'); ?></label>
 								<div class="col-md-8">
-									<input name="name" placeholder="Name" class="form-control" type="text">
+									<input name="name" placeholder="Name" class="form-control" type="text" <?php echo $isEdit? 'value="' . $prisoner->name . '"': ''; ?> >
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('father_name'); ?></label>
 								<div class="col-md-8">
-									<input name="fatherName" placeholder="Father Name" class="form-control" type="text">
+									<input name="fatherName" placeholder="Father Name" class="form-control" type="text" <?php echo $isEdit? 'value="' . $prisoner->father_name . '"': ''; ?> >
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('grand_father_name'); ?></label>
 								<div class="col-sm-8">
-									<input name="grandFatherName" placeholder="Grand Father Name" class="form-control" type="text">
+									<input name="grandFatherName" placeholder="Grand Father Name" class="form-control" type="text" <?php echo $isEdit? 'value="' . $prisoner->grand_father_name . '"': ''; ?> >
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('age'); ?></label>
 								<div class="col-sm-8">
-									<input name="age" placeholder="Age" class="form-control" type="number">
+									<input name="age" placeholder="Age" class="form-control" type="number" <?php echo $isEdit? 'value="' . $prisoner->age . '"': ''; ?> >
 								</div>
 							</div>
 							<div class="form-group">
@@ -184,7 +188,11 @@
 									<select name="maritalStatus" class="form-control" class="form-control">
 										<option></option>
 										<?php foreach ($maritalStatusList as $key => $value) {
-											echo "<option value='" . $value->id . "'>" . $value->status . "</option>";
+											if ($isEdit && $prisoner->marital_status_id == $value->id) {
+												echo "<option value='" . $value->id . "' selected>" . $value->status . "</option>";
+											} else {
+												echo "<option value='" . $value->id . "'>" . $value->status . "</option>";
+											}
 										} ?>
 									</select>
 								</div>
@@ -192,7 +200,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('num_of_children'); ?></label>
 								<div class="col-sm-8">
-									<input name="numOfChildren" placeholder="Number of Children" class="form-control" type="number">
+									<input name="numOfChildren" placeholder="Number of Children" class="form-control" type="number" <?php echo $isEdit? 'value="' . $prisoner->num_of_children . '"': ''; ?> >
 								</div>
 							</div>
 						</div>
@@ -214,7 +222,11 @@
 									<select name="permanentProvince" class="form-control" class="form-control">
 										<option></option>
 										<?php foreach ($provincesList as $key => $value) {
-											echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
+											if ($isEdit && $prisoner->permanent_province_id == $value->id) {
+												echo "<option value='" . $value->id . "' selected>" . $value->name . "</option>";
+											} else {
+												echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
+											}
 										} ?>
 									</select>
 								</div>
@@ -232,7 +244,11 @@
 									<select name="presentProvince" class="form-control" class="form-control">
 										<option></option>
 										<?php foreach ($provincesList as $key => $value) {
-											echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
+											if ($isEdit && $prisoner->present_province_id == $value->id) {
+												echo "<option value='" . $value->id . "' selected>" . $value->name . "</option>";
+											} else {
+												echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
+											}
 										} ?>
 									</select>
 								</div>
@@ -250,7 +266,7 @@
 							<div class="form-group center-block">
 								<div class="col-sm-7 col-sm-offset-2">
 									<div class="thumbnail">
-										<img id="profilePicDisplay" alt="Profile Photo" class="img-rounded" src="<?= base_url('assets/images/') ?>/profile.png">
+										<img id="profilePicDisplay" alt="Profile Photo" class="img-rounded" src="<?= (!empty($prisoner->profile_pic)?  base_url('photos/') . '/' . $prisoner->profile_pic: base_url('assets/images/') . '/profile.png') ?> ">
 									</div>
 								</div>
 							</div>
@@ -273,21 +289,21 @@
 	<!-- ------------------------------- Criminal Case Column 1 ------------------------------------ -->
 						<div class="col-sm-4">
 							<div class="form-group">
-								<label class="col-sm-4 control-label"><?= $this->lang->line('id'); ?></label>
+								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_id'); ?></label>
 								<div class="col-sm-8">
-									<p class="form-control-static" id="crime_id"></p>
+									<p class="form-control-static" id="crime_id"><?php echo $isEdit? $crime->id: ''; ?></p>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('registration_date'); ?></label>
 								<div class="col-sm-8">
-									<p class="form-control-static" id="registrationDate"></p>
+									<p class="form-control-static" id="registrationDate"><?php echo $isEdit? $crime->registration_date: ''; ?></p>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('case_number'); ?></label>
 								<div class="col-md-8">
-									<input name="caseNumber" placeholder="Case Number" class="form-control" type="text">
+									<input name="caseNumber" placeholder="Case Number" class="form-control" type="text" <?php echo $isEdit? 'value="' . $crime->case_number . '"': ''; ?> >
 								</div>
 							</div>
 							<div class="form-group">
@@ -296,7 +312,11 @@
 									<select multiple name="crimeType[]" class="form-control" class="form-control">
 										<option></option>
 										<?php foreach ($crimeTypeList as $key => $value) {
-											echo "<option value='" . $value->id . "'>" . $value->type_name . "</option>";
+											if ($isEdit && $crime->crime_type_id == $value->id) {
+												echo "<option value='" . $value->id . "' selected>" . $value->type_name . "</option>";
+											} else {
+												echo "<option value='" . $value->id . "'>" . $value->type_name . "</option>";
+											}
 										} ?>
 									</select>
 									<span><small><?= $this->lang->line('select_multiple_tip'); ?></small></span>
@@ -306,7 +326,7 @@
 							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('police_custody'); ?></label>
 								<div class="col-md-8">
-									<input name="policeCustody" placeholder="Police Custody" class="form-control" type="text">
+									<input name="policeCustody" placeholder="Police Custody" class="form-control" type="text" <?php echo $isEdit? 'value="' . $crime->police_custody . '"': ''; ?> >
 								</div>
 							</div>
 						</div>
@@ -316,7 +336,7 @@
 							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('crime_date'); ?></label>
 								<div class="col-md-8">
-									<input name="crimeDate" placeholder="Crime Date" class="form-control" type="date">
+									<input name="crimeDate" placeholder="Crime Date" class="form-control" type="date" <?php echo $isEdit? 'value="' . $crime->crime_date . '"': ''; ?> >
 								</div>
 							</div>
 							<div class="form-group">
@@ -325,7 +345,11 @@
 									<select name="crimeProvince" class="form-control" class="form-control">
 										<option></option>
 										<?php foreach ($provincesList as $key => $value) {
-											echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
+											if ($isEdit && $crime->crime_province_id == $value->id) {
+												echo "<option value='" . $value->id . "' selected>" . $value->name . "</option>";
+											} else {
+												echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
+											}
 										} ?>
 									</select>
 								</div>
@@ -340,7 +364,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_location'); ?></label>
 								<div class="col-sm-8">
-									<input name="crimeLocation" placeholder="Crime Location" class="form-control" type="text">
+									<input name="crimeLocation" placeholder="Crime Location" class="form-control" type="text" <?php echo $isEdit? 'value="' . $crime->crime_location . '"': ''; ?> >
 								</div>
 							</div>
 						</div>
@@ -350,7 +374,7 @@
 							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('arrest_date'); ?></label>
 								<div class="col-md-8">
-									<input name="arrestDate" placeholder="Arrest Date" class="form-control" type="date">
+									<input name="arrestDate" placeholder="Arrest Date" class="form-control" type="date" <?php echo $isEdit? 'value="' . $crime->arrest_date . '"': ''; ?> >
 								</div>
 							</div>
 							<div class="form-group">
@@ -359,7 +383,11 @@
 									<select name="arrestProvince" class="form-control" class="form-control">
 										<option></option>
 										<?php foreach ($provincesList as $key => $value) {
-											echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
+											if ($isEdit && $crime->arrest_province_id == $value->id) {
+												echo "<option value='" . $value->id . "' selected>" . $value->name . "</option>";
+											} else {
+												echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
+											}
 										} ?>
 									</select>
 								</div>
@@ -374,7 +402,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_location'); ?></label>
 								<div class="col-sm-8">
-									<input name="arrestLocation" placeholder="Arrest Location" class="form-control" type="text">
+									<input name="arrestLocation" placeholder="Arrest Location" class="form-control" type="text" <?php echo $isEdit? 'value="' . $crime->arrest_location . '"': ''; ?> >
 								</div>
 							</div>
 						</div>
@@ -385,12 +413,12 @@
 							<div class="form-group">
 								<label class="control-label"><?= $this->lang->line('crime_reason'); ?></label>
 								<!-- <input name="commissionMember" placeholder="Commission Member" class="form-control" type="text"> -->
-								<textarea name="crimeReason" class="form-control" rows="3"></textarea>
+								<textarea name="crimeReason" class="form-control" rows="3"><?php echo $isEdit? $crime->crime_reason: ''; ?> </textarea>
 							</div>
 							<div class="form-group">
 								<label class="control-label"><?= $this->lang->line('crime_supporter'); ?></label>
 								<!-- <input name="commissionMember" placeholder="Commission Member" class="form-control" type="text"> -->
-								<textarea name="crimeSupporter" class="form-control" rows="3"></textarea>
+								<textarea name="crimeSupporter" class="form-control" rows="3"><?php echo $isEdit? $crime->crime_supporter: ''; ?> </textarea>
 							</div>
 						</div>
 					</div>
@@ -403,33 +431,62 @@
 						
 	<!-- -------------------------------- Court Decision all 3 Columns ----------------------------------- -->
 	<!-- Iteration of Court Types -->
-								<?php foreach ($courtDecisionTypeList as $key => $value) { ?>
+							<?php foreach ($courtDecisionTypeList as $key => $value) { ?>
+							<?php 	$found = false; ?>
+							<?php  foreach ($courtSessions as $k => $v) {
+									if ($value->id == $v->court_decision_type_id) { 
+										$found = true; ?>
+
 							<div class="col-sm-4">
 								<fieldset>
 									<legend style="background-color: seashell;"><?= $value->decision_type_name; ?></legend>
 
-									<!-- <div class="form-group">
-										<label class="control-label col-md-12"><?= $value->decision_type_name; ?></label>
-									</div> -->
+									<input type="hidden" value="<?= $v->id ?>" name="courtSessionId[]"/>
+									<input type="hidden" value="<?= $v->crime_id ?>" name="crimeId[]"/>
+									<input type="hidden" value="<?= $value->id ?>" name="courtDecisionType[]"/>
+									<div class="form-group">
+										<label class="col-sm-4 control-label"><?= $this->lang->line('decision_date'); ?></label>
+										<div class="col-sm-8">
+											<input name="decisionDate[]" placeholder="Decision Date" class="form-control" type="date" <?php echo $isEdit? 'value="' . $v->decision_date . '"': ''; ?> >
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label"><?= $this->lang->line('decision'); ?></label>
+										<div class="col-sm-8">
+											<input name="decision[]" placeholder="Decision" class="form-control" type="text" <?php echo $isEdit? 'value="' . $v->decision . '"': ''; ?> >
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label"><?= $this->lang->line('defence_lawyer_name'); ?></label>
+										<div class="col-sm-8">
+											<input name="defenceLawyerName[]" placeholder="defence Lawyer Name" class="form-control" type="text" <?php echo $isEdit? 'value="' . $v->defence_lawyer_name . '"': ''; ?> >
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label"><?= $this->lang->line('defence_lawyer_certificate_id'); ?></label>
+										<div class="col-sm-8">
+											<input name="defenceLawyerCertificateId[]" placeholder="defence Lawyer Certificate Id" class="form-control" type="text" <?php echo $isEdit? 'value="' . $v->defence_lawyer_certificate_id . '"': ''; ?> >
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label"><?= $this->lang->line('sentence_execution_date'); ?></label>
+										<div class="col-sm-8">
+											<input name="sentenceExecutionDate[]" placeholder="Sentence Execution Date" class="form-control" type="date" <?php echo $isEdit? 'value="' . $v->sentence_execution_date . '"': ''; ?> >
+										</div>
+									</div>
+
+								</fieldset>
+								
+							</div>
+							<?php 	} 
+								}
+
+								if (!$found) { ?>
+							<div class="col-sm-4">
+								<fieldset>
+									<legend style="background-color: seashell;"><?= $value->decision_type_name; ?></legend>
 
 									<input type="hidden" value="<?= $value->id ?>" name="courtDecisionType[]"/>
-									<!-- <div class="form-group">
-										<label class="control-label col-md-4"><?= $this->lang->line('crime_id'); ?></label>
-										<div class="col-md-8">
-											<input name="crimeId[]" placeholder="Crime Id" class="form-control" type="text">
-										</div>
-									</div> -->
-									<!-- <div class="form-group">
-										<label class="control-label col-md-4"><?= $this->lang->line('court_decision_type'); ?></label>
-										<div class="col-md-8">
-											<select name="courtDecisionType[]" class="form-control" class="form-control">
-												<option></option>
-												<?php foreach ($courtDecisionTypeList as $key => $value) {
-													echo "<option value='" . $value->id . "'>" . $value->decision_type_name . "</option>";
-												} ?>
-											</select>
-										</div>
-									</div> -->
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('decision_date'); ?></label>
 										<div class="col-sm-8">
@@ -464,7 +521,9 @@
 								</fieldset>
 								
 							</div>
-								<?php } ?>
+
+							<?php }
+								} ?>
 	<!-- END of Iteration of Court Types -->
 					</div>
 	<!-- ------------------------------------------------------------------- -->
@@ -478,7 +537,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('command_issue_date'); ?></label>
 								<div class="col-sm-8">
-									<input name="commandIssueDate" placeholder="Command Issue Date" class="form-control" type="date">
+									<input name="commandIssueDate" placeholder="Command Issue Date" class="form-control" type="text" <?php echo $isEdit? 'value="' . $crime->command_issue_date . '"': ''; ?> >
 								</div>
 							</div>
 
@@ -488,7 +547,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('time_spent_in_prison'); ?></label>
 								<div class="col-sm-8">
-									<input name="timeSpentInPrison" placeholder="Time Spent_in Prison" class="form-control" type="text">
+									<input name="timeSpentInPrison" placeholder="Time Spent_in Prison" class="form-control" type="text" <?php echo $isEdit? 'value="' . $crime->time_spent_in_prison . '"': ''; ?> >
 								</div>
 							</div>
 						</div>
@@ -497,7 +556,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('remaining_jail_term'); ?></label>
 								<div class="col-sm-8">
-									<input name="remainingJailTerm" placeholder="Remaining Jail Term" class="form-control" type="text">
+									<input name="remainingJailTerm" placeholder="Remaining Jail Term" class="form-control" type="text" <?php echo $isEdit? 'value="' . $crime->remaining_jail_term . '"': ''; ?> >
 								</div>
 							</div>
 						</div>
@@ -509,22 +568,22 @@
 							<div class="form-group">
 								<label class="control-label"><?= $this->lang->line('use_benefit_forgiveness_presidential'); ?></label>
 								<!-- <input name="useBenefitForgivenessPresidential" placeholder="Use Benefit Forgiveness Presidential" class="form-control" type="text"> -->
-								<textarea name="useBenefitForgivenessPresidential" class="form-control" rows="3"></textarea>
+								<textarea name="useBenefitForgivenessPresidential" class="form-control" rows="3"><?php echo $isEdit? $crime->use_benefit_forgiveness_presidential: ''; ?> </textarea>
 							</div>
 							<div class="form-group">
 								<label class="control-label"><?= $this->lang->line('commission_proposal'); ?></label>
 								<!-- <input name="commissionProposal" placeholder="Commission Proposal" class="form-control" type="text"> -->
-								<textarea name="commissionProposal" class="form-control" rows="3"></textarea>
+								<textarea name="commissionProposal" class="form-control" rows="3"><?php echo $isEdit? $crime->commission_proposal: ''; ?> </textarea>
 							</div>
 							<div class="form-group">
 								<label class="control-label"><?= $this->lang->line('prisoner_request'); ?></label>
 								<!-- <input name="prisonerRequest" placeholder="Prisoner Request" class="form-control" type="text"> -->
-								<textarea name="prisonerRequest" class="form-control" rows="3"></textarea>
+								<textarea name="prisonerRequest" class="form-control" rows="3"><?php echo $isEdit? $crime->prisoner_request: ''; ?> </textarea>
 							</div>
 							<div class="form-group">
 								<label class="control-label"><?= $this->lang->line('commission_member'); ?></label>
 								<!-- <input name="commissionMember" placeholder="Commission Member" class="form-control" type="text"> -->
-								<textarea name="commissionMember" class="form-control" rows="3"></textarea>
+								<textarea name="commissionMember" class="form-control" rows="3"><?php echo $isEdit? $crime->commission_member: ''; ?> </textarea>
 							</div>
 						</div>
 
@@ -684,7 +743,12 @@
 
 			function save_record()
 			{
+				<?php if($isEdit) { ?>
+				var url = "<?php echo site_url('general/update')?>";
+				<?php } else { ?>
 				var url = "<?php echo site_url('general/add')?>";
+				<?php } ?>
+				
 				var formData = new FormData($('#form', '#newCaseRegistrationForm')[0]);
 
 				// ajax adding data to database

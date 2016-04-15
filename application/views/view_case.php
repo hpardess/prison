@@ -70,7 +70,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('criminal_history'); ?></label>
 								<div class="col-sm-8">
-									<p class="form-control-static" id="criminalHistory"><?= $prisoner->criminal_history; ?></p>
+									<p class="form-control-static" id="criminalHistory"><?= $prisoner->criminal_history==1? $this->lang->line('yes'): $this->lang->line('no');?></p>
 								</div>
 							</div>
 							<div class="form-group">

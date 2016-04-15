@@ -50,6 +50,8 @@ $lang['search'] = 'Search';
 $lang['prisoner_id'] = 'Prisoner ID';
 $lang['crime_id'] = 'Crime ID';
 $lang['court_session_id'] = 'Court Session ID';
+$lang['yes'] = 'Yes';
+$lang['no'] = 'No';
 
 // Prisoners
 $lang['tazkira_number'] = 'Tazkira Number';

@@ -146,7 +146,7 @@
 							$('p#age', '#modal_form_view').html(data.result.age);
 							$('p#maritalStatus', '#modal_form_view').html(data.result.marital_status);
 							$('p#numOfChildren', '#modal_form_view').html(data.result.num_of_children);
-							$('p#criminalHistory', '#modal_form_view').html(data.result.criminal_history===1? 'Yes': 'No');
+							$('p#criminalHistory', '#modal_form_view').html(data.result.criminal_history===1? '<?= $this->lang->line("yes"); ?>': '<?= $this->lang->line("no"); ?>');
 							$('p#permanentProvince', '#modal_form_view').html(data.result.permanent_province);
 							$('p#permanentDistrict', '#modal_form_view').html(data.result.permanent_district);
 							$('p#presentProvince', '#modal_form_view').html(data.result.present_province);

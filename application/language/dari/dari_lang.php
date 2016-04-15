@@ -50,6 +50,8 @@ $lang['search'] = 'جستجو';
 $lang['prisoner_id'] = 'Prisoner ID';
 $lang['crime_id'] = 'Crime ID';
 $lang['court_session_id'] = 'Court Session ID';
+$lang['yes'] = 'بله';
+$lang['no'] = 'نخیر';
 
 // Prisoners
 $lang['tazkira_number'] = 'Tazkira Number';
@@ -81,13 +83,13 @@ $lang['crime_province'] = 'ولایت جرم و جنایت';
 $lang['arrest_location'] = 'محل بازداشت';
 $lang['arrest_district'] = 'ولسوالی بازداشت';
 $lang['arrest_province'] = 'ولایت بازداشت';
-$lang['time_spent_in_prison'] = 'time_spent_in_prison';
-$lang['remaining_jail_term'] = 'remaining_jail_term';
-$lang['use_benefit_forgiveness_presidential'] = 'use_benefit_forgiveness_presidential';
-$lang['command_issue_date'] = 'command_issue_date';
-$lang['commission_proposal'] = 'commission_proposal';
-$lang['prisoner_request'] = 'prisoner_request';
-$lang['commission_member'] = 'commission_member';
+$lang['time_spent_in_prison'] = 'time spent in prison';
+$lang['remaining_jail_term'] = 'remaining jail term';
+$lang['use_benefit_forgiveness_presidential'] = 'Use Benefit Forgiveness Presidential';
+$lang['command_issue_date'] = 'command issue date';
+$lang['commission_proposal'] = 'commission proposal';
+$lang['prisoner_request'] = 'prisoner request';
+$lang['commission_member'] = 'commission member';
 
 // Court Session
 $lang['crime_id'] = 'نمبر قضیه';
