@@ -433,9 +433,10 @@
 	<!-- Iteration of Court Types -->
 							<?php foreach ($courtDecisionTypeList as $key => $value) { ?>
 							<?php 	$found = false; ?>
-							<?php  foreach ($courtSessions as $k => $v) {
-									if ($value->id == $v->court_decision_type_id) { 
-										$found = true; ?>
+							<?php 	if(isset($courtSessions)) { ?>
+							<?php  		foreach ($courtSessions as $k => $v) {
+											if ($value->id == $v->court_decision_type_id) { 
+												$found = true; ?>
 
 							<div class="col-sm-4">
 								<fieldset>
@@ -478,7 +479,8 @@
 								</fieldset>
 								
 							</div>
-							<?php 	} 
+							<?php 		}
+									}
 								}
 
 								if (!$found) { ?>
