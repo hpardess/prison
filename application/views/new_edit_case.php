@@ -182,7 +182,7 @@
 									<input name="age" placeholder="Age" class="form-control" type="number" <?php echo $isEdit? 'value="' . $prisoner->age . '"': ''; ?> >
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="control-label col-sm-4"><?= $this->lang->line('marital_status'); ?></label>
 								<div class="col-sm-8">
 									<select name="maritalStatus" class="form-control" class="form-control">
@@ -216,7 +216,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="control-label col-sm-4"><?= $this->lang->line('permanent_province'); ?></label>
 								<div class="col-sm-8">
 									<select name="permanentProvince" class="form-control" class="form-control">
@@ -231,14 +231,14 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="control-label col-sm-4"><?= $this->lang->line('permanent_district'); ?></label>
 								<div class="col-sm-8">
 									<select name="permanentDistrict" class="form-control" class="form-control">
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="control-label col-sm-4"><?= $this->lang->line('present_province'); ?></label>
 								<div class="col-sm-8">
 									<select name="presentProvince" class="form-control" class="form-control">
@@ -253,7 +253,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="control-label col-sm-4"><?= $this->lang->line('present_district'); ?></label>
 								<div class="col-sm-8">
 									<select name="presentDistrict" class="form-control" class="form-control">
@@ -288,6 +288,7 @@
 					<div class="row">
 	<!-- ------------------------------- Criminal Case Column 1 ------------------------------------ -->
 						<div class="col-sm-4">
+							<input type="hidden" name="crimeId"  <?php echo $isEdit? 'value="' . $crime->id . '"': ''; ?> />
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_id'); ?></label>
 								<div class="col-sm-8">
@@ -306,13 +307,21 @@
 									<input name="caseNumber" placeholder="Case Number" class="form-control" type="text" <?php echo $isEdit? 'value="' . $crime->case_number . '"': ''; ?> >
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="control-label col-md-4"><?= $this->lang->line('crime_type'); ?></label>
 								<div class="col-md-8">
 									<select multiple name="crimeType[]" class="form-control" class="form-control">
 										<option></option>
-										<?php foreach ($crimeTypeList as $key => $value) {
-											if ($isEdit && $crime->crime_type_id == $value->id) {
+										<?php 
+										$crimeTypesArray = array();
+										if ($isEdit) {
+											foreach ($crimeTypes as $key => $value) {
+												$crimeTypesArray[] = $value->id;
+											}
+										}
+
+										foreach ($crimeTypeList as $key => $value) {
+											if ($isEdit && in_array($value->id, $crimeTypesArray)) {
 												echo "<option value='" . $value->id . "' selected>" . $value->type_name . "</option>";
 											} else {
 												echo "<option value='" . $value->id . "'>" . $value->type_name . "</option>";
@@ -339,7 +348,7 @@
 									<input name="crimeDate" placeholder="Crime Date" class="form-control" type="date" <?php echo $isEdit? 'value="' . $crime->crime_date . '"': ''; ?> >
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_province'); ?></label>
 								<div class="col-sm-8">
 									<select name="crimeProvince" class="form-control" class="form-control">
@@ -354,7 +363,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_district'); ?></label>
 								<div class="col-sm-8">
 									<select name="crimeDistrict" class="form-control" class="form-control">
@@ -377,7 +386,7 @@
 									<input name="arrestDate" placeholder="Arrest Date" class="form-control" type="date" <?php echo $isEdit? 'value="' . $crime->arrest_date . '"': ''; ?> >
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_province'); ?></label>
 								<div class="col-sm-8">
 									<select name="arrestProvince" class="form-control" class="form-control">
@@ -392,7 +401,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_district'); ?></label>
 								<div class="col-sm-8">
 									<select name="arrestDistrict" class="form-control" class="form-control">
@@ -443,7 +452,7 @@
 									<legend style="background-color: seashell;"><?= $value->decision_type_name; ?></legend>
 
 									<input type="hidden" value="<?= $v->id ?>" name="courtSessionId[]"/>
-									<input type="hidden" value="<?= $v->crime_id ?>" name="crimeId[]"/>
+									<!-- <input type="hidden" value="<?= $v->crime_id ?>" name="crimeId[]"/> -->
 									<input type="hidden" value="<?= $value->id ?>" name="courtDecisionType[]"/>
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('decision_date'); ?></label>
@@ -488,6 +497,7 @@
 								<fieldset>
 									<legend style="background-color: seashell;"><?= $value->decision_type_name; ?></legend>
 
+									<input type="hidden" name="courtSessionId[]"/>
 									<input type="hidden" value="<?= $value->id ?>" name="courtDecisionType[]"/>
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('decision_date'); ?></label>
@@ -642,12 +652,19 @@
             		view_prisoner_record(prisonerId);
             	});
 
+            	<?php if($isEdit) { ?>
+	            	triggerProvincesToSelectDistricts();
+	            	$('[name="crimeDistrict"]', '#newCaseRegistrationForm').val('<?= $crime->crime_district_id? $crime->crime_district_id: ''; ?>');
+	            	$('[name="arrestDistrict"]', '#newCaseRegistrationForm').val('<?= $crime->arrest_district_id? $crime->arrest_district_id: ''; ?>');
+	            	$('[name="permanentDistrict"]', '#newCaseRegistrationForm').val('<?= $prisoner->permanent_district_id? $prisoner->permanent_district_id: ''; ?>');
+	            	$('[name="presentDistrict"]', '#newCaseRegistrationForm').val('<?= $prisoner->present_district_id? $prisoner->present_district_id: ''; ?>');
+	            <?php } ?>
                 // $('[name="permanentProvince"]', '#modal_form_edit').change(function(event) {
                 // 	render_district_list(get_district_list(event.currentTarget.value), $('[name="permanentDistrict"]', '#modal_form_edit'));
                 // });
 
                 // $('[name="presentProvince"]', '#modal_form_edit').change(function(event) {
-                // 	render_district_list(get_district_list(event.currentTarget.value), $('[name="presentDistrict"]', '#modal_form_edit'));
+                // 	render_district_list(get_district_list(event.currentTarg<et.value), $('[name="presentDistrict"]', '#modal_form_edit'));
                 // });
 
                 $('[name="crimeProvince"]', '#newCaseRegistrationForm').change(function(event) {
@@ -666,6 +683,14 @@
                 	render_district_list(get_district_list(event.currentTarget.value), $('[name="presentDistrict"]', '#newCaseRegistrationForm'));
                 });
             });
+
+			function triggerProvincesToSelectDistricts()
+			{
+				render_district_list(get_district_list($('[name="crimeProvince"]', '#newCaseRegistrationForm').val()), $('[name="crimeDistrict"]', '#newCaseRegistrationForm'));
+				render_district_list(get_district_list($('[name="arrestProvince"]', '#newCaseRegistrationForm').val()), $('[name="arrestDistrict"]', '#newCaseRegistrationForm'));
+				render_district_list(get_district_list($('[name="permanentProvince"]', '#newCaseRegistrationForm').val()), $('[name="permanentDistrict"]', '#newCaseRegistrationForm'));
+				render_district_list(get_district_list($('[name="presentProvince"]', '#newCaseRegistrationForm').val()), $('[name="presentDistrict"]', '#newCaseRegistrationForm'));
+			}
 
             function get_district_list(province_id)
             {

@@ -275,11 +275,13 @@ class General extends CI_Controller {
 	        $response['result'] = $crime_id;
 
 	        $selectedCrimeTypes = $this->input->post('crimeType');
-			$this->crime_crime_type_model->delete_by_crime_id($crime_id);
+	        if (!empty($selectedCrimeTypes)) {
+				$this->crime_crime_type_model->delete_by_crime_id($crime_id);
 
-			foreach ($selectedCrimeTypes as $key => $value) {
-				$this->crime_crime_type_model->create(array('crime_type_id'=> $value, 'crime_id'=> $crime_id));
-			}
+				foreach ($selectedCrimeTypes as $key => $value) {
+					$this->crime_crime_type_model->create(array('crime_type_id'=> $value, 'crime_id'=> $crime_id));
+				}
+	        }
 
 	        $courtSession = array();
 	        for ($i=0; $i < 3; $i++) { 
@@ -412,7 +414,7 @@ class General extends CI_Controller {
 	    	// start of transaction
 			$this->db->trans_begin();
 
-			$crime_id = $this->input->post('crime_id');
+			$crime_id = $this->input->post('crimeId');
 			$crimeData = array(
 	                'crime_date' => $this->input->post('crimeDate'),
 		                'arrest_date' => $this->input->post('arrestDate'),
@@ -441,14 +443,16 @@ class General extends CI_Controller {
 	        $selectedCrimeTypes = $this->input->post('crimeType');
 			$this->crime_crime_type_model->delete_by_crime_id($crime_id);
 
-			foreach ($selectedCrimeTypes as $key => $value) {
-				$this->crime_crime_type_model->create(array('crime_type_id'=> $value, 'crime_id'=> $crime_id));
+			if (!empty($selectedCrimeTypes)) {
+				foreach ($selectedCrimeTypes as $key => $value) {
+					$this->crime_crime_type_model->create(array('crime_type_id'=> $value, 'crime_id'=> $crime_id));
+				}
 			}
 
 	        $courtSession = array();
 	        for ($i=0; $i < 3; $i++) { 
 	        	$courtSession[$i] = array(
-	                'crime_id' => $this->input->post('crimeId')[$i],
+	                'crime_id' => $crime_id,
 	                'court_decision_type_id' => $this->input->post('courtDecisionType')[$i],
 	                'decision_date' => $this->input->post('decisionDate')[$i],
 	                'decision' => $this->input->post('decision')[$i],

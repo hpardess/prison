@@ -146,7 +146,11 @@ class Court_Session extends CI_Controller {
  	// update exisitn record
     public function update()
     {
-        $data = array(
+    	$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+    	// try {
+    		$data = array(
                 'crime_id' => $this->input->post('crimeId'),
                 'court_decision_type_id' => $this->input->post('courtDecisionType'),
                 'decision_date' => $this->input->post('decisionDate'),
@@ -155,9 +159,13 @@ class Court_Session extends CI_Controller {
                 'defence_lawyer_certificate_id' => $this->input->post('defenceLawyerCertificateId'),
                 'sentence_execution_date' => $this->input->post('sentenceExecutionDate')
             );
-        $affected_rows = $this->court_session_model->update(array('id' => $this->input->post('id')), $data);
-        // log_message('debug', 'affected rows: ' . $affected_rows);
-        echo json_encode(array("status" => TRUE));
+	        $affected_rows = $this->court_session_model->update(array('id' => $this->input->post('id')), $data);
+	        // log_message('debug', 'affected rows: ' . $affected_rows);
+	        echo json_encode($response);
+    	// } catch (Exception $e) {
+    	// 	$response = $e;
+    	// 	echo json_encode($response);
+    	// }
     }
 
         public function lock($id)
