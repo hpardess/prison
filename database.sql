@@ -189,7 +189,6 @@ CREATE TABLE IF NOT EXISTS `prison`.`prisoner` (
   INDEX `fk_prisoner_district1_idx` (`present_district_id` ASC),
   INDEX `fk_prisoner_province2_idx` (`permanent_province_id` ASC),
   INDEX `fk_prisoner_district2_idx` (`permanent_district_id` ASC),
-  UNIQUE INDEX `tazkira_number_UNIQUE` (`tazkira_number` ASC),
   CONSTRAINT `fk_prisoner_marital_status1`
     FOREIGN KEY (`marital_status_id`)
     REFERENCES `prison`.`marital_status` (`id`)
@@ -328,6 +327,7 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 
 
 
