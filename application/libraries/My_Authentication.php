@@ -20,16 +20,35 @@ class My_Authentication {
 		// log_message('DEBUG', 'My_Authentication stdClass ' . var_export($sessionRights));
 		// Log_message('DEBUG', 'My_Authentication stdClass ' . var_export($sessionRights->{$groupRight}));
 		log_message('DEBUG', 'My_Authentication isAdmin: ' . $isAdmin);
-		log_message('DEBUG', 'My_Authentication right: ' . $groupRight);
 		// log_message('DEBUG', 'My_Authentication sessionRights: ' . var_export($sessionRights));
-		log_message('DEBUG', 'My_Authentication groupRight: ' . $sessionRights->{$groupRight});
 
-		if($isAdmin == '1' || $sessionRights->{$groupRight} == 1 || $sessionRights->{$groupRight} == '1')
+		$isAllowed = TRUE;
+		if(is_array($groupRight))
 		{
-			log_message('DEBUG', 'My_Authentication ' . $groupRight . ' : Allowed');
+			foreach ($groupRight as $key => $value) {
+				log_message('DEBUG', 'My_Authentication as Array - right: ' . $value);
+				log_message('DEBUG', 'My_Authentication groupRight: ' . $sessionRights->{$value});
+				$flag = $sessionRights->{$value} == 1 || $sessionRights->{$value} == '1';
+				if(!$flag)
+				{
+					$isAllowed = FALSE;
+					break;
+				}
+			}
+		}
+		else
+		{
+			log_message('DEBUG', 'My_Authentication right: ' . $groupRight);
+			log_message('DEBUG', 'My_Authentication groupRight: ' . $sessionRights->{$groupRight});
+			$isAllowed = $sessionRights->{$groupRight} == 1 || $sessionRights->{$groupRight} == '1';
+		}
+
+		if($isAdmin == '1' || $isAllowed)
+		{
+			log_message('DEBUG', 'My_Authentication Allowed');
 			return TRUE;
 		}
-		log_message('DEBUG', 'My_Authentication ' . $groupRight . ' : Not allowed');
+		log_message('DEBUG', 'My_Authentication Not allowed');
 		return FALSE;
 	}
 }

@@ -54,6 +54,8 @@ $lang['yes'] = 'هو';
 $lang['no'] = 'نه';
 
 // Prisoners
+$lang['prisoners'] = 'بندیان';
+
 $lang['tazkira_number'] = 'Tazkira Number';
 $lang['name'] = 'نوم';
 $lang['father_name'] = 'دپلارنوم';
@@ -69,6 +71,8 @@ $lang['present_district'] = 'ولسوالي';
 $lang['profile_pic'] = 'انځور';
 
 // Crime
+$lang['criminal_cases'] = 'جنایي پېښو';
+
 $lang['registration_date'] = 'Registration Date';
 $lang['crime_date'] = 'نېټه د جرمونو';
 $lang['arrest_date'] = 'Arrest Date';
@@ -92,6 +96,8 @@ $lang['prisoner_request'] = 'prisoner request';
 $lang['commission_member'] = 'commission member';
 
 // Court Session
+$lang['court_session'] = 'د محکمی غونده';
+
 $lang['crime_id'] = 'جرمونه شمیر';
 $lang['court_decision_type'] = 'د محکمې د فیصلې ډول';
 $lang['decision_date'] = 'نیټه';

@@ -54,6 +54,8 @@ $lang['yes'] = 'Yes';
 $lang['no'] = 'No';
 
 // Prisoners
+$lang['prisoners'] = 'Prisoners List';
+
 $lang['tazkira_number'] = 'Tazkira Number';
 $lang['name'] = 'Name';
 $lang['father_name'] = 'Father Name';
@@ -69,6 +71,8 @@ $lang['present_district'] = 'Present District';
 $lang['profile_pic'] = 'Profile Photo';
 
 // Crime
+$lang['criminal_cases'] = 'Criminal Cases List';
+
 $lang['registration_date'] = 'Registration Date';
 $lang['crime_date'] = 'Crime Date';
 $lang['arrest_date'] = 'Arrest Date';
@@ -92,6 +96,8 @@ $lang['prisoner_request'] = 'Prisoner Request';
 $lang['commission_member'] = 'Commission Member';
 
 // Court Session
+$lang['court_session'] = 'Court Session list';
+
 $lang['crime_id'] = 'Crime Id';
 $lang['court_decision_type'] = 'Court Decision Type';
 $lang['decision_date'] = 'Decision Date';

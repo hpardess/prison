@@ -43,59 +43,81 @@ class General extends CI_Controller {
 
 	public function new_case()
 	{
-		$data['isEdit'] = FALSE;
+		$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
 
-		$data['provincesList'] = $this->province_model->get_all('id, name_' . $this->language .' AS name');
-		$data['districtsList'] = $this->district_model->get_all('id, name_' . $this->language .' AS name, province_id');
-		$data['crimeTypeList'] = $this->crime_type_model->get_all('id, type_name_' . $this->language .' AS type_name');
-		$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
-		$data['maritalStatusList'] = $this->marital_status_model->get_all('id, status_' . $this->language .' AS status');
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_new', 'prisoner_new', 'court_session_new')))
+		{
+			show_error('You are unauthrized. Please contact system administrator.  <a href="'.base_url().'index.php/">Home</a>', 401, 'Unauthrized: 401');
+		}
+		else
+		{
+			$data['isEdit'] = FALSE;
 
-	    $this->load->view('new_edit_case', $data);
+			$data['provincesList'] = $this->province_model->get_all('id, name_' . $this->language .' AS name');
+			$data['districtsList'] = $this->district_model->get_all('id, name_' . $this->language .' AS name, province_id');
+			$data['crimeTypeList'] = $this->crime_type_model->get_all('id, type_name_' . $this->language .' AS type_name');
+			$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
+			$data['maritalStatusList'] = $this->marital_status_model->get_all('id, status_' . $this->language .' AS status');
+
+		    $this->load->view('new_edit_case', $data);
+		}
 	}
 
 	public function view_case($crimeId)
 	{
-		// $data['provincesList'] = $this->province_model->get_all('id, name_' . $this->language .' AS name');
-		// $data['districtsList'] = $this->district_model->get_all('id, name_' . $this->language .' AS name, province_id');
-		// $data['crimeTypeList'] = $this->crime_type_model->get_all('id, type_name_' . $this->language .' AS type_name');
-		// $data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
-		// $data['maritalStatusList'] = $this->marital_status_model->get_all('id, status_' . $this->language .' AS status');
+		$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
 
-		$data['hasEditRight'] = $this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_edit');
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_view', 'prisoner_view', 'court_session_view')))
+		{
+			show_error('You are unauthrized. Please contact system administrator.  <a href="'.base_url().'index.php/">Home</a>', 401, 'Unauthrized: 401');
+		}
+		else
+		{
+			$data['hasEditRight'] = $this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_edit');
 
-		$data['prisoner'] = $this->prisoner_model->get_by_crime_id_with_joins($crimeId, $this->language);
-		$data['crime'] = $this->crime_model->get_by_id_with_joins($crimeId, $this->language);
-		$data['crimeTypes'] = $this->crime_type_model->get_by_crime_id_with_join($crimeId, 'id, type_name_' . $this->language . ' AS type_name');
-		$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
+			$data['prisoner'] = $this->prisoner_model->get_by_crime_id_with_joins($crimeId, $this->language);
+			$data['crime'] = $this->crime_model->get_by_id_with_joins($crimeId, $this->language);
+			$data['crimeTypes'] = $this->crime_type_model->get_by_crime_id_with_join($crimeId, 'id, type_name_' . $this->language . ' AS type_name');
+			$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
 
-		$data['courtSessions'] = $this->court_session_model->get_by_crime_id($crimeId);
+			$data['courtSessions'] = $this->court_session_model->get_by_crime_id($crimeId);
 
-	    $this->load->view('view_case', $data);
+		    $this->load->view('view_case', $data);
+		}
 	}
 
 	public function edit_case($crimeId)
 	{
-		// $data['provincesList'] = $this->province_model->get_all('id, name_' . $this->language .' AS name');
-		// $data['districtsList'] = $this->district_model->get_all('id, name_' . $this->language .' AS name, province_id');
-		// $data['crimeTypeList'] = $this->crime_type_model->get_all('id, type_name_' . $this->language .' AS type_name');
-		// $data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
-		// $data['maritalStatusList'] = $this->marital_status_model->get_all('id, status_' . $this->language .' AS status');
-		$data['isEdit'] = TRUE;
+		$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
 
-		$data['provincesList'] = $this->province_model->get_all('id, name_' . $this->language .' AS name');
-		$data['districtsList'] = $this->district_model->get_all('id, name_' . $this->language .' AS name, province_id');
-		$data['crimeTypeList'] = $this->crime_type_model->get_all('id, type_name_' . $this->language .' AS type_name');
-		$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
-		$data['maritalStatusList'] = $this->marital_status_model->get_all('id, status_' . $this->language .' AS status');
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_edit', 'prisoner_edit', 'court_session_edit')))
+		{
+			show_error('You are unauthrized. Please contact system administrator.  <a href="'.base_url().'index.php/">Home</a>', 401, 'Unauthrized: 401');
+		}
+		else
+		{
+			$data['isEdit'] = TRUE;
 
-		$data['prisoner'] = $this->prisoner_model->get_by_crime_id_with_joins($crimeId, $this->language);
-		$data['crime'] = $this->crime_model->get_by_id_with_joins($crimeId, $this->language);
-		$data['crimeTypes'] = $this->crime_type_model->get_by_crime_id_with_join($crimeId, 'id, type_name_' . $this->language . ' AS type_name');
-		
-		$data['courtSessions'] = $this->court_session_model->get_by_crime_id($crimeId);
+			$data['provincesList'] = $this->province_model->get_all('id, name_' . $this->language .' AS name');
+			$data['districtsList'] = $this->district_model->get_all('id, name_' . $this->language .' AS name, province_id');
+			$data['crimeTypeList'] = $this->crime_type_model->get_all('id, type_name_' . $this->language .' AS type_name');
+			$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
+			$data['maritalStatusList'] = $this->marital_status_model->get_all('id, status_' . $this->language .' AS status');
 
-	    $this->load->view('new_edit_case', $data);
+			$data['prisoner'] = $this->prisoner_model->get_by_crime_id_with_joins($crimeId, $this->language);
+			$data['crime'] = $this->crime_model->get_by_id_with_joins($crimeId, $this->language);
+			$data['crimeTypes'] = $this->crime_type_model->get_by_crime_id_with_join($crimeId, 'id, type_name_' . $this->language . ' AS type_name');
+			
+			$data['courtSessions'] = $this->court_session_model->get_by_crime_id($crimeId);
+
+		    $this->load->view('new_edit_case', $data);
+		}
 	}
 
 	public function general_list()
@@ -156,7 +178,7 @@ class General extends CI_Controller {
         	// lock
         	if($isLocked == '1')
         	{
-        		if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_unlock'))
+        		if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_unlock', 'prisoner_unlock', 'court_session_unlock')))
 				{
 					$buttons = $buttons . '<a class="btn btn-xs btn-warning" title="Unlock" onclick="unlock_record('."'".$dataRow[13]."'".')"><i class="glyphicon glyphicon-flash"></i>|</a>';
 				}
@@ -167,19 +189,19 @@ class General extends CI_Controller {
         	}
 
 			// view
-			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_view'))
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_view', 'prisoner_view', 'court_session_view')))
 			{
 				$buttons = $buttons . '<a class="btn btn-xs btn-primary" title="View" href="'.base_url().'index.php/general/view_case/'.$dataRow[13].'"><i class="glyphicon glyphicon-list"></i>|</a>';
 			}
 
 			// edit
-			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_edit'))
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_edit', 'prisoner_edit', 'court_session_edit')))
 			{
 				$buttons = $buttons . '<a class="btn btn-xs btn-primary" title="Edit" href="'.base_url().'index.php/general/edit_case/'.$dataRow[13].'"><i class="glyphicon glyphicon-pencil"></i>|</a>';
 			}
 
 			// delete
-			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_delete'))
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_delete', 'prisoner_delete', 'court_session_delete')))
 			{
 				$buttons = $buttons . '<a class="btn btn-xs btn-danger" title="Delete" onclick="delete_record('."'".$dataRow[13]."'".')"><i class="glyphicon glyphicon-trash"></i>|</a>';
 			}
@@ -235,7 +257,7 @@ class General extends CI_Controller {
     	$response['message'] = '';
     	$response['result'] = '';
 
-    	if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_new'))
+    	if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_new', 'prisoner_new', 'court_session_new')))
 		{
 			log_message('DEBUG', 'crime edit false');
 			$response['success'] = FALSE;
@@ -400,7 +422,7 @@ class General extends CI_Controller {
     	$response['message'] = '';
     	$response['result'] = '';
 
-    	if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_edit'))
+    	if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_edit', 'prisoner_edit', 'court_session_edit')))
 		{
 			log_message('DEBUG', 'crime edit false');
 			$response['success'] = FALSE;
@@ -556,7 +578,7 @@ class General extends CI_Controller {
     	$response['message'] = '';
     	$response['result'] = '';
 
-		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_delete'))
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_delete', 'prisoner_delete', 'court_session_delete')))
 		{
 			log_message('DEBUG', 'crime edit false');
 			$response['success'] = FALSE;
@@ -631,7 +653,7 @@ class General extends CI_Controller {
     	$response['message'] = '';
     	$response['result'] = '';
 
-        if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_unlock'))
+        if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_unlock', 'prisoner_unlock', 'court_session_unlock')))
 		{
 			log_message('DEBUG', 'crime edit false');
 			$response['success'] = FALSE;
