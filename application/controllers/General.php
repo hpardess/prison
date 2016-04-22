@@ -21,6 +21,7 @@ class General extends CI_Controller {
 		$this->load->model('crime_type_model');
 		$this->load->model('crime_crime_type_model');
 		$this->load->model('crime_model');
+		$this->load->model('crime_prisoner_model');
 		$this->load->model('court_session_model');
 		$this->load->model('court_decision_type_model');
 		$this->load->library('my_authentication');
@@ -60,6 +61,9 @@ class General extends CI_Controller {
 		// $data['crimeTypeList'] = $this->crime_type_model->get_all('id, type_name_' . $this->language .' AS type_name');
 		// $data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all('id, decision_type_name_' . $this->language .' AS decision_type_name');
 		// $data['maritalStatusList'] = $this->marital_status_model->get_all('id, status_' . $this->language .' AS status');
+
+		$data['hasEditRight'] = $this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_edit');
+
 		$data['prisoner'] = $this->prisoner_model->get_by_crime_id_with_joins($crimeId, $this->language);
 		$data['crime'] = $this->crime_model->get_by_id_with_joins($crimeId, $this->language);
 		$data['crimeTypes'] = $this->crime_type_model->get_by_crime_id_with_join($crimeId, 'id, type_name_' . $this->language . ' AS type_name');
@@ -154,12 +158,12 @@ class General extends CI_Controller {
         	{
         		if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_unlock'))
 				{
-					$buttons = $buttons . '<a class="btn btn-xs btn-warning" title="Unlock" onclick="unlock_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-flash"></i>|</a>';
+					$buttons = $buttons . '<a class="btn btn-xs btn-warning" title="Unlock" onclick="unlock_record('."'".$dataRow[13]."'".')"><i class="glyphicon glyphicon-flash"></i>|</a>';
 				}
         	}
         	else
         	{
-        		$buttons = $buttons . '<a class="btn btn-xs btn-warning" title="Lock" onclick="lock_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-lock"></i>|</a>';
+        		$buttons = $buttons . '<a class="btn btn-xs btn-warning" title="Lock" onclick="lock_record('."'".$dataRow[13]."'".')"><i class="glyphicon glyphicon-lock"></i>|</a>';
         	}
 
 			// view
@@ -177,7 +181,7 @@ class General extends CI_Controller {
 			// delete
 			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'prisoner_delete'))
 			{
-				$buttons = $buttons . '<a class="btn btn-xs btn-danger" title="Delete" onclick="delete_record('."'".$dataRow[0]."'".')"><i class="glyphicon glyphicon-trash"></i>|</a>';
+				$buttons = $buttons . '<a class="btn btn-xs btn-danger" title="Delete" onclick="delete_record('."'".$dataRow[13]."'".')"><i class="glyphicon glyphicon-trash"></i>|</a>';
 			}
 
             $dataRow[$aColumnsCount - 1] = $buttons;
@@ -222,12 +226,6 @@ class General extends CI_Controller {
 	// 	$result['arrestDistricts'] = $this->district_model->get_by_province_id($crime->arrest_province_id);
 
  //        echo json_encode($result);
-	// }
-
-	// public function delete($id)
-	// {
-	// 	$this->crime_model->delete_by_id($id);
- //        echo json_encode(array("status" => TRUE));
 	// }
 
 	// add new record
@@ -417,24 +415,24 @@ class General extends CI_Controller {
 			$crime_id = $this->input->post('crimeId');
 			$crimeData = array(
 	                'crime_date' => $this->input->post('crimeDate'),
-		                'arrest_date' => $this->input->post('arrestDate'),
-		                'case_number' => $this->input->post('caseNumber'),
-		                'police_custody' => $this->input->post('policeCustody'),
-		                'crime_reason' => $this->input->post('crimeReason'),
-		                'crime_supporter' => $this->input->post('crimeSupporter'),
-		                'crime_province_id' => $this->input->post('crimeProvince'),
-		                'crime_district_id' => $this->input->post('crimeDistrict'),
-		                'crime_location' => $this->input->post('crimeLocation'),
-		                'arrest_province_id' => $this->input->post('arrestProvince'),
-		                'arrest_district_id' => $this->input->post('arrestDistrict'),
-		                'arrest_location' => $this->input->post('arrestLocation'),
-		                'time_spent_in_prison' => $this->input->post('timeSpentInPrison'),
-		                'remaining_jail_term' => $this->input->post('remainingJailTerm'),
-		                'use_benefit_forgiveness_presidential' => $this->input->post('useBenefitForgivenessPresidential'),
-		                'command_issue_date' => $this->input->post('commandIssueDate'),
-		                'commission_proposal' => $this->input->post('commissionProposal'),
-		                'prisoner_request' => $this->input->post('prisonerRequest'),
-		                'commission_member' => $this->input->post('commissionMember')
+	                'arrest_date' => $this->input->post('arrestDate'),
+	                'case_number' => $this->input->post('caseNumber'),
+	                'police_custody' => $this->input->post('policeCustody'),
+	                'crime_reason' => $this->input->post('crimeReason'),
+	                'crime_supporter' => $this->input->post('crimeSupporter'),
+	                'crime_province_id' => $this->input->post('crimeProvince'),
+	                'crime_district_id' => $this->input->post('crimeDistrict'),
+	                'crime_location' => $this->input->post('crimeLocation'),
+	                'arrest_province_id' => $this->input->post('arrestProvince'),
+	                'arrest_district_id' => $this->input->post('arrestDistrict'),
+	                'arrest_location' => $this->input->post('arrestLocation'),
+	                'time_spent_in_prison' => $this->input->post('timeSpentInPrison'),
+	                'remaining_jail_term' => $this->input->post('remainingJailTerm'),
+	                'use_benefit_forgiveness_presidential' => $this->input->post('useBenefitForgivenessPresidential'),
+	                'command_issue_date' => $this->input->post('commandIssueDate'),
+	                'commission_proposal' => $this->input->post('commissionProposal'),
+	                'prisoner_request' => $this->input->post('prisonerRequest'),
+	                'commission_member' => $this->input->post('commissionMember')
 	            );
 			$affected_rows = $this->crime_model->update(array('id' => $crime_id), $crimeData);
 
@@ -550,5 +548,121 @@ class General extends CI_Controller {
 		
 		log_message('debug', 'file upload: ' . var_export($this->upload->data(), true));
 		return TRUE;
+    }
+
+    public function delete($crime_id)
+	{
+		$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+		if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_delete'))
+		{
+			log_message('DEBUG', 'crime edit false');
+			$response['success'] = FALSE;
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
+		}
+		else
+		{
+			// start of transaction
+			$this->db->trans_begin();
+
+			$prisoner_id = $this->crime_prisoner_model->get_prisoner_id_by_crime_id($crime_id);
+			$this->crime_prisoner_model->delete_by_crime_id($crime_id);
+			$this->court_session_model->delete_by_crime_id($crime_id);
+			$this->crime_crime_type_model->delete_by_crime_id($crime_id);
+
+			$this->crime_model->delete_by_id($crime_id);
+			$this->prisoner_model->delete_by_id($prisoner_id);
+
+			log_message('debug', 'deleted chain of crime_id: ' . $crime_id . ' prisoner_id: ' . $prisoner_id);
+
+			if ($this->db->trans_status() === FALSE)
+			{
+				$response['success'] = FALSE;
+				$response['message'] = 'Falied to delete the data.';
+				$this->db->trans_rollback();
+			}
+			else
+			{
+				// commit transaction
+				$this->db->trans_commit();
+			}
+			echo json_encode($response);
+	    }
+	}
+
+	public function lock($id)
+    {
+    	$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+        $data = array(
+                'locked' => 1
+            );
+
+        // start of transaction
+		$this->db->trans_begin();
+
+        $this->court_session_model->update(array('id' => $id), $data);
+        $this->prisoner_model->update(array('id' => $id), $data);
+        $this->crime_model->update(array('id' => $id), $data);
+
+        if ($this->db->trans_status() === FALSE)
+		{
+			$response['success'] = FALSE;
+			$response['message'] = 'Falied to lock the data.';
+			$this->db->trans_rollback();
+		}
+		else
+		{
+			// commit transaction
+			$this->db->trans_commit();
+		}
+
+        echo json_encode($response);
+    }
+
+    public function unlock($id)
+    {
+    	$response['success'] = TRUE;
+    	$response['message'] = '';
+    	$response['result'] = '';
+
+        if(!$this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), 'crime_unlock'))
+		{
+			log_message('DEBUG', 'crime edit false');
+			$response['success'] = FALSE;
+    		$response['message'] = 'You are unauthrized. Please contact system administrator.';
+			echo json_encode($response);
+		}
+		else
+		{
+	        $data = array(
+                'locked' => 0
+            );
+
+            // start of transaction
+			$this->db->trans_begin();
+
+            $this->court_session_model->update(array('id' => $id), $data);
+        	$this->prisoner_model->update(array('id' => $id), $data);
+	        $this->crime_model->update(array('id' => $id), $data);
+
+	        if ($this->db->trans_status() === FALSE)
+			{
+				$response['success'] = FALSE;
+				$response['message'] = 'Falied to unlock the data.';
+				$this->db->trans_rollback();
+			}
+			else
+			{
+				// commit transaction
+				$this->db->trans_commit();
+			}
+	        echo json_encode($response);
+	    }
     }
 }

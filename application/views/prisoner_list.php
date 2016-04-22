@@ -537,7 +537,7 @@
 									<input name="age" placeholder="Age" class="form-control" type="number">
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="control-label col-sm-4"><?= $this->lang->line('marital_status'); ?></label>
 								<div class="col-sm-8">
 									<select name="maritalStatus" class="form-control" class="form-control">
@@ -564,7 +564,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="control-label col-sm-4"><?= $this->lang->line('permanent_province'); ?></label>
 								<div class="col-sm-8">
 									<select name="permanentProvince" class="form-control" class="form-control">
@@ -575,14 +575,14 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="control-label col-sm-4"><?= $this->lang->line('permanent_district'); ?></label>
 								<div class="col-sm-8">
 									<select name="permanentDistrict" class="form-control" class="form-control">
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="control-label col-sm-4"><?= $this->lang->line('present_province'); ?></label>
 								<div class="col-sm-8">
 									<select name="presentProvince" class="form-control" class="form-control">
@@ -593,7 +593,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="control-label col-sm-4"><?= $this->lang->line('present_district'); ?></label>
 								<div class="col-sm-8">
 									<select name="presentDistrict" class="form-control" class="form-control">

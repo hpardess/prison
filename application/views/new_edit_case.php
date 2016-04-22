@@ -151,6 +151,9 @@
 					<?php } ?>
 	<!-- ---------------------------- new Prisoer Column 1 --------------------------------------- -->
 						<div class="col-sm-4">
+							<?php if($isEdit) { ?>
+								<input type="hidden" value="<?= $prisoner->id ?>" name="prisoner_id"/>
+							<?php } ?>
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('tazkira_number'); ?></label>
 								<div class="col-sm-8">
@@ -792,11 +795,16 @@
 						data = JSON.parse(data);
 						if(data.success === true)
 						{
-							if(confirm("Successfully saved. Do you want to register another case?")) {
-								$('#form', '#newCaseRegistrationForm')[0].reset(); // reset form
-							} else {
+							<?php if($isEdit) { ?>
 								window.location.replace("<?= base_url() ?>index.php/general/view_case/" + data.result);
-							}
+							<?php } else { ?>
+								if(confirm("Successfully saved. If you want to register another case then click ok.")) {
+									$('#form', '#newCaseRegistrationForm')[0].reset(); // reset form
+								} else {
+									window.location.replace("<?= base_url() ?>index.php/general/view_case/" + data.result);
+								}
+							<?php } ?>
+							
 							
 						}
 						else

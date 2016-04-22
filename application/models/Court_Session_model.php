@@ -77,4 +77,9 @@ class Court_Session_model extends CI_Model {
         $this->db->where('id', $id);
         $this->db->delete($this->tableName);
     }
+
+    function delete_by_crime_id($crime_id){
+        $this->db->where('crime_id', $crime_id);
+        $this->db->delete($this->tableName);
+    }
 }

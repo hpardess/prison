@@ -603,7 +603,7 @@
 									<input name="arrestDate" placeholder="Arrest Date" class="form-control" type="date">
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="control-label col-md-4"><?= $this->lang->line('crime_type'); ?></label>
 								<div class="col-md-8">
 									<select multiple name="crimeType[]" class="form-control" class="form-control">
@@ -633,7 +633,7 @@
 									<input name="crimeSupporter" placeholder="Crime Supporter" class="form-control" type="text">
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_province'); ?></label>
 								<div class="col-sm-8">
 									<select name="crimeProvince" class="form-control" class="form-control">
@@ -644,7 +644,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_district'); ?></label>
 								<div class="col-sm-8">
 									<select name="crimeDistrict" class="form-control" class="form-control">
@@ -657,7 +657,7 @@
 									<input name="crimeLocation" placeholder="Crime Location" class="form-control" type="text">
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_province'); ?></label>
 								<div class="col-sm-8">
 									<select name="arrestProvince" class="form-control" class="form-control">
@@ -668,7 +668,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_district'); ?></label>
 								<div class="col-sm-8">
 									<select name="arrestDistrict" class="form-control" class="form-control">

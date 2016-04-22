@@ -381,13 +381,13 @@
 									<p class="form-control-static" id="id"></p>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="control-label col-md-4"><?= $this->lang->line('crime_id'); ?></label>
 								<div class="col-md-8">
 									<input name="crimeId" placeholder="Crime Id" class="form-control" type="text">
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group has-error">
 								<label class="control-label col-md-4"><?= $this->lang->line('court_decision_type'); ?></label>
 								<div class="col-md-8">
 									<select name="courtDecisionType" class="form-control" class="form-control">

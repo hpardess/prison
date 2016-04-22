@@ -394,7 +394,10 @@
 				</form>
 
 				<div class="modal-footer">
-					<a class="btn btn-danger" href="<?= base_url() ?>index.php/home">Cancel</a>
+					<?php if($hasEditRight) { ?>
+					<a class="btn btn-primary" href="<?= base_url() ?>index.php/general/edit_case/<?= $crime->id; ?>"><i class="glyphicon glyphicon-pencil"></i> <?= $this->lang->line('edit'); ?></a>
+					<?php } ?>
+					<a class="btn btn-danger" href="<?= base_url() ?>index.php/home"> <?= $this->lang->line('cancel'); ?></a>
 				</div>
 			</div>
 		</div>
