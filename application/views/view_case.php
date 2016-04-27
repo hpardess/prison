@@ -161,7 +161,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('crime_date'); ?></label>
 								<div class="col-sm-8">
-									<p class="form-control-static" id="crimeDate"><?= $crime->crime_date; ?></p>
+									<p class="form-control-static" id="crimeDate"><?= $crime->crime_date .' | ' . $crime->crime_date_shamsi; ?></p>
 								</div>
 							</div>
 							<div class="form-group">
@@ -188,7 +188,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('arrest_date'); ?></label>
 								<div class="col-sm-8">
-									<p class="form-control-static" id="arrestDate"><?= $crime->arrest_date; ?></p>
+									<p class="form-control-static" id="arrestDate"><?= $crime->arrest_date .' | ' . $crime->arrest_date_shamsi; ?></p>
 								</div>
 							</div>
 							<div class="form-group">
@@ -251,7 +251,7 @@
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('decision_date'); ?></label>
 										<div class="col-sm-8">
-											<p class="form-control-static" id="decisionDate[<?= $key; ?>]"><?= $v->decision_date ?></p>
+											<p class="form-control-static" id="decisionDate[<?= $key; ?>]"><?= $v->decision_date .' | ' . $v->decision_date_shamsi?></p>
 										</div>
 									</div>
 									<div class="form-group">
@@ -275,7 +275,7 @@
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('sentence_execution_date'); ?></label>
 										<div class="col-sm-8">
-											<p class="form-control-static" id="sentenceExecutionDate[<?= $key; ?>]"><?= $v->sentence_execution_date ?></p>
+											<p class="form-control-static" id="sentenceExecutionDate[<?= $key; ?>]"><?= $v->sentence_execution_date .' | ' . $v->sentence_execution_date_shamsi?></p>
 										</div>
 									</div>
 
@@ -344,7 +344,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('command_issue_date'); ?></label>
 								<div class="col-sm-8">
-									<p class="form-control-static" id="commandIssueDate"><?= $crime->command_issue_date; ?></p>
+									<p class="form-control-static" id="commandIssueDate"><?= $crime->command_issue_date .' | ' . $crime->command_issue_date_shamsi; ?></p>
 								</div>
 							</div>
 

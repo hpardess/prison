@@ -33,12 +33,7 @@ class General extends CI_Controller {
 
 	public function index()
 	{
-		$data['provincesList'] = $this->province_model->get_all();
-		$data['districtsList'] = $this->district_model->get_all();
-		$data['maritalStatusList'] = $this->marital_status_model->get_all();
-		$data['courtDecisionTypeList'] = $this->court_decision_type_model->get_all();
-
-	    $this->load->view('general_list', $data);
+	    $this->load->view('general_list');
 	}
 
 	public function new_case()
@@ -208,6 +203,96 @@ class General extends CI_Controller {
 			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_delete', 'prisoner_delete', 'court_session_delete')))
 			{
 				$buttons = $buttons . '<a class="btn btn-xs btn-danger" title="Delete" onclick="delete_record('."'".$dataRow[13]."'".')"><i class="glyphicon glyphicon-trash"></i>|</a>';
+			}
+
+            $dataRow[$aColumnsCount - 1] = $buttons;
+            $filteredDataArray[] = $dataRow;
+        }
+
+        // $results['data'] = $filteredDataArray;
+        // foreach ($results['data'] as $dataRow) {
+        //     $dataRow[] = '<a class="btn btn-xs btn-primary" title="View" href="'.base_url().'index.php/general/view_case/'.$dataRow[13].'"><i class="glyphicon glyphicon-list"></i>|</a>';
+
+        //     $filteredDataArray[] = $dataRow;
+        // }
+
+        $results['data'] = $filteredDataArray;
+	    echo json_encode($results);
+	}
+
+	public function general_quick_list()
+	{
+		$this->load->model("datatables_post_model");
+		$tableName = 'general_quick_view';
+
+		// echo print_r($_SERVER);
+		// echo print_r($_SESSION);
+		// echo print_r($_POST);
+		// echo print_r($_GET);
+
+		$aColumns = array(
+			'prisoner_id',
+			'name',
+			'father_name',
+			'grand_father_name',
+			'age',
+			'criminal_history',
+			'marital_status_' . $this->language,
+			'permanent_province_' . $this->language,
+			'permanent_district_' . $this->language,
+
+			'crime_id',
+			'case_number',
+			'crime_date',
+			'crime_date_shamsi',
+			'arrest_date',
+			'arrest_date_shamsi',
+			'police_custody',
+			'time_spent_in_prison',
+			'remaining_jail_term',
+			'locked');
+ 
+        /* Indexed column (used for fast and accurate table cardinality) */
+        $sIndexColumn = "id";
+
+        $results = $this->datatables_post_model->get_data_list($tableName, $sIndexColumn, $aColumns);
+
+        $filteredDataArray = [];
+        $aColumnsCount = count($aColumns);
+        foreach ($results['data'] as $dataRow) {
+        	$isLocked = $dataRow[$aColumnsCount - 1];
+        	$buttons = '';
+        	$referenceId = $dataRow[9];
+
+        	// lock
+        	if($isLocked == '1')
+        	{
+        		if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_unlock', 'prisoner_unlock', 'court_session_unlock')))
+				{
+					$buttons = $buttons . '<a class="btn btn-xs btn-warning" title="Unlock" onclick="unlock_record('."'".$referenceId."'".')"><i class="glyphicon glyphicon-flash"></i>|</a>';
+				}
+        	}
+        	else
+        	{
+        		$buttons = $buttons . '<a class="btn btn-xs btn-warning" title="Lock" onclick="lock_record('."'".$referenceId."'".')"><i class="glyphicon glyphicon-lock"></i>|</a>';
+        	}
+
+			// view
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_view', 'prisoner_view', 'court_session_view')))
+			{
+				$buttons = $buttons . '<a class="btn btn-xs btn-primary" title="View" href="'.base_url().'index.php/general/view_case/'.$referenceId.'"><i class="glyphicon glyphicon-list"></i>|</a>';
+			}
+
+			// edit
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_edit', 'prisoner_edit', 'court_session_edit')))
+			{
+				$buttons = $buttons . '<a class="btn btn-xs btn-primary" title="Edit" href="'.base_url().'index.php/general/edit_case/'.$referenceId.'"><i class="glyphicon glyphicon-pencil"></i>|</a>';
+			}
+
+			// delete
+			if($this->my_authentication->isGroupMemberAllowed($this->session->userdata('isAdmin'), $this->session->userdata('group'), array('crime_delete', 'prisoner_delete', 'court_session_delete')))
+			{
+				$buttons = $buttons . '<a class="btn btn-xs btn-danger" title="Delete" onclick="delete_record('."'".$referenceId."'".')"><i class="glyphicon glyphicon-trash"></i>|</a>';
 			}
 
             $dataRow[$aColumnsCount - 1] = $buttons;

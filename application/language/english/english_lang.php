@@ -12,12 +12,14 @@ $lang['add_new'] = 'Add New';
 $lang['new'] = 'New';
 $lang['unlock'] = 'Unlock';
 $lang['login'] = 'Login';
+$lang['verify'] = 'Verify!';
 
 // nav-bar menu
 $lang['app_name'] = 'Prison Database';
 $lang['home'] = 'Home';
 $lang['dashboard'] = 'Dashboard';
-$lang['general_list'] = 'General List';
+$lang['general'] = 'General';
+$lang['new_case'] = 'New Case';
 $lang['prisoners_list'] = 'Prisoners List';
 $lang['criminal_cases_list'] = 'Criminal Cases List';
 $lang['court_session_list'] = 'Court Session list';
@@ -47,6 +49,12 @@ $lang['actions'] = 'Actions';
 $lang['search'] = 'Search';
 
 // General
+$lang['general_list'] = 'General List';
+$lang['quick_view'] = 'Quick View';
+$lang['detail_view'] = 'Detail View';
+
+$lang['edit_case'] = 'Edit Case';
+$lang['is_new_prisoner'] = 'New Prisoner?';
 $lang['prisoner_id'] = 'Prisoner ID';
 $lang['crime_id'] = 'Crime ID';
 $lang['court_session_id'] = 'Court Session ID';

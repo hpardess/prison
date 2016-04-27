@@ -9,9 +9,9 @@
             <li id="home"><a href="<?= base_url() ?>index.php/home"><?= $this->lang->line('home'); ?></a></li>
             <li id="dashboard"><a href="<?= base_url() ?>index.php/dashboard"><?= $this->lang->line('dashboard'); ?></a></li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">General <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $this->lang->line('general'); ?>  <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="<?= base_url() ?>index.php/general/new_case">New Case </a></li>
+                    <li><a href="<?= base_url() ?>index.php/general/new_case"><?= $this->lang->line('new_case'); ?> </a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="<?= base_url() ?>index.php/general"><?= $this->lang->line('general_list'); ?> </a></li>
                     <li id="prisoners"><a href="<?= base_url() ?>index.php/prisoner"><?= $this->lang->line('prisoners_list'); ?> </a></li>

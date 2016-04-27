@@ -8,7 +8,11 @@
 		<?php $this->load->view('menu_bar'); ?>
 		<div class="container">
 			<h3>
-				&nbsp;<?= $this->lang->line('general'); ?>&nbsp;
+				<?php if(!$isEdit) { ?>
+					&nbsp;<?= $this->lang->line('new_case'); ?>&nbsp;
+				<?php } else { ?>
+					&nbsp;<?= $this->lang->line('edit_case'); ?>&nbsp;
+				<?php } ?>
 			</h3>
 			<hr />
 			<div id="newCaseRegistrationForm">
@@ -22,7 +26,7 @@
 								<div class="col-sm-8">
 									<div class="checkbox">
 										<label>
-											<input type="checkbox" name="newPrisoner"> New Prisoner?
+											<input type="checkbox" name="newPrisoner"> <?= $this->lang->line('is_new_prisoner'); ?>
 										</label>
 									</div>
 								</div>
@@ -35,7 +39,7 @@
 									<div class="input-group">
 										<input type="text" class="form-control" id="searchPrisonerIdInput" placeholder="Search for registered prisoner by ID ...">
 										<span class="input-group-btn">
-											<button class="btn btn-primary" id="searchPrisonerIdBtn" type="button">Verify!</button>
+											<button class="btn btn-primary" id="searchPrisonerIdBtn" type="button"> <?= $this->lang->line('verify'); ?> </button>
 										</span>
 									</div>
 								</div>
@@ -818,7 +822,7 @@
 								window.location.replace("<?= base_url() ?>index.php/general/view_case/" + data.result);
 							<?php } else { ?>
 								if(confirm("Successfully saved. If you want to register another case then click ok.")) {
-									$('#form', '#newCaseRegistrationForm')[0].reset(); // reset form
+									window.location.reload(false);
 								} else {
 									window.location.replace("<?= base_url() ?>index.php/general/view_case/" + data.result);
 								}

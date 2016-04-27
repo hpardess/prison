@@ -12,12 +12,14 @@ $lang['add_new'] = 'نوې اضافه';
 $lang['new'] = 'نوې';
 $lang['unlock'] = 'خلاص کړۍ';
 $lang['login'] = 'د ننه کیدل';
+$lang['verify'] = 'Verify!';
 
 // nav-bar menu
 $lang['app_name'] = 'زندان ډیټابیس';
 $lang['home'] = 'کور';
 $lang['dashboard'] = 'ډشبورډ';
-$lang['general_list'] = 'General';
+$lang['general'] = 'General';
+$lang['new_case'] = 'New Case';
 $lang['prisoners_list'] = 'بندیان';
 $lang['criminal_cases_list'] = 'جنایي پېښو';
 $lang['court_session_list'] = 'د محکمی غونده';
@@ -47,6 +49,12 @@ $lang['actions'] = 'کړنې';
 $lang['search'] = 'د لټون';
 
 // General
+$lang['general_list'] = 'General';
+$lang['quick_view'] = 'Quick View';
+$lang['detail_view'] = 'Detail View';
+
+$lang['edit_case'] = 'Edit Case';
+$lang['is_new_prisoner'] = 'New Prisoner?';
 $lang['prisoner_id'] = 'Prisoner ID';
 $lang['crime_id'] = 'Crime ID';
 $lang['court_session_id'] = 'Court Session ID';

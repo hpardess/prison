@@ -5,6 +5,12 @@
 .col-sm-8 p {
   word-break: break-all;
 }
+
+/* tabs */
+.nav-tabs li.active {
+  height: 10%;
+}
+
 /* DataTable */
 th { font-size: 13px; }
 td { font-size: 12px; }

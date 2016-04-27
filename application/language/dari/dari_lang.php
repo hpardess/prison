@@ -12,12 +12,14 @@ $lang['add_new'] = 'اضافه کردن جدید';
 $lang['new'] = 'جدید';
 $lang['unlock'] = 'باز کردن قفل';
 $lang['login'] = 'ورود';
+$lang['verify'] = 'Verify!';
 
 // nav-bar menu
 $lang['app_name'] = 'دیتابیس زندان';
 $lang['home'] = 'خانه';
 $lang['dashboard'] = 'داشبورد';
-$lang['general_list'] = 'نمایش عمومی';
+$lang['general'] = 'عمومی';
+$lang['new_case'] = 'قضیه جدید';
 $lang['prisoners_list'] = 'زندانیان';
 $lang['criminal_cases_list'] = 'پرونده های جنایی';
 $lang['court_session_list'] = 'فیصله های محاکم';
@@ -47,6 +49,12 @@ $lang['actions'] = 'اعمال';
 $lang['search'] = 'جستجو';
 
 // General
+$lang['general_list'] = 'نمایش عمومی';
+$lang['quick_view'] = 'Quick View';
+$lang['detail_view'] = 'Detail View';
+
+$lang['edit_case'] = 'تجدید قضیه';
+$lang['is_new_prisoner'] = 'بندی جدید؟';
 $lang['prisoner_id'] = 'آیدی زندانی در سیستم';
 $lang['crime_id'] = 'آیدی جرمی در سیستم';
 $lang['court_session_id'] = 'آیدی فیصله محکمه در سیستم';
