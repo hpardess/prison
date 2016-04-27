@@ -348,7 +348,7 @@
 							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('crime_date'); ?></label>
 								<div class="col-md-8">
-									<input name="crimeDate" placeholder="Crime Date" class="form-control" type="date" <?php echo $isEdit? 'value="' . $crime->crime_date . '"': ''; ?> >
+									<input name="crimeDate" placeholder="Crime Date" class="form-control date" type="text" <?php echo $isEdit? 'value="' . $crime->crime_date_shamsi . '"': ''; ?> >
 								</div>
 							</div>
 							<div class="form-group has-error">
@@ -386,7 +386,7 @@
 							<div class="form-group">
 								<label class="control-label col-md-4"><?= $this->lang->line('arrest_date'); ?></label>
 								<div class="col-md-8">
-									<input name="arrestDate" placeholder="Arrest Date" class="form-control" type="date" <?php echo $isEdit? 'value="' . $crime->arrest_date . '"': ''; ?> >
+									<input name="arrestDate" placeholder="Arrest Date" class="form-control date" type="text" <?php echo $isEdit? 'value="' . $crime->arrest_date_shamsi . '"': ''; ?> >
 								</div>
 							</div>
 							<div class="form-group has-error">
@@ -460,7 +460,7 @@
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('decision_date'); ?></label>
 										<div class="col-sm-8">
-											<input name="decisionDate[]" placeholder="Decision Date" class="form-control" type="date" <?php echo $isEdit? 'value="' . $v->decision_date . '"': ''; ?> >
+											<input name="decisionDate[]" placeholder="Decision Date" class="form-control date" type="text" <?php echo $isEdit? 'value="' . $v->decision_date_shamsi . '"': ''; ?> >
 										</div>
 									</div>
 									<div class="form-group">
@@ -484,7 +484,7 @@
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('sentence_execution_date'); ?></label>
 										<div class="col-sm-8">
-											<input name="sentenceExecutionDate[]" placeholder="Sentence Execution Date" class="form-control" type="date" <?php echo $isEdit? 'value="' . $v->sentence_execution_date . '"': ''; ?> >
+											<input name="sentenceExecutionDate[]" placeholder="Sentence Execution Date" class="form-control date" type="text" <?php echo $isEdit? 'value="' . $v->sentence_execution_date_shamsi . '"': ''; ?> >
 										</div>
 									</div>
 
@@ -505,7 +505,7 @@
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('decision_date'); ?></label>
 										<div class="col-sm-8">
-											<input name="decisionDate[]" placeholder="Decision Date" class="form-control" type="date">
+											<input name="decisionDate[]" placeholder="Decision Date" class="form-control date" type="text">
 										</div>
 									</div>
 									<div class="form-group">
@@ -529,7 +529,7 @@
 									<div class="form-group">
 										<label class="col-sm-4 control-label"><?= $this->lang->line('sentence_execution_date'); ?></label>
 										<div class="col-sm-8">
-											<input name="sentenceExecutionDate[]" placeholder="Sentence Execution Date" class="form-control" type="date">
+											<input name="sentenceExecutionDate[]" placeholder="Sentence Execution Date" class="form-control date" type="text">
 										</div>
 									</div>
 
@@ -552,7 +552,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label"><?= $this->lang->line('command_issue_date'); ?></label>
 								<div class="col-sm-8">
-									<input name="commandIssueDate" placeholder="Command Issue Date" class="form-control" type="text" <?php echo $isEdit? 'value="' . $crime->command_issue_date . '"': ''; ?> >
+									<input name="commandIssueDate" placeholder="Command Issue Date Multiple" class="form-control" type="text" <?php echo $isEdit? 'value="' . $crime->command_issue_date_shamsi . '"': ''; ?> >
 								</div>
 							</div>
 
@@ -612,9 +612,8 @@
 			</div>
 		</div>
 		
-		<!-- <link rel="stylesheet" href="<?php echo base_url("assets/datatables/media/css/dataTables.bootstrap.min.css"); ?>" />
-		<script src="<?php echo base_url('assets/datatables/media/js/jquery.dataTables.min.js')?>"></script>
-		<script src="<?php echo base_url('assets/datatables/media/js/dataTables.bootstrap.min.js')?>"></script>-->
+		<link rel="stylesheet" href="<?php echo base_url('assets/persianDatepicker/css/persianDatepicker-default.css')?>" />
+		<script src="<?php echo base_url('assets/persianDatepicker/js/persianDatepicker.min.js')?>"></script>
 		<script src="<?php echo base_url('assets/underscore-min.js')?>"></script>
 		  
 		  
@@ -627,10 +626,30 @@
 
             $(document).ready(function () {
             	$("li#general", ".navbar-nav").addClass("active");
-            	$("input[type='date']").datepicker({
-            		dateFormat: "yy-mm-dd"
-            	});
-            	
+
+            	// $("input[type='date']").datepicker({
+            	// 	dateFormat: "yy-mm-dd"
+            	// });
+
+				var months;
+				<?php if($this->session->userdata('language') == 'dari') { ?>
+					months = ["حمل", "ثور", "جوزا", "سرطان", "اسد", "سنبله", "میزان", "عقرب", "قوس", "جدی", "دلو", "حوت"],
+					// ["حوت", "دلو", "جدی", "قوس", "عقرب", "میزان", "سنبله", "اسد", "سرطان", "جوزا", "ثور", "حمل"],
+				<?php } else { ?>
+					months = ["وری", "غويی", "غبرګولی", "چنګاښ", "زمری", "وږی", "تله", "لړم", "ليندۍ", "مرغومی", "سلواغه", "كب"],
+					// ["كب", "سلواغه", "مرغومی", "ليندۍ", "لړم", "تله", "وږی", "زمری", "چنګاښ", "غبرګولی", "غويی", "وری"],
+				<?php } ?>
+
+				$("input.date", '#newCaseRegistrationForm').persianDatepicker({
+					alwaysShow: false,
+					closeOnBlur: false,
+					months: months,
+					formatDate: "YYYY-0M-0D",
+					cellWidth: 35, 
+					cellHeight: 30,
+					fontSize: 18,
+				});
+
             	$('#form', '#newCaseRegistrationForm')[0].reset(); // reset form 
 
             	$('[name="newPrisoner"]', '#newCaseRegistrationForm').change(function(event) {

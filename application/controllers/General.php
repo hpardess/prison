@@ -148,6 +148,9 @@ class General extends CI_Controller {
 			'crime_id',
 			'case_number',
 			'crime_date',
+			'crime_date_shamsi',
+			'arrest_date',
+			'arrest_date_shamsi',
 			'crime_location',
 			'arrest_location',
 			'police_custody',
@@ -159,6 +162,7 @@ class General extends CI_Controller {
 			'remaining_jail_term',
 			'use_benefit_forgiveness_presidential',
 			'command_issue_date',
+			'command_issue_date_shamsi',
 			'commission_proposal',
 			'prisoner_request',
 			'commission_member',
@@ -270,8 +274,8 @@ class General extends CI_Controller {
 			$this->db->trans_begin();
 
 			$crimeData = array(
-	                'crime_date' => $this->input->post('crimeDate'),
-		                'arrest_date' => $this->input->post('arrestDate'),
+	                'crime_date_shamsi' => $this->input->post('crimeDate'),
+		                'arrest_date_shamsi' => $this->input->post('arrestDate'),
 		                'case_number' => $this->input->post('caseNumber'),
 		                'police_custody' => $this->input->post('policeCustody'),
 		                'crime_reason' => $this->input->post('crimeReason'),
@@ -285,7 +289,7 @@ class General extends CI_Controller {
 		                'time_spent_in_prison' => $this->input->post('timeSpentInPrison'),
 		                'remaining_jail_term' => $this->input->post('remainingJailTerm'),
 		                'use_benefit_forgiveness_presidential' => $this->input->post('useBenefitForgivenessPresidential'),
-		                'command_issue_date' => $this->input->post('commandIssueDate'),
+		                'command_issue_date_shamsi' => $this->input->post('commandIssueDate'),
 		                'commission_proposal' => $this->input->post('commissionProposal'),
 		                'prisoner_request' => $this->input->post('prisonerRequest'),
 		                'commission_member' => $this->input->post('commissionMember')
@@ -308,11 +312,11 @@ class General extends CI_Controller {
 	        	$courtSession[$i] = array(
 	                // 'crime_id' => $this->input->post('crimeId')[$i],
 	                // 'court_decision_type_id' => $this->input->post('courtDecisionType')[$i],
-	                'decision_date' => $this->input->post('decisionDate')[$i],
+	                'decision_date_shamsi' => $this->input->post('decisionDate')[$i],
 	                'decision' => $this->input->post('decision')[$i],
 	                'defence_lawyer_name' => $this->input->post('defenceLawyerName')[$i],
 	                'defence_lawyer_certificate_id' => $this->input->post('defenceLawyerCertificateId')[$i],
-	                'sentence_execution_date' => $this->input->post('sentenceExecutionDate')[$i]
+	                'sentence_execution_date_shamsi' => $this->input->post('sentenceExecutionDate')[$i]
 	            );
 
 	            if(count(array_filter($courtSession[$i])) != 0) {
@@ -436,8 +440,8 @@ class General extends CI_Controller {
 
 			$crime_id = $this->input->post('crimeId');
 			$crimeData = array(
-	                'crime_date' => $this->input->post('crimeDate'),
-	                'arrest_date' => $this->input->post('arrestDate'),
+	                'crime_date_shamsi' => $this->input->post('crimeDate'),
+	                'arrest_date_shamsi' => $this->input->post('arrestDate'),
 	                'case_number' => $this->input->post('caseNumber'),
 	                'police_custody' => $this->input->post('policeCustody'),
 	                'crime_reason' => $this->input->post('crimeReason'),
@@ -451,7 +455,7 @@ class General extends CI_Controller {
 	                'time_spent_in_prison' => $this->input->post('timeSpentInPrison'),
 	                'remaining_jail_term' => $this->input->post('remainingJailTerm'),
 	                'use_benefit_forgiveness_presidential' => $this->input->post('useBenefitForgivenessPresidential'),
-	                'command_issue_date' => $this->input->post('commandIssueDate'),
+	                'command_issue_date_shamsi' => $this->input->post('commandIssueDate'),
 	                'commission_proposal' => $this->input->post('commissionProposal'),
 	                'prisoner_request' => $this->input->post('prisonerRequest'),
 	                'commission_member' => $this->input->post('commissionMember')
@@ -474,11 +478,11 @@ class General extends CI_Controller {
 	        	$courtSession[$i] = array(
 	                'crime_id' => $crime_id,
 	                'court_decision_type_id' => $this->input->post('courtDecisionType')[$i],
-	                'decision_date' => $this->input->post('decisionDate')[$i],
+	                'decision_date_shamsi' => $this->input->post('decisionDate')[$i],
 	                'decision' => $this->input->post('decision')[$i],
 	                'defence_lawyer_name' => $this->input->post('defenceLawyerName')[$i],
 	                'defence_lawyer_certificate_id' => $this->input->post('defenceLawyerCertificateId')[$i],
-	                'sentence_execution_date' => $this->input->post('sentenceExecutionDate')[$i]
+	                'sentence_execution_date_shamsi' => $this->input->post('sentenceExecutionDate')[$i]
 	            );
 
 	        	$courtSessionId = $this->input->post('courtSessionId')[$i];

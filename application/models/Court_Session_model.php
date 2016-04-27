@@ -29,7 +29,7 @@ class Court_Session_model extends CI_Model {
 
     // get record by id with joins
     function get_by_id_with_joins($id, $language){
-        $this->db->select('`court_session`.`id` AS `id`,`court_session`.`crime_id` AS `crime_id`,`court_session`.`court_decision_type_id` AS `court_decision_type_id`,`court_decision_type`.`decision_type_name_' . $language . '` AS `court_decision_type`,`court_session`.`decision_date` AS `decision_date`, `court_session`.`decision` AS `decision`,`court_session`.`defence_lawyer_name` AS `defence_lawyer_name`,`court_session`.`defence_lawyer_certificate_id` AS `defence_lawyer_certificate_id`, `court_session`.`sentence_execution_date` AS `sentence_execution_date`');
+        $this->db->select('`court_session`.`id` AS `id`,`court_session`.`crime_id` AS `crime_id`,`court_session`.`court_decision_type_id` AS `court_decision_type_id`,`court_decision_type`.`decision_type_name_' . $language . '` AS `court_decision_type`,`court_session`.`decision_date` AS `decision_date`, `court_session`.`decision_date_shamsi` AS `decision_date_shamsi`,`court_session`.`decision` AS `decision`,`court_session`.`defence_lawyer_name` AS `defence_lawyer_name`,`court_session`.`defence_lawyer_certificate_id` AS `defence_lawyer_certificate_id`, `court_session`.`sentence_execution_date` AS `sentence_execution_date`, `court_session`.`sentence_execution_date_shamsi` AS `sentence_execution_date_shamsi`');
         $this->db->from($this->tableName);
         $this->db->join('court_decision_type', 'court_decision_type.id =  court_session.court_decision_type_id', 'inner');
         $this->db->where($this->tableName . '.id',$id);
