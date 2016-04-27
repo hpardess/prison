@@ -41,10 +41,12 @@ class Court_Session extends CI_Controller {
 			'crime_id',
 			'court_decision_type_' . $this->language,
 			'decision_date',
+			'decision_date_shamsi',
 			'decision',
 			'defence_lawyer_name',
 			'defence_lawyer_certificate_id',
 			'sentence_execution_date',
+			'sentence_execution_date_shamsi',
 			'locked');
  
         /* Indexed column (used for fast and accurate table cardinality) */

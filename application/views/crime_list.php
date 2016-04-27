@@ -20,6 +20,8 @@
 	                    <th><?= $this->lang->line('registration_date'); ?></th>
 	                    <th><?= $this->lang->line('case_number'); ?></th>
 	                    <th><?= $this->lang->line('crime_date'); ?></th>
+	                    <th><?= $this->lang->line('crime_date'); ?></th>
+	                    <th><?= $this->lang->line('arrest_date'); ?></th>
 	                    <th><?= $this->lang->line('arrest_date'); ?></th>
 	                    <th><?= $this->lang->line('police_custody'); ?></th>
 	                    <th><?= $this->lang->line('crime_reason'); ?></th>
@@ -33,6 +35,7 @@
 	                    <th><?= $this->lang->line('time_spent_in_prison'); ?></th>
 	                    <th><?= $this->lang->line('remaining_jail_term'); ?></th>
 	                    <th><?= $this->lang->line('use_benefit_forgiveness_presidential'); ?></th>
+	                    <th><?= $this->lang->line('command_issue_date'); ?></th>
 	                    <th><?= $this->lang->line('command_issue_date'); ?></th>
 	                    <th><?= $this->lang->line('commission_proposal'); ?></th>
 	                    <th><?= $this->lang->line('prisoner_request'); ?></th>

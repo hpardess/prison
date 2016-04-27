@@ -20,9 +20,11 @@
 	                    <th><?= $this->lang->line('crime_id'); ?></th>
 	                    <th><?= $this->lang->line('court_decision_type'); ?></th>
 	                    <th><?= $this->lang->line('decision_date'); ?></th>
+	                    <th><?= $this->lang->line('decision_date'); ?></th>
 	                    <th><?= $this->lang->line('decision'); ?></th>
 	                    <th><?= $this->lang->line('defence_lawyer_name'); ?></th>
 	                    <th><?= $this->lang->line('defence_lawyer_certificate_id'); ?></th>
+	                    <th><?= $this->lang->line('sentence_execution_date'); ?></th>
 	                    <th><?= $this->lang->line('sentence_execution_date'); ?></th>
 	                    <th><?= $this->lang->line('actions'); ?></th>
 	                </tr>

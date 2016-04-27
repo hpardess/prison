@@ -714,17 +714,33 @@ INSERT INTO `marital_status` (`id`, `status_english`, `status_dari`, `status_pas
 (1, 'Single','مجرد','مجرد'),
 (2, 'Married','متاهل','متاهل'),
 (3, 'Widow','بیوه','کونډه'),
-(4, 'Engaged','Engaged','Engaged');
+(4, 'Engaged','نامزد','نامزد');
 
 --
 -- Dumping data for table `crime_type`
 --
 
 INSERT INTO `crime_type` (`id`, `type_name_english`, `type_name_dari`, `type_name_pashto`) VALUES
-(1, 'Murder', 'Murder', 'Murder'),
-(2, 'Rape', 'Rape', 'Rape'),
-(3, 'Kidnap', 'Kidnap', 'Kidnap'),
-(4, 'Escape', 'Escape', 'Escape');
+(1, 'Murder', 'قتل', 'قتل'),
+(2, 'Rape', 'تجاوز جنسی', 'تجاوز جنسی'),
+(3, 'Adultery','زنا','زنا'),
+(4, 'Run Away From Home', 'فرار از منزل', 'فرار از منزل'),
+(5, 'Drug Trafficking','قاچاق مواد مخدر','قاچاق مواد مخدر'),
+(6, 'Kidnap', 'اختطاف', 'اختطاف'),
+(7, 'Terror','ترور','ترور'),
+(8, 'Alcohol Assumption','شراب خوری','شراب خوری'),
+(9, 'Bombing','ماین گذاری','ماین گذاری'),
+(10, 'Suicide Attack','حملات انتحاری','حملات انتحاری'),
+(11, 'Rudeness','خشونت','خشونت'),
+(12, 'Rudeness Cause Suicide','خشونت منجر به خودکشی','خشونت منجر به خودکشی'),
+(13, 'Adultery Cause Murder','فعل زنا منجر به قتل','فعل زنا منجر به قتل'),
+(14, 'Fire Cause Murder','آتش سوزی منجر به قتل','آتش سوزی منجر به قتل'),
+(15, 'Immoral Relationship','رابطه نامشروع','رابطه نامشروع'),
+(16, 'Wounded','مجروحیت','مجروحیت'),
+(17, 'Sodomy','لواطه','لواطه'),
+(18, 'House Fire','حریق منزل','حریق منزل'),
+(19, 'Alleged Murder','ادعای قتل','ادعای قتل'),
+(20, 'Attempt Adultery Cause Murder','اقدام یه زنا سبب قتل','اقدام به زنا سبب قتل');
 
 --
 -- Dumping data for table `province`
@@ -1181,6 +1197,6 @@ INSERT INTO `district` (`id`, `name_english`, `name_dari`, `name_pashto`, `provi
 --
 
 INSERT INTO `court_decision_type` (`id`, `decision_type_name_english`, `decision_type_name_dari`, `decision_type_name_pashto`) VALUES
-(1, 'فیصله ابتدایی', 'فیصله ابتدایی', 'فیصله ابتدایی'),
-(2, 'فیصله استیناف', 'فیصله استیناف', 'فیصله استیناف'),
-(3, 'فیصله تمیز', 'فیصله تمیز', 'فیصله تمیز');
+(1, 'Primary Court', 'فیصله ابتدایی', 'فیصله ابتدایی'),
+(2, 'Appellet Court', 'فیصله استیناف', 'فیصله استیناف'),
+(3, 'Supreme Court', 'فیصله تمیز', 'فیصله تمیز');

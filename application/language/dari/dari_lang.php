@@ -7,7 +7,7 @@ $lang['view'] = 'دیدن';
 $lang['edit'] = 'تغییر دادن';
 $lang['delete'] = 'حذف کردن';
 $lang['lock'] = 'قفل کردن';
-$lang['update'] = 'Update';
+$lang['update'] = 'جدید کردن';
 $lang['add_new'] = 'اضافه کردن جدید';
 $lang['new'] = 'جدید';
 $lang['unlock'] = 'باز کردن قفل';
@@ -17,7 +17,7 @@ $lang['login'] = 'ورود';
 $lang['app_name'] = 'دیتابیس زندان';
 $lang['home'] = 'خانه';
 $lang['dashboard'] = 'داشبورد';
-$lang['general_list'] = 'General';
+$lang['general_list'] = 'نمایش عمومی';
 $lang['prisoners_list'] = 'زندانیان';
 $lang['criminal_cases_list'] = 'پرونده های جنایی';
 $lang['court_session_list'] = 'فیصله های محاکم';
@@ -47,16 +47,16 @@ $lang['actions'] = 'اعمال';
 $lang['search'] = 'جستجو';
 
 // General
-$lang['prisoner_id'] = 'Prisoner ID';
-$lang['crime_id'] = 'Crime ID';
-$lang['court_session_id'] = 'Court Session ID';
+$lang['prisoner_id'] = 'آیدی زندانی در سیستم';
+$lang['crime_id'] = 'آیدی جرمی در سیستم';
+$lang['court_session_id'] = 'آیدی فیصله محکمه در سیستم';
 $lang['yes'] = 'بله';
 $lang['no'] = 'نخیر';
 
 // Prisoners
 $lang['prisoners'] = 'زندانیان';
 
-$lang['tazkira_number'] = 'Tazkira Number';
+$lang['tazkira_number'] = 'نمبر تذکره';
 $lang['name'] = 'اسم';
 $lang['father_name'] = 'اسم پدر';
 $lang['grand_father_name'] = 'اسم پدرکالان';
@@ -64,47 +64,47 @@ $lang['age'] = 'عمر';
 $lang['marital_status'] = 'حالت مدنی';
 $lang['num_of_children'] = 'تعداد اطفال';
 $lang['criminal_history'] = 'آیا سابقه جرمی دارد؟';
-$lang['permanent_province'] = 'ولایت اصلی';
-$lang['permanent_district'] = 'ولسوالی اصلی';
-$lang['present_province'] = 'ولایت اصلی';
-$lang['present_district'] = 'ولسوالی اصلی';
+$lang['permanent_province'] = 'سکونت اصلی(ولایت)';
+$lang['permanent_district'] = 'سکونت اصلی(ولسوالی)';
+$lang['present_province'] = 'سکونت فعلی(ولایت)';
+$lang['present_district'] = 'سکونت فعلی(ولسوالی)';
 $lang['profile_pic'] = 'تصویر';
 
 // Crime
 $lang['criminal_cases'] = 'پرونده های جنایی';
 
-$lang['registration_date'] = 'Registration Date';
+$lang['registration_date'] = 'تاریخ ثبت و راجستر در سیستم';
 $lang['crime_date'] = ' تاریخ جرم';
-$lang['arrest_date'] = 'Arrest Date';
-$lang['crime_type'] = 'Crime Type';
-$lang['case_number'] = 'Case Number';
+$lang['arrest_date'] = 'تاریخ گرفتاری';
+$lang['crime_type'] = 'نوع جرم';
+$lang['case_number'] = 'نمبر دوسیه';
 $lang['police_custody'] = 'مدت حبس در هوزه پولیس';
-$lang['crime_reason'] = 'Crime Reason';
-$lang['crime_supporter'] = 'Crime Supporter';
+$lang['crime_reason'] = 'علل و انگیزه جرم';
+$lang['crime_supporter'] = 'شریک،معاون یا تحریک کننده جرمی';
 $lang['crime_location'] = 'محل جرم';
 $lang['crime_district'] = 'ولسوالی جرم و جنایت';
 $lang['crime_province'] = 'ولایت جرم و جنایت';
 $lang['arrest_location'] = 'محل بازداشت';
 $lang['arrest_district'] = 'ولسوالی بازداشت';
 $lang['arrest_province'] = 'ولایت بازداشت';
-$lang['time_spent_in_prison'] = 'time spent in prison';
-$lang['remaining_jail_term'] = 'remaining jail term';
-$lang['use_benefit_forgiveness_presidential'] = 'Use Benefit Forgiveness Presidential';
-$lang['command_issue_date'] = 'command issue date';
-$lang['commission_proposal'] = 'commission proposal';
-$lang['prisoner_request'] = 'prisoner request';
-$lang['commission_member'] = 'commission member';
+$lang['time_spent_in_prison'] = 'مدت حبس سپری شده';
+$lang['remaining_jail_term'] = 'مدت حبس باقی مانده';
+$lang['use_benefit_forgiveness_presidential'] = 'استفاده از مزایای عفو و بخشش فرامین مقام ریاست جمهوری';
+$lang['command_issue_date'] = 'تاریخ صدور فرمان';
+$lang['commission_proposal'] = 'پیشنهاد کمیسیون';
+$lang['prisoner_request'] = 'درخواست زندانی';
+$lang['commission_member'] = 'نام عضو کمیسیون';
 
 // Court Session
 $lang['court_session'] = 'فیصله های محاکم';
 
 $lang['crime_id'] = 'نمبر قضیه';
 $lang['court_decision_type'] = 'فیصله محاکم';
-$lang['decision_date'] = 'Decision Date';
-$lang['decision'] = 'تاریخ فیصله';
+$lang['decision_date'] = 'تاریخ فیصله محکمه';
+$lang['decision'] = 'فیصله محکمه';
 $lang['defence_lawyer_name'] = 'نام وکیل مدافع';
 $lang['defence_lawyer_certificate_id'] = 'نمبر جواز وکیل مدافع';
-$lang['sentence_execution_date'] = 'Sentence Execution Date';
+$lang['sentence_execution_date'] = 'تاریخ ارجاع دوسیه جهت تطبیق حکم';
 
 // Users
 $lang['firstname'] = 'نام';
