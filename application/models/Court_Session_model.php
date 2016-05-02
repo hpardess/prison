@@ -18,6 +18,12 @@ class Court_Session_model extends CI_Model {
         return $this->db->count_all($this->tableName);
     }
 
+    function count_by_court_decision_type($court_decision_type_id){
+        $this->db->where('court_decision_type_id', $court_decision_type_id);
+        $this->db->from($this->tableName);
+        return $this->db->count_all_results();
+    }
+
     // get record by id
     function get_by_id($id, $column_list = '*'){
         $this->db->select($column_list);
