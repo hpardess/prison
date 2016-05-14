@@ -134,6 +134,7 @@
 						$(e.currentTarget).addClass("loaded");
 
 						oDetailTable = $('.table', '#detailTable').DataTable({
+							"lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
 		                	"scrollX": true,
 		                    "processing": true,
 		                    "serverSide": true,
@@ -163,6 +164,7 @@
 
             	
                 oQuickTable = $('.table', '#quickTable').DataTable({
+                	"lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
                 	"scrollX": true,
                     "processing": true,
                     "serverSide": true,
