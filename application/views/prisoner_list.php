@@ -42,6 +42,13 @@
 		<script src="<?php echo base_url('assets/datatables/media/js/jquery.dataTables.min.js')?>"></script>
 		<script src="<?php echo base_url('assets/datatables/media/js/dataTables.bootstrap.min.js')?>"></script>
 		<script src="<?php echo base_url('assets/underscore-min.js')?>"></script>
+
+		<link rel="stylesheet" href="<?php echo base_url('assets/datatables/extensions/Buttons/css/buttons.dataTables.min.css')?>" />
+		<script src="<?php echo base_url('assets/datatables/extensions/Buttons/js/dataTables.buttons.min.js')?>"></script>
+		<script src="<?php echo base_url('assets/datatables/extensions/Buttons/js/buttons.html5.min.js')?>"></script>
+		<script src="<?php echo base_url('assets/Stuk-jszip/dist/jszip.min.js')?>"></script>
+		<script src="<?php echo base_url('assets/pdfmake/build/pdfmake.min.js')?>"></script>
+		<script src="<?php echo base_url('assets/pdfmake/build/vfs_fonts.js')?>"></script>
 		  
 		<script type= 'text/javascript'>
 			var save_method; //for save method string
@@ -71,7 +78,14 @@
 						"searchable": false,
 						"orderable": false,
 						"width": "125px"
-					}]
+					}],
+					dom: 'Bfltip',
+					buttons: [
+						'copyHtml5',
+						'excelHtml5',
+						'csvHtml5',
+						'pdfHtml5'
+					]
                 });
 
                 $('[name="permanentProvince"]', '#modal_form_edit').change(function(event) {
