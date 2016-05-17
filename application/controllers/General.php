@@ -146,6 +146,7 @@ class General extends CI_Controller {
 			'crime_date_shamsi',
 			'arrest_date',
 			'arrest_date_shamsi',
+			'crime_type_' . $this->language,
 			'crime_location',
 			'arrest_location',
 			'police_custody',

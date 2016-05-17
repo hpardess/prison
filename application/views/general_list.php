@@ -78,6 +78,7 @@
 				                    <th><?= $this->lang->line('crime_date'); ?></th>
 				                    <th><?= $this->lang->line('arrest_date'); ?></th>
 				                    <th><?= $this->lang->line('arrest_date'); ?></th>
+				                    <th><?= $this->lang->line('crime_type'); ?></th>
 				                    <th><?= $this->lang->line('crime_location'); ?></th>
 				                    <th><?= $this->lang->line('arrest_location'); ?></th>
 				                    <th><?= $this->lang->line('police_custody'); ?></th>
