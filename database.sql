@@ -775,8 +775,8 @@ INSERT INTO `groups` (`id`, `group_name`, `prisoner_new`, `prisoner_delete`, `pr
 --
 
 INSERT INTO `user` (`id`, `firstname`, `lastname`, `username`, `password`, `isadmin`, `email`, `groups_id`) VALUES
-(1, 'Hameedullah', 'Pardess', 'hpardess', '9a69e50114a30c4c5c1d455a2cfb87d1', 1, NULL, 1),
-(2, 'Naser', 'Rawan', 'naserrawan', '9a69e50114a30c4c5c1d455a2cfb87d1', 0, NULL, 2);
+(1, 'Hameedullah', 'Pardess', 'hpardess', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1),
+(2, 'demo', 'user', 'demo', 'fe01ce2a7fbac8fafaed7c982a04e229', 0, NULL, 2);
 
 --
 -- Dumping data for table `marital_status`

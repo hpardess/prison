@@ -150,7 +150,7 @@
 						$('p#name', '#modal_form_view').html(data.user.firstname + ' ' + data.user.lastname);
 						$('p#username', '#modal_form_view').html(data.user.username);
 						$('p#email', '#modal_form_view').html(data.user.email);
-						$('p#isAdmin', '#modal_form_view').html(data.user.isadmin===1? 'Yes': 'No');
+						$('p#isAdmin', '#modal_form_view').html(data.user.isadmin==="1"? 'Yes': 'No');
 						$('p#group', '#modal_form_view').html(data.group.group_name);
 
 						$('#modal_form_view').modal('show'); // show bootstrap modal when complete loaded

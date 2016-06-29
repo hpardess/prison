@@ -29,8 +29,8 @@
                             </div>
                             <hr/>
                             <div style="font-size: 12px;">
-                                <p>Demo Login (Admin):<br>username: hpardess<br>password:</p>
-                                <p>Demo Login:<br>username: naserrawan<br>password: </p>
+                                <p>Demo Login (Admin):<br>username: hpardess<br>password: admin</p>
+                                <p>Demo Login:<br>username: demo<br>password: demo</p>
                             </div>
                             
                         </div>
