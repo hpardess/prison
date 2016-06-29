@@ -64,8 +64,8 @@
 			</div>
 		</div>
 
-		<script src="<?php echo base_url('assets/Highcharts/js/highcharts.js')?>"></script>
-		<script src="<?php echo base_url('assets/Highcharts/js/modules/exporting.js')?>"></script>
+		<script src="<?php echo base_url('assets/Highcharts/js/highcharts.src.js')?>"></script>
+		<script src="<?php echo base_url('assets/Highcharts/js/modules/exporting.src.js')?>"></script>
 
 		<script type= 'text/javascript'>
             $(document).ready(function () {
