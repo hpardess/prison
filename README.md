@@ -24,3 +24,6 @@ Form Mac:
 $config['base_url'] = 'http://localhost:8888/prison/';
 
 Please use database.sql file before running application.
+
+Demo:
+http://prison.af-dp.org
