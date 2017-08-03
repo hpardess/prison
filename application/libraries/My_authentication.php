@@ -21,7 +21,12 @@ class My_Authentication {
 		// Log_message('DEBUG', 'My_Authentication stdClass ' . var_export($sessionRights->{$groupRight}));
 		log_message('DEBUG', 'My_Authentication isAdmin: ' . $isAdmin);
 		// log_message('DEBUG', 'My_Authentication sessionRights: ' . var_export($sessionRights));
-
+		if($isAdmin == '1')
+		{
+			log_message('DEBUG', 'My_Authentication Allowed');
+			return TRUE;
+		}
+		
 		$isAllowed = TRUE;
 		if(is_array($groupRight))
 		{
@@ -43,7 +48,7 @@ class My_Authentication {
 			$isAllowed = $sessionRights->{$groupRight} == 1 || $sessionRights->{$groupRight} == '1';
 		}
 
-		if($isAdmin == '1' || $isAllowed)
+		if($isAllowed)
 		{
 			log_message('DEBUG', 'My_Authentication Allowed');
 			return TRUE;
